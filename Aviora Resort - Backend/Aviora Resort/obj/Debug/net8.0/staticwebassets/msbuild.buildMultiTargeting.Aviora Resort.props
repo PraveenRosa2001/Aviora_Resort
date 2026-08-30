@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Aviora Resort.props" />
+</Project>
