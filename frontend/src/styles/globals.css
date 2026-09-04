@@ -1,0 +1,246 @@
+/* =====================================================
+   AVIORA RESORT — GLOBAL STYLES
+   "Tropical Grandeur" Design System
+   ===================================================== */
+
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.75;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Fluid Typography ── */
+h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw + 1rem, 2.5rem);
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.875rem);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+}
+
+p {
+  color: var(--color-text-secondary);
+  max-width: var(--text-max-width);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+}
+
+/* ── Eyebrow label utility ── */
+.eyebrow-label {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-accent-gold);
+  line-height: 1.33;
+}
+
+/* ── Gold underline accent ── */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 3rem;
+  height: 1px;
+  background: var(--color-accent-gold);
+}
+
+/* ── Section spacing ── */
+.section-padding {
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
+}
+
+.section-x-padding {
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
+}
+
+.container-resort {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
+}
+
+/* ── Focus styles (gold ring) ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline);
+  border-radius: var(--radius-full);
+}
+
+/* ── Glassmorphism utility ── */
+.glass {
+  background: rgba(249, 249, 248, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(27, 24, 21, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Warm sand background utility ── */
+.bg-warm-sand {
+  background-color: var(--color-warm-sand);
+}
+
+/* ── Swiper overrides ── */
+.swiper-pagination-bullet {
+  background: var(--color-accent-gold) !important;
+  opacity: 0.4;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  width: 24px !important;
+  border-radius: 3px !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--color-accent-gold) !important;
+  background: rgba(249, 249, 248, 0.85);
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px !important;
+  font-weight: 700;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Selection color ── */
+::selection {
+  background: rgba(136, 55, 0, 0.15);
+  color: var(--color-text-primary);
+}
+
+/* ── Utility: Gold divider line ── */
+.divider-gold {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-outline-variant) 20%, var(--color-outline-variant) 80%, transparent);
+}
+
+/* ── Utility: Full-bleed image cover ── */
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── Video overlay for footer/hero ── */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay-dark);
+}
+
+/* ── Lazy load fade ── */
+img[loading="lazy"] {
+  transition: opacity 0.4s var(--ease-luxury);
+}

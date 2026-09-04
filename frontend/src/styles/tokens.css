@@ -1,0 +1,116 @@
+/* =====================================================
+   AVIORA RESORT — CSS DESIGN TOKENS
+   "Tropical Grandeur" Design System (Aviora Ethos)
+   ===================================================== */
+
+:root {
+  /* ── New Design System — Primary Palette ── */
+  --color-primary:              #883700;   /* Deep Terracotta */
+  --color-on-primary:           #ffffff;
+  --color-primary-container:    #aa4c12;
+  --color-on-primary-container: #ffe2d5;
+  --color-inverse-primary:      #ffb692;
+
+  --color-secondary:              #735c00;   /* Resort Gold */
+  --color-on-secondary:           #ffffff;
+  --color-secondary-container:    #fed65b;
+  --color-on-secondary-container: #745c00;
+
+  --color-tertiary:              #335656;   /* Veridian Slate */
+  --color-on-tertiary:           #ffffff;
+  --color-tertiary-container:    #4b6e6e;
+  --color-on-tertiary-container: #c9efef;
+
+  --color-error:               #ba1a1a;
+  --color-on-error:            #ffffff;
+  --color-error-container:     #ffdad6;
+
+  /* ── Surfaces ── */
+  --color-surface:                 #f9f9f8;  /* Bone White */
+  --color-surface-dim:             #dadad9;
+  --color-surface-bright:          #f9f9f8;
+  --color-surface-container-lowest:#ffffff;
+  --color-surface-container-low:   #f3f4f3;
+  --color-surface-container:       #eeeeed;
+  --color-surface-container-high:  #e8e8e7;
+  --color-surface-container-highest:#e2e2e2;
+  --color-on-surface:              #1a1c1c;
+  --color-on-surface-variant:      #564339;
+  --color-inverse-surface:         #2f3130;
+  --color-inverse-on-surface:      #f1f1f0;
+
+  /* ── Outline ── */
+  --color-outline:         #897268;
+  --color-outline-variant:  #ddc1b5;
+
+  /* ── Brand Accents ── */
+  --color-deep-wood:       #1B1815;
+  --color-lush-canopy:     #668D87;
+  --color-warm-sand:       #F2E8CF;
+
+  /* ── Legacy / Backward-compatible tokens ── */
+  --color-bg-primary:       #f9f9f8;
+  --color-text-primary:     #1B1815;
+  --color-accent-gold:      #D4AF37;
+  --color-bg-dark:          #1B1815;
+  --color-highlight-green:  #668D87;
+  --color-white:            #FFFFFF;
+  --color-sand:             #F2E8CF;
+
+  /* ── Extended palette (legacy compat) ── */
+  --color-gold-light:       #E8C84A;
+  --color-gold-dark:        #A88A1C;
+  --color-gold-muted:       rgba(212, 175, 55, 0.15);
+  --color-text-secondary:   rgba(27, 24, 21, 0.65);
+  --color-text-muted:       rgba(27, 24, 21, 0.4);
+  --color-border:           rgba(137, 114, 104, 0.25);
+  --color-border-subtle:    rgba(27, 24, 21, 0.08);
+  --color-overlay-dark:     rgba(27, 24, 21, 0.7);
+  --color-overlay-light:    rgba(249, 249, 248, 0.85);
+
+  /* ── Typography ── */
+  --font-display:  'Playfair Display', serif;
+  --font-heading:  'Playfair Display', serif;
+  --font-body:     'Hanken Grotesk', 'Montserrat', sans-serif;
+
+  /* ── Spacing scale ── */
+  --section-padding-y:  clamp(4rem, 8vw, 10rem);
+  --section-padding-x:  clamp(1.5rem, 5vw, 4rem);
+  --content-max-width:  1400px;
+  --text-max-width:     72ch;
+  --section-gap:        120px;
+  --container-padding:  64px;
+  --gutter:             24px;
+
+  /* ── Motion ── */
+  --duration-fast:    200ms;
+  --duration-normal:  400ms;
+  --duration-slow:    600ms;
+  --duration-xslow:   900ms;
+  --ease-luxury:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-entrance:    cubic-bezier(0.0, 0.0, 0.2, 1.0);
+
+  /* ── Borders ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-card:       0 2px 16px rgba(27, 24, 21, 0.08);
+  --shadow-card-hover: 0 8px 40px rgba(27, 24, 21, 0.15);
+  --shadow-gold:       0 0 0 1px rgba(212, 175, 55, 0.3), 0 4px 24px rgba(212, 175, 55, 0.15);
+  --shadow-dark:       0 8px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Dark mode (wellness / footer sections) ── */
+[data-theme="dark"],
+.section-dark {
+  --color-bg-primary:      #1B1815;
+  --color-text-primary:    #F2E8CF;
+  --color-text-secondary:  rgba(242, 232, 207, 0.7);
+  --color-text-muted:      rgba(242, 232, 207, 0.45);
+  --color-border:          rgba(212, 175, 55, 0.3);
+  --color-border-subtle:   rgba(242, 232, 207, 0.1);
+}

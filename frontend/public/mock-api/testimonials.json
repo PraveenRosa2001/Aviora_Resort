@@ -1,0 +1,57 @@
+[
+  {
+    "id": "testimonial-01",
+    "guestName": "Isabelle & Laurent M.",
+    "guestOrigin": "Paris, France",
+    "stayDate": "February 2026",
+    "villaStayed": "Canopy Forest Villa",
+    "rating": 5,
+    "quote": "We have stayed at Aman, Singita, and Six Senses. Aviora is something different entirely. The silence is its own luxury. We returned twice in the same year.",
+    "shortQuote": "The silence is its own luxury.",
+    "avatar": "/assets/images/testimonials/avatar-01.jpg"
+  },
+  {
+    "id": "testimonial-02",
+    "guestName": "Aditya K.",
+    "guestOrigin": "Mumbai, India",
+    "stayDate": "November 2025",
+    "villaStayed": "Lagoon Water Suite",
+    "rating": 5,
+    "quote": "I came for a week. My spirit stayed. The team anticipates everything without being present — somehow they know. The Ayurvedic programme changed how I sleep, permanently.",
+    "shortQuote": "I came for a week. My spirit stayed.",
+    "avatar": "/assets/images/testimonials/avatar-02.jpg"
+  },
+  {
+    "id": "testimonial-03",
+    "guestName": "Dr. Sarah & James T.",
+    "guestOrigin": "London, United Kingdom",
+    "stayDate": "January 2026",
+    "villaStayed": "Beachfront Infinity Villa",
+    "rating": 5,
+    "quote": "The elephant sanctuary at dawn was the most profound wildlife encounter of our lives. No barriers. No theatrics. Just humility and wonder. Aviora has earned our loyalty forever.",
+    "shortQuote": "The most profound wildlife encounter of our lives.",
+    "avatar": "/assets/images/testimonials/avatar-03.jpg"
+  },
+  {
+    "id": "testimonial-04",
+    "guestName": "Nadia & Yusuf A.",
+    "guestOrigin": "Dubai, UAE",
+    "stayDate": "March 2026",
+    "villaStayed": "Sky Villa Penthouse",
+    "rating": 5,
+    "quote": "From the moment our private transfer arrived to the moment we reluctantly departed, every detail was considered to a degree I have not experienced elsewhere. The Canopy Table alone is worth the journey.",
+    "shortQuote": "Every detail considered to a degree I have not experienced elsewhere.",
+    "avatar": "/assets/images/testimonials/avatar-04.jpg"
+  },
+  {
+    "id": "testimonial-05",
+    "guestName": "Elif B.",
+    "guestOrigin": "Istanbul, Turkey",
+    "stayDate": "December 2025",
+    "villaStayed": "Treetop Heritage Suite",
+    "rating": 5,
+    "quote": "I travel for work constantly. Aviora is the only place I have ever felt time genuinely slow. The heritage suite, the forest sounds at night, the tea ritual at dawn — it is medicine for a modern life.",
+    "shortQuote": "The only place I have ever felt time genuinely slow.",
+    "avatar": "/assets/images/testimonials/avatar-05.jpg"
+  }
+]

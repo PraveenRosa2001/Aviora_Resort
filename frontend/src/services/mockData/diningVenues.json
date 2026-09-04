@@ -1,0 +1,79 @@
+[
+  {
+    "id": "dining-01",
+    "slug": "the-canopy-table",
+    "name": "The Canopy Table",
+    "type": "restaurant",
+    "tagline": "Elevated dining in the forest — a table among the treetops.",
+    "description": "The Canopy Table is the resort's signature restaurant, perched 15 metres above the forest floor on a series of interconnected timber platforms. Executive Chef Priya Nair translates the island's ancient spice routes into a contemporary tasting menu that changes with each season's harvest. The wine cellar features over 400 selections, with a particular focus on natural wines from small producers across the Southern Hemisphere.",
+    "cuisine": "Contemporary Sri Lankan Tasting Menu",
+    "dressCode": "Smart casual — no beachwear",
+    "capacity": 32,
+    "openHours": "Dinner: 19:00 – 22:30",
+    "chefName": "Priya Nair",
+    "chefBio": "Trained at Noma and Gaggan, Chef Priya brings a rigorous, product-led philosophy to Sri Lanka's extraordinary pantry of spices, seafood, and jungle botanicals.",
+    "image": "/assets/images/dining/canopy-table.jpg",
+    "images": [
+      "/assets/images/dining/canopy-table.jpg",
+      "/assets/images/dining/canopy-table-02.jpg"
+    ],
+    "reservationRequired": true,
+    "featured": true,
+    "ingredients": [
+      "Wild-caught lagoon crab from local fishermen",
+      "Heritage organic rice varieties from the hill country",
+      "Hand-harvested sea salt from the southern coast",
+      "Jackfruit, rambutan & mangosteen from our own grove"
+    ]
+  },
+  {
+    "id": "dining-02",
+    "slug": "the-pool-brasserie",
+    "name": "The Pool Brasserie",
+    "type": "brasserie",
+    "tagline": "Languid lunches by the water — all-day dining at its most graceful.",
+    "description": "All-day dining at the main infinity pool, The Pool Brasserie offers a relaxed alternative to the formality of The Canopy Table. The menu celebrates the freshness of coastal Sri Lankan cooking — grilled seafood, tropical fruit platters, artisan sandwiches, and a rotating selection of chilled soups. Cocktails by our in-house mixologist are served sunset-onwards from the adjacent bar pavilion.",
+    "cuisine": "Coastal Sri Lankan / International",
+    "dressCode": "Resort casual",
+    "capacity": 60,
+    "openHours": "Breakfast: 07:00 – 10:30 | Lunch: 12:00 – 15:30 | Dinner: 18:30 – 22:00",
+    "chefName": "Marcus de Silva",
+    "chefBio": "Marcus grew up in Galle, and his cooking is a love letter to the flavours of the southern coast — bold, clean, and deeply rooted in coastal tradition.",
+    "image": "/assets/images/dining/pool-brasserie.jpg",
+    "images": [
+      "/assets/images/dining/pool-brasserie.jpg"
+    ],
+    "reservationRequired": false,
+    "featured": true,
+    "ingredients": [
+      "Freshly caught yellowfin tuna, line-caught daily",
+      "Tropical fruit sourced from partner farms within 50km",
+      "Small-batch single-estate Ceylon tea"
+    ]
+  },
+  {
+    "id": "dining-03",
+    "slug": "the-elephant-bar",
+    "name": "The Elephant Bar",
+    "type": "bar",
+    "tagline": "Where the golden hour begins — cocktails, stories, and the slow exhale of evening.",
+    "description": "Named after the gentle giants who roam the forest edges at dusk, The Elephant Bar is the resort's social heart. An open-sided pavilion with 270° jungle views, it serves bespoke cocktails inspired by indigenous botanicals — fresh lemongrass, pandan, wild ginger, and aged arrack. Live acoustic music Wednesday through Sunday. The bar's elephant silhouette motif is drawn by local artist Senali Jayawardana.",
+    "cuisine": "Cocktails & Canapés",
+    "dressCode": "Resort casual",
+    "capacity": 40,
+    "openHours": "16:00 – 01:00 daily",
+    "chefName": "Rajan Perera",
+    "chefBio": "Rajan trained under Tony Conigliaro in London before returning to Sri Lanka to create the island's most celebrated cocktail programme.",
+    "image": "/assets/images/dining/elephant-bar.jpg",
+    "images": [
+      "/assets/images/dining/elephant-bar.jpg"
+    ],
+    "reservationRequired": false,
+    "featured": false,
+    "ingredients": [
+      "Aged Ceylon arrack (50yr barrel)",
+      "Wild harvested lemongrass from resort garden",
+      "Artisan bitters infused with cinnamon, cardamom & pepper"
+    ]
+  }
+]
