@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Aviora Resort\\Aviora Resort\\Aviora Resort.csproj": {}
+    "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Aviora Resort.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Aviora Resort\\Aviora Resort\\Aviora Resort.csproj": {
+    "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Aviora Resort.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Aviora Resort\\Aviora Resort\\Aviora Resort.csproj",
+        "projectUniqueName": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Aviora Resort.csproj",
         "projectName": "Aviora Resort",
-        "projectPath": "D:\\Projects\\Aviora Resort\\Aviora Resort\\Aviora Resort.csproj",
+        "projectPath": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Aviora Resort.csproj",
         "packagesPath": "C:\\Users\\Prave\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Aviora Resort\\Aviora Resort\\obj\\",
+        "outputPath": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

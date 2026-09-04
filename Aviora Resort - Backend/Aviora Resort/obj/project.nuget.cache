@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SJVUpeDzAXg=",
+  "dgSpecHash": "wcpLGXL+KII=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Aviora Resort\\Aviora Resort\\Aviora Resort.csproj",
+  "projectFilePath": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Aviora Resort.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Prave\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\Prave\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
