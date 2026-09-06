@@ -96,7 +96,7 @@ export default function AdminInventoryTab() {
     isError,
     error,
     refetch,
-  } = useGetInventoryGridQuery({ from, to });
+  } = useGetInventoryGridQuery({ from, to }, { refetchOnMountOrArgChange: true });
 
   const [setRange, { isLoading: isSaving }] = useSetInventoryRangeMutation();
   const [extendHorizon, { isLoading: isExtending }] =
@@ -160,6 +160,7 @@ export default function AdminInventoryTab() {
       }).unwrap();
       showToast(res?.message || "Inventory updated.");
       setSelection(null);
+      refetch();
     } catch (err) {
       setFormError(errorText(err, "The inventory could not be updated."));
     }
@@ -169,6 +170,7 @@ export default function AdminInventoryTab() {
     try {
       const res = await extendHorizon(540).unwrap();
       showToast(res?.message || "Booking calendar extended.");
+      refetch();
     } catch (err) {
       showToast(errorText(err, "The calendar could not be extended."), "error");
     }
@@ -249,6 +251,18 @@ export default function AdminInventoryTab() {
             aria-label="Next three weeks"
           >
             <ChevronRight size={15} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            title="Refresh Inventory Calendar"
+            className="px-3 py-2.5 rounded-xl bg-white border border-outline-variant/40 text-deep-wood hover:bg-surface-container-high cursor-pointer disabled:opacity-50 transition-all flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider"
+            aria-label="Refresh Inventory Calendar"
+          >
+            <RefreshCw size={13} className={isFetching ? "animate-spin text-primary" : ""} />
+            <span className="hidden sm:inline">Refresh</span>
           </button>
 
           <button

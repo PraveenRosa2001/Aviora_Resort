@@ -12,7 +12,7 @@ const menuLinks = [
   { label: 'Wellness',     to: '/wellness' },
   { label: 'Dining',       to: '/dining' },
   { label: 'Experiences',  to: '/sustainability' },
-  { label: 'Gallery',      to: '/gallery' },
+  // { label: 'Gallery',      to: '/gallery' },
   { label: 'Contact',      to: '/contact' },
 ];
 

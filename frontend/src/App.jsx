@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import AppRouter from './routes/AppRouter';
-import MobileMenuOverlay from './components/layout/MobileMenuOverlay';
-import LoadingScreen from './components/common/LoadingScreen';
-import { restoreSession } from './features/auth/authSlice';
-import { ToastProvider } from './components/common/Toast';
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import AppRouter from "./routes/AppRouter";
+import MobileMenuOverlay from "./components/layout/MobileMenuOverlay";
+import LoadingScreen from "./components/common/LoadingScreen";
+import { restoreSession } from "./features/auth/authSlice";
+import { ToastProvider } from "./components/common/Toast";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,6 @@ function App() {
 }
 
 export default App;
-
 
 //Only see for toast message
 

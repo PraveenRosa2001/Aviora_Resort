@@ -23,7 +23,7 @@ export function ToastItem({
   id,
   message,
   type = "success", // 'success' | 'error' | 'warning' | 'info'
-  duration = 3000,
+  duration = 2500,
   title,
   onClose,
 }) {

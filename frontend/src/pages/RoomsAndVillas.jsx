@@ -41,9 +41,9 @@ import SEO from "../components/common/SEO";
 /**
  * Price filter bounds, in LKR (Rs.).
  */
-const PRICE_FLOOR = 35000;
-const PRICE_CEILING = 150000;
-const PRICE_STEP = 5000;
+const PRICE_FLOOR = 2000;
+const PRICE_CEILING = 50000;
+const PRICE_STEP = 3000;
 
 /**
  * Approximate statutory surcharge for guest informational purposes.

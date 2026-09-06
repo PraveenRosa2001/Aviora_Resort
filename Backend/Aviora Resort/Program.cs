@@ -46,6 +46,12 @@ builder.Services.AddScoped<IInventoryService, InventoryService>();      // NEW
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();   // NEW
 builder.Services.AddScoped<IBookingService, BookingService>();      // NEW
 
+builder.Services.AddScoped<IDiningRepository, DiningRepository>();   // NEW
+builder.Services.AddScoped<IDiningService, DiningService>();      // NEW
+
+builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();   // NEW
+builder.Services.AddScoped<IGalleryService, GalleryService>();      // NEW
+
 /* ---------- JWT authentication ---------- */
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key is missing.");
@@ -162,5 +168,5 @@ app.UseRateLimiter();      // before authentication so floods are dropped early
 app.UseAuthentication();   // must come before UseAuthorization
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseStaticFiles();     // serves wwwroot, including uploads/gallery
 app.Run();

@@ -25,6 +25,8 @@ import {
   ArrowLeft,
   X,
   Check,
+  UtensilsCrossed,
+  UserCheck,
 } from "lucide-react";
 import {
    performLogin,
@@ -375,7 +377,7 @@ export default function AuthPage({ initialMode }) {
                       (redirectParam
                         ? `?redirect=${encodeURIComponent(redirectParam)}`
                         : ""),
-                    { replace: true },
+                    { replace: true, state: location.state },
                   );
                 }}
                 className={[
@@ -399,7 +401,7 @@ export default function AuthPage({ initialMode }) {
                       (redirectParam
                         ? `?redirect=${encodeURIComponent(redirectParam)}`
                         : ""),
-                    { replace: true },
+                    { replace: true, state: location.state },
                   );
                 }}
                 className={[
@@ -415,8 +417,58 @@ export default function AuthPage({ initialMode }) {
             </div>
           </div>
 
-          {/* Reservation in Progress Banner */}
-          {redirectParam?.includes("booking") && (
+          {/* Table Reservation Required Notice (Matching Resort Table Reservation Brand) */}
+          {(location.state?.reason === "dining_reservation" || redirectParam?.includes("dining")) && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="mb-6 rounded-2xl overflow-hidden border-2 border-primary/30 shadow-md bg-white"
+            >
+              {/* Dark Luxury Header Bar */}
+              <div className="bg-[#1f1a16] text-white px-4 py-3 flex items-center gap-3 border-b border-primary/20">
+                <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center text-amber-300 shrink-0">
+                  <UtensilsCrossed size={16} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-amber-300/90 block font-mono">
+                    Table Reservation
+                  </span>
+                  <h4
+                    className="text-sm font-bold text-white truncate italic"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {location.state?.venueName || searchParams.get("venue") || "Aviora Culinary Sanctuaries"}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Information Body */}
+              <div className="p-4 bg-surface-container-low/40 flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                  <UserCheck size={18} />
+                </div>
+                <div className="flex-1">
+                  <h5
+                    className="text-sm font-bold text-deep-wood mb-1 italic"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Sign in to reserve a table
+                  </h5>
+                  <p className="text-deep-wood/80 text-xs leading-relaxed font-medium">
+                    Table reservations are held against your account, so you can see and cancel them from anywhere. Please{" "}
+                    <span className="font-bold text-primary">
+                      {activeTab === "login" ? "sign in" : "create your guest profile"}
+                    </span>{" "}
+                    to continue.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Villa Reservation in Progress Banner */}
+          {redirectParam?.includes("booking") && !redirectParam?.includes("dining") && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}

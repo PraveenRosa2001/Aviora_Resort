@@ -12,18 +12,25 @@ export const roomsApi = createApi({
   reducerPath: "roomsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: env.apiBaseUrl,
-    prepareHeaders: (headers) => {
-      try {
-        const saved = localStorage.getItem("aviora_auth_session");
-        if (saved) {
-          const { token } = JSON.parse(saved);
-          if (token) headers.set("Authorization", `Bearer ${token}`);
-        }
-      } catch (e) {
-        // corrupt session entry - send unauthenticated
-      }
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth?.token;
+      if (token) headers.set("Authorization", `Bearer ${token}`);
+      // Do NOT set Content-Type here - the browser needs to supply the
+      // multipart boundary itself.
       return headers;
     },
+    // prepareHeaders: (headers) => {
+    //   try {
+    //     const saved = localStorage.getItem("aviora_auth_session");
+    //     if (saved) {
+    //       const { token } = JSON.parse(saved);
+    //       if (token) headers.set("Authorization", `Bearer ${token}`);
+    //     }
+    //   } catch (e) {
+    //     // corrupt session entry - send unauthenticated
+    //   }
+    //   return headers;
+    // },
   }),
   tagTypes: [
     "Villa",
@@ -33,6 +40,8 @@ export const roomsApi = createApi({
     "Addon",
     "Promo",
     "Booking",
+    "Inventory",
+    "Kpi",
   ],
   endpoints: (builder) => ({
     /* ================= public catalogue ================= */
@@ -171,7 +180,7 @@ export const roomsApi = createApi({
 
     createVilla: builder.mutation({
       query: (villa) => ({ url: "/admin/villas", method: "POST", body: villa }),
-      invalidatesTags: ["AdminVilla", "Villa"],
+      invalidatesTags: ["AdminVilla", "Villa", "Inventory", "Kpi"],
     }),
 
     updateVilla: builder.mutation({
@@ -180,7 +189,7 @@ export const roomsApi = createApi({
         method: "PUT",
         body: villa,
       }),
-      invalidatesTags: ["AdminVilla", "Villa"],
+      invalidatesTags: ["AdminVilla", "Villa", "Inventory", "Kpi"],
     }),
 
     /** Soft by default. force=true removes the row permanently. */
@@ -189,7 +198,7 @@ export const roomsApi = createApi({
         url: `/admin/villas/${villaCode}?force=${force}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["AdminVilla", "Villa"],
+      invalidatesTags: ["AdminVilla", "Villa", "Inventory", "Kpi"],
     }),
 
     restoreVilla: builder.mutation({
@@ -197,7 +206,7 @@ export const roomsApi = createApi({
         url: `/admin/villas/${villaCode}/restore`,
         method: "POST",
       }),
-      invalidatesTags: ["AdminVilla", "Villa"],
+      invalidatesTags: ["AdminVilla", "Villa", "Inventory", "Kpi"],
     }),
 
     /* ================= pricing reference data ================= */
@@ -277,7 +286,7 @@ export const roomsApi = createApi({
         method: "PUT",
         body: { plans },
       }),
-      invalidatesTags: ["Villa", "AdminVilla"],
+      invalidatesTags: ["Villa", "AdminVilla", "Inventory"],
     }),
 
     getAdminAddons: builder.query({
@@ -466,7 +475,7 @@ export const roomsApi = createApi({
       }),
       // Closing dates or changing units changes what guests see, so the villa
       // lists must refetch too.
-      invalidatesTags: ["Inventory", "Villa", "AdminVilla"],
+      invalidatesTags: ["Inventory", "Villa", "AdminVilla", "Kpi"],
     }),
 
     extendInventoryHorizon: builder.mutation({
@@ -474,7 +483,181 @@ export const roomsApi = createApi({
         url: `/admin/inventory/extend?horizonDays=${horizonDays}`,
         method: "POST",
       }),
-      invalidatesTags: ["Inventory", "Villa", "AdminVilla"],
+      invalidatesTags: ["Inventory", "Villa", "AdminVilla", "Kpi"],
+    }),
+    /* ================= dining ================= */
+
+    /**
+     * GET /api/dining/venues
+     * Venues with their gallery, sourcing notes and menu. Replaces
+     * src/services/mockData/diningVenues.json.
+     */
+    getDiningVenues: builder.query({
+      query: (type) =>
+        type && type !== "all"
+          ? `/dining/venues?type=${type}`
+          : "/dining/venues",
+      providesTags: ["DiningVenue"],
+    }),
+
+    getDiningVenue: builder.query({
+      query: (slug) => `/dining/venues/${slug}`,
+      providesTags: (_r, _e, slug) => [{ type: "DiningVenue", id: slug }],
+    }),
+
+    /**
+     * GET /api/dining/venues/{slug}/availability
+     * Advisory only. usp_Dining_CreateReservation re-counts the covers under
+     * a range lock, so this being stale cannot cause an oversell.
+     */
+    checkDiningAvailability: builder.query({
+      query: ({ slug, date, time, partySize }) =>
+        `/dining/venues/${slug}/availability?date=${date}&time=${time}&partySize=${partySize}`,
+      providesTags: ["Dining"],
+    }),
+
+    createDiningReservation: builder.mutation({
+      query: (payload) => ({
+        url: "/dining/reservations",
+        method: "POST",
+        body: payload,
+      }),
+      // The booking consumes covers, so any availability check is now stale.
+      invalidatesTags: ["Dining"],
+    }),
+
+    getMyDiningReservations: builder.query({
+      query: () => "/dining/reservations/my",
+      providesTags: ["Dining"],
+    }),
+
+    cancelDiningReservation: builder.mutation({
+      query: (referenceId) => ({
+        url: `/dining/reservations/${referenceId}/cancel`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Dining"],
+    }),
+
+    /* ================= administrator: dining ================= */
+
+    getAdminDiningVenues: builder.query({
+      query: () => "/admin/dining/venues",
+      providesTags: ["DiningVenue"],
+    }),
+
+    saveDiningVenue: builder.mutation({
+      query: ({ slug, ...venue }) =>
+        slug
+          ? { url: `/admin/dining/venues/${slug}`, method: "PUT", body: venue }
+          : { url: "/admin/dining/venues", method: "POST", body: venue },
+      // A capacity change moves what the guest page can book.
+      invalidatesTags: ["DiningVenue", "Dining"],
+    }),
+
+    deleteDiningVenue: builder.mutation({
+      query: (slug) => ({
+        url: `/admin/dining/venues/${slug}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["DiningVenue", "Dining"],
+    }),
+
+    getAdminDiningReservations: builder.query({
+      query: (filters = {}) => {
+        const params = new URLSearchParams();
+        const add = (k, v) => {
+          if (v === undefined || v === null || v === "" || v === "all") return;
+          params.append(k, v);
+        };
+        add("venue", filters.venue);
+        add("from", filters.from);
+        add("to", filters.to);
+        add("status", filters.status);
+        add("search", filters.search);
+        const qs = params.toString();
+        return `/admin/dining/reservations${qs ? `?${qs}` : ""}`;
+      },
+      providesTags: ["Dining"],
+    }),
+
+    setDiningReservationStatus: builder.mutation({
+      query: ({ referenceId, status }) => ({
+        url: `/admin/dining/reservations/${referenceId}/status`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Dining"],
+    }),
+    saveDiningMenu: builder.mutation({
+      query: ({ slug, sections }) => ({
+        url: `/admin/dining/venues/${slug}/menu`,
+        method: "PUT",
+        body: { sections },
+      }),
+      invalidatesTags: ["DiningVenue"],
+    }),
+
+    /* ================= gallery ================= */
+
+    /**
+     * GET /api/gallery?homeOnly=true
+     * The home page bento grid. Anonymous - every write is on
+     * AdminGalleryController behind [Authorize(Roles = "admin")].
+     */
+    getGalleryImages: builder.query({
+      query: ({ homeOnly = true, category } = {}) => {
+        const params = new URLSearchParams();
+        params.append("homeOnly", homeOnly);
+        if (category && category !== "all") params.append("category", category);
+        return `/gallery?${params.toString()}`;
+      },
+      providesTags: ["Gallery"],
+    }),
+
+    /* ---------- administrator ---------- */
+
+    getAdminGallery: builder.query({
+      query: () => "/admin/gallery",
+      providesTags: ["Gallery"],
+    }),
+
+    /**
+     * POST /api/admin/gallery/upload
+     *
+     * The body is a FormData, so no Content-Type is set here - the browser
+     * has to add its own multipart boundary. Forcing "application/json" on
+     * this call is the usual reason an upload arrives empty at the server.
+     */
+    uploadGalleryImage: builder.mutation({
+      query: (formData) => ({
+        url: "/admin/gallery/upload",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    saveGalleryImage: builder.mutation({
+      query: (image) => ({
+        url: "/admin/gallery",
+        method: "POST",
+        body: image,
+      }),
+      invalidatesTags: ["Gallery"],
+    }),
+
+    deleteGalleryImage: builder.mutation({
+      query: (id) => ({ url: `/admin/gallery/${id}`, method: "DELETE" }),
+      invalidatesTags: ["Gallery"],
+    }),
+
+    reorderGallery: builder.mutation({
+      query: ({ orderedIds }) => ({
+        url: "/admin/gallery/order",
+        method: "PUT",
+        body: { orderedIds },
+      }),
+      invalidatesTags: ["Gallery"],
     }),
   }),
 });
@@ -532,4 +715,26 @@ export const {
   useGetAdminBookingQuery,
   useSetBookingStatusMutation,
   useGetDashboardKpisQuery,
+
+  useGetDiningVenuesQuery,
+  useGetDiningVenueQuery,
+  useCheckDiningAvailabilityQuery,
+  useCreateDiningReservationMutation,
+  useGetMyDiningReservationsQuery,
+  useCancelDiningReservationMutation,
+
+  useGetAdminDiningVenuesQuery,
+  useSaveDiningVenueMutation,
+  useDeleteDiningVenueMutation,
+  useGetAdminDiningReservationsQuery,
+  useSetDiningReservationStatusMutation,
+
+  useGetGalleryImagesQuery,
+  useGetAdminGalleryQuery,
+  useUploadGalleryImageMutation,
+  useSaveGalleryImageMutation,
+  useDeleteGalleryImageMutation,
+  useReorderGalleryMutation,
+
+  useSaveDiningMenuMutation,
 } = roomsApi;

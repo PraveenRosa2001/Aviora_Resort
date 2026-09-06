@@ -1,161 +1,305 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\",
+  "WorkspaceRootPath": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\controllers\\adminbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\adminbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\controllers\\admingallerycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\admingallerycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\controllers\\gallerycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\gallerycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\services\\galleryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\galleryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\services\\ibookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\ibookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\services\\igalleryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\igalleryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\repositories\\galleryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\galleryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\repositories\\ibookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\ibookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\repositories\\igalleryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\igalleryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\models\\dtos\\bookingdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\dtos\\bookingdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\models\\dtos\\gallerydtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\dtos\\gallerydtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\aviora resort - backend\\aviora resort\\models\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\models\\entities\\galleryimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\entities\\galleryimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\models\\dtos\\diningdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\dtos\\diningdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\services\\diningservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\diningservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\repositories\\diningrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\diningrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\models\\entities\\dining.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\models\\entities\\dining.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\controllers\\admindiningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\admindiningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\services\\idiningservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\services\\idiningservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\repositories\\idiningrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\repositories\\idiningrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|d:\\aviora resort project\\aviora-resort\\backend\\aviora resort\\controllers\\diningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDA5A870-0B7B-49E0-B3F9-1942688E18CA}|Aviora Resort\\Aviora Resort.csproj|solutionrelative:aviora resort\\controllers\\diningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 100,
+      "VerticalTabListWidth": 156,
       "DocumentGroups": [
         {
           "DockedWidth": 61,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Program.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Program.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Program.cs",
-              "RelativeToolTip": "Aviora Resort\\Program.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "AdminGalleryController.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\AdminGalleryController.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\AdminGalleryController.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\AdminGalleryController.cs",
+              "RelativeToolTip": "Aviora Resort\\Controllers\\AdminGalleryController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAgwFIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:36:18.278Z",
+              "WhenOpened": "2026-09-06T12:00:50.485Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminBookingsController.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Controllers\\AdminBookingsController.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\AdminBookingsController.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Controllers\\AdminBookingsController.cs",
-              "RelativeToolTip": "Aviora Resort\\Controllers\\AdminBookingsController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAgwFEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:32:58.746Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BookingsController.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Controllers\\BookingsController.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\BookingsController.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Controllers\\BookingsController.cs",
-              "RelativeToolTip": "Aviora Resort\\Controllers\\BookingsController.cs",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAgwIQAAAABAAAAAAAAAA==",
+              "Title": "GalleryController.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\GalleryController.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\GalleryController.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\GalleryController.cs",
+              "RelativeToolTip": "Aviora Resort\\Controllers\\GalleryController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwCMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:32:42.126Z"
+              "WhenOpened": "2026-09-06T11:59:56.442Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "BookingService.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Services\\BookingService.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Services\\BookingService.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Services\\BookingService.cs",
-              "RelativeToolTip": "Aviora Resort\\Services\\BookingService.cs",
-              "ViewState": "AgIAAF8BAAAAAAAAAAAgwHgBAAABAAAAAAAAAA==",
+              "Title": "GalleryService.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\GalleryService.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Services\\GalleryService.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\GalleryService.cs",
+              "RelativeToolTip": "Aviora Resort\\Services\\GalleryService.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAgwNAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:32:26.783Z"
+              "WhenOpened": "2026-09-06T11:59:28.079Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IBookingService.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Services\\IBookingService.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Services\\IBookingService.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Services\\IBookingService.cs",
-              "RelativeToolTip": "Aviora Resort\\Services\\IBookingService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Title": "IGalleryService.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\IGalleryService.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Services\\IGalleryService.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\IGalleryService.cs",
+              "RelativeToolTip": "Aviora Resort\\Services\\IGalleryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:32:16.018Z"
+              "WhenOpened": "2026-09-06T11:58:49.156Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "BookingRepository.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Repositories\\BookingRepository.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\BookingRepository.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Repositories\\BookingRepository.cs",
-              "RelativeToolTip": "Aviora Resort\\Repositories\\BookingRepository.cs",
-              "ViewState": "AgIAAGcBAAAAAAAAAAAgwIABAAABAAAAAAAAAA==",
+              "Title": "GalleryRepository.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\GalleryRepository.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\GalleryRepository.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\GalleryRepository.cs",
+              "RelativeToolTip": "Aviora Resort\\Repositories\\GalleryRepository.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAgwEMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:31:54.147Z"
+              "WhenOpened": "2026-09-06T11:58:25.537Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "IBookingRepository.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Repositories\\IBookingRepository.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\IBookingRepository.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Repositories\\IBookingRepository.cs",
-              "RelativeToolTip": "Aviora Resort\\Repositories\\IBookingRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAgwBkAAAABAAAAAAAAAA==",
+              "Title": "IGalleryRepository.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\IGalleryRepository.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\IGalleryRepository.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\IGalleryRepository.cs",
+              "RelativeToolTip": "Aviora Resort\\Repositories\\IGalleryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:31:41.4Z"
+              "WhenOpened": "2026-09-06T11:58:05.943Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "BookingDtos.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Models\\DTOs\\BookingDtos.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Models\\DTOs\\BookingDtos.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Models\\DTOs\\BookingDtos.cs",
-              "RelativeToolTip": "Aviora Resort\\Models\\DTOs\\BookingDtos.cs",
-              "ViewState": "AgIAAAgBAAAAAAAAAAA3wCEBAAABAAAAAAAAAA==",
+              "Title": "GalleryDtos.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\DTOs\\GalleryDtos.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Models\\DTOs\\GalleryDtos.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\DTOs\\GalleryDtos.cs",
+              "RelativeToolTip": "Aviora Resort\\Models\\DTOs\\GalleryDtos.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAgwDwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:31:06.498Z"
+              "WhenOpened": "2026-09-06T11:57:42.499Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Booking.cs",
-              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Models\\Entities\\Booking.cs",
-              "RelativeDocumentMoniker": "Aviora Resort\\Models\\Entities\\Booking.cs",
-              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Aviora Resort - Backend\\Aviora Resort\\Models\\Entities\\Booking.cs",
-              "RelativeToolTip": "Aviora Resort\\Models\\Entities\\Booking.cs",
-              "ViewState": "AgIAAJsAAAAAAAAAAAA3wLQAAAABAAAAAAAAAA==",
+              "Title": "GalleryImage.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\Entities\\GalleryImage.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Models\\Entities\\GalleryImage.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\Entities\\GalleryImage.cs",
+              "RelativeToolTip": "Aviora Resort\\Models\\Entities\\GalleryImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-30T10:30:37.699Z"
+              "WhenOpened": "2026-09-06T11:57:25.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AdminDiningController.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\AdminDiningController.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\AdminDiningController.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\AdminDiningController.cs",
+              "RelativeToolTip": "Aviora Resort\\Controllers\\AdminDiningController.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAYwG8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:37:58.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DiningController.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\DiningController.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Controllers\\DiningController.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Controllers\\DiningController.cs",
+              "RelativeToolTip": "Aviora Resort\\Controllers\\DiningController.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAgwHYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:37:07.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "DiningService.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\DiningService.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Services\\DiningService.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\DiningService.cs",
+              "RelativeToolTip": "Aviora Resort\\Services\\DiningService.cs",
+              "ViewState": "AgIAAEUBAAAAAAAAAAAQwFABAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:36:42.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IDiningService.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\IDiningService.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Services\\IDiningService.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Services\\IDiningService.cs",
+              "RelativeToolTip": "Aviora Resort\\Services\\IDiningService.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowBgAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:36:08.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DiningRepository.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\DiningRepository.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\DiningRepository.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\DiningRepository.cs",
+              "RelativeToolTip": "Aviora Resort\\Repositories\\DiningRepository.cs",
+              "ViewState": "AgIAAPwAAAAAAAAAAAAtwAgBAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:35:37.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IDiningRepository.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\IDiningRepository.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Repositories\\IDiningRepository.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Repositories\\IDiningRepository.cs",
+              "RelativeToolTip": "Aviora Resort\\Repositories\\IDiningRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBoAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:35:11.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DiningDtos.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\DTOs\\DiningDtos.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Models\\DTOs\\DiningDtos.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\DTOs\\DiningDtos.cs",
+              "RelativeToolTip": "Aviora Resort\\Models\\DTOs\\DiningDtos.cs",
+              "ViewState": "AgIAAJIAAAAAAAAAAAA+wJsAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:34:34.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Dining.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\Entities\\Dining.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Models\\Entities\\Dining.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Models\\Entities\\Dining.cs",
+              "RelativeToolTip": "Aviora Resort\\Models\\Entities\\Dining.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAA0wFsAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T03:33:50.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Program.cs",
+              "RelativeDocumentMoniker": "Aviora Resort\\Program.cs",
+              "ToolTip": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\Program.cs",
+              "RelativeToolTip": "Aviora Resort\\Program.cs",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAApwKsAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-30T10:36:18.278Z",
+              "EditorCaption": ""
             }
           ]
         }
