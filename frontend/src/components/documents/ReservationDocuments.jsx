@@ -5,19 +5,26 @@ import { FileText, Printer, Loader2 } from 'lucide-react';
 import { selectCurrentUser } from '../../features/auth/authSlice';
 
 /* --------------------------------------------------------------------------
-   Printable documents for Aviora Resort.
+   Executive-Grade Printable Invoices & Documents for Aviora Resort.
 
    Documents:
-     1. StayVoucher   - Guest and Admin official reservation voucher / folio.
-     2. StayInvoice   - Admin accounting tax invoice with line items & tax cascade.
-     3. TableVoucher  - Restaurant dining reservation voucher.
-     4. TableDocket   - Service pass / kitchen docket with allergies & covers.
+     1. StayVoucher   - Guest Villa Booking Invoice & Confirmation Folio.
+     2. StayInvoice   - Certified Accounting Tax Invoice for Villa Stays.
+     3. TableVoucher  - Restaurant Dining Reservation Invoice & Confirmation Folio.
+     4. TableDocket   - Service Pass & Maitre d' Kitchen Docket.
 
-   Rendering approach:
-   Uses an off-screen portal node with browser native window.print().
-   Strictly styled with high-end luxury typography, warm sand backgrounds,
-   gold letterhead seals, and robust fallback data resolution so guest details
-   are always clearly populated.
+   Structure adheres strictly to the modern corporate invoice standard:
+     - Top Header with Official Logo, Resort Name & giant INVOICE title
+     - High-contrast Black Reference & Date block
+     - Clean 2-column FROM (Resort) and TO (Guest) dossiers
+     - Schedule Highlights Strip (Arrival, Departure, Duration, Allocation)
+     - Formal "Description of ... Services:" heading
+     - Itemized table with solid black header and light-bordered grid
+     - Right-aligned Financial Breakdown (Subtotal, Service Charge, Taxes, Total)
+     - Guest Special Requests & Dietary Advisory section
+     - Payment Arrangement block in solid black box (bottom-left)
+     - Official Authorized Signatory line & Verification Seal (bottom-center)
+     - Clean Contact Info with inline SVG icons (bottom-right)
    -------------------------------------------------------------------------- */
 
 const money = (value, currency = 'LKR') =>
@@ -51,14 +58,23 @@ const stamp = (iso) => {
   });
 };
 
+const shortDate = (iso) => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+};
+
 /**
- * Robust helper to resolve guest information from any shape of booking object
- * (nested guest, nested guestInfo, flat fields, or active Redux user session).
+ * Robust helper to resolve guest information from any shape of booking object.
  */
 function resolveGuestDetails(booking, currentUser) {
   const g = booking?.guest || booking?.guestInfo || booking?.user || {};
 
-  // First & Last Name
   const fName = g.firstName || booking?.firstName || currentUser?.firstName || '';
   const lName = g.lastName || booking?.lastName || currentUser?.lastName || '';
   let name = `${fName} ${lName}`.trim();
@@ -73,7 +89,6 @@ function resolveGuestDetails(booking, currentUser) {
       'Valued Guest';
   }
 
-  // Email
   const email =
     g.email ||
     booking?.guestEmail ||
@@ -82,7 +97,6 @@ function resolveGuestDetails(booking, currentUser) {
     currentUser?.email ||
     'reservations@aviora.com';
 
-  // Phone / Telephone
   const phone =
     g.phone ||
     g.telephone ||
@@ -95,10 +109,8 @@ function resolveGuestDetails(booking, currentUser) {
     currentUser?.phoneNumber ||
     '+94 11 000 0000';
 
-  // Country
   const country = g.country || booking?.country || currentUser?.country || '';
 
-  // Bedding Configuration / Preference
   const bedConfig =
     booking?.bedConfiguration ||
     booking?.bedPreference ||
@@ -106,21 +118,18 @@ function resolveGuestDetails(booking, currentUser) {
     g.bedConfiguration ||
     '1 King Bed';
 
-  // Villa Name
   const villaName =
     booking?.villaName ||
     booking?.villa?.name ||
     booking?.roomName ||
     'Canopy Forest Villa';
 
-  // Rate Plan
   const ratePlanName =
     booking?.ratePlanName ||
     booking?.ratePlan?.name ||
     booking?.ratePlan ||
     'Flexible Standard Rate';
 
-  // Special Requests
   const specialRequests = g.specialRequests || booking?.specialRequests || '';
 
   return {
@@ -162,7 +171,7 @@ function resolveDiningDetails(table, currentUser) {
   const venueName =
     table?.venueName ||
     table?.restaurantName ||
-    'The Canopy Table';
+    'The Pool Brasserie';
 
   return {
     name,
@@ -173,12 +182,14 @@ function resolveDiningDetails(table, currentUser) {
 }
 
 /* --------------------------------------------------------------------------
-   The print stylesheet. Injected once alongside the document root.
+   The print stylesheet.
+   Optimized for crisp A4 rendering, high-contrast monochrome printing,
+   and executive typography.
    -------------------------------------------------------------------------- */
 const PRINT_CSS = `
   @page {
     size: A4;
-    margin: 12mm 14mm;
+    margin: 10mm 12mm;
   }
 
   #aviora-print-root {
@@ -188,7 +199,9 @@ const PRINT_CSS = `
   @media print {
     html, body {
       background: #ffffff !important;
-      color: #23170f !important;
+      color: #000000 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
     body > *:not(#aviora-print-root) {
       display: none !important;
@@ -200,7 +213,6 @@ const PRINT_CSS = `
       padding: 0 !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
-      color-adjust: exact !important;
     }
     .avoid-break {
       break-inside: avoid !important;
@@ -209,80 +221,13 @@ const PRINT_CSS = `
   }
 
   #aviora-print-root {
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #23170f;
-    font-size: 9.5pt;
-    line-height: 1.45;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #111827;
+    font-size: 8.8pt;
+    line-height: 1.42;
     background-color: #ffffff;
-  }
-
-  #aviora-print-root .sans {
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  }
-
-  #aviora-print-root .mono {
-    font-family: 'SF Mono', Menlo, Consolas, Monaco, monospace;
-  }
-
-  #aviora-print-root .label {
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 6.8pt;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #8c6d53;
-    font-weight: 700;
-    margin-bottom: 2pt;
-  }
-
-  #aviora-print-root .card {
-    background-color: #faf7f2;
-    border: 1px solid #e7ded4;
-    border-radius: 6pt;
-    padding: 9pt 11pt;
-  }
-
-  #aviora-print-root .accent-card {
-    background-color: #f7f2ea;
-    border: 1.5pt solid #cbb298;
-    border-radius: 6pt;
-    padding: 11pt 13pt;
-  }
-
-  #aviora-print-root .gold-badge {
-    display: inline-block;
-    background-color: #7d4e24;
-    color: #ffffff;
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 6.5pt;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 2.5pt 6pt;
-    border-radius: 3pt;
-  }
-
-  #aviora-print-root .status-pill {
-    display: inline-block;
-    background-color: #eaf3ec;
-    color: #1e5a32;
-    border: 0.5pt solid #b6d9be;
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 6.5pt;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 2pt 5.5pt;
-    border-radius: 10pt;
-  }
-
-  #aviora-print-root .doc-divider {
-    border-bottom: 1.5pt solid #7d4e24;
-    margin: 8pt 0 12pt;
-  }
-
-  #aviora-print-root .doc-hair {
-    border-bottom: 0.5pt solid #e7ded4;
-    margin: 7pt 0;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   #aviora-print-root table {
@@ -290,95 +235,87 @@ const PRINT_CSS = `
     border-collapse: collapse;
   }
 
-  #aviora-print-root td, #aviora-print-root th {
-    padding: 4.5pt 4pt;
-    vertical-align: middle;
-  }
-
   #aviora-print-root .num {
     text-align: right;
     font-variant-numeric: tabular-nums;
   }
 
-  #aviora-print-root .muted {
-    color: #6b5a4e;
+  #aviora-print-root .border-box {
+    box-sizing: border-box;
   }
 `;
 
-function Letterhead({
-  documentTitle,
-  documentSubtitle = 'Rainforest & Lagoon Sanctuary · Sri Lanka',
-  reference,
-  issued,
-  status = 'Confirmed',
-}) {
+/* --------------------------------------------------------------------------
+   Shared Modular Sub-components for Invoices
+   -------------------------------------------------------------------------- */
+
+/**
+ * Top Header matching the reference structure:
+ * Left: Logo image + Company Name + Subtitle
+ * Right: Giant "INVOICE" Title
+ */
+function InvoiceHeader({ documentTitle = 'INVOICE', documentSubtitle = 'SANCTUARY OF GRANDEUR · SRI LANKA' }) {
   return (
-    <div className="avoid-break" style={{ marginBottom: '11pt' }}>
-      {/* Top Banner with Brand and Reference */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        {/* Left Brand Identity */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '9pt' }}>
-          {/* Resort Monogram Emblem */}
+    <div className="avoid-break" style={{ marginBottom: '8pt' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Left: Brand Identity */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10pt' }}>
+          <img
+            src="/assets/logo/Aviora Resort Logo - Without Background.png"
+            alt="Aviora Resort"
+            style={{
+              height: '42pt',
+              width: 'auto',
+              maxWidth: '65pt',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+            onError={(e) => {
+              // Fallback monogram if image asset is unavailable
+              e.currentTarget.style.display = 'none';
+              const fb = e.currentTarget.nextSibling;
+              if (fb) fb.style.display = 'flex';
+            }}
+          />
+          {/* Fallback emblem */}
           <div
             style={{
+              display: 'none',
               width: '36pt',
               height: '36pt',
-              borderRadius: '5pt',
-              backgroundColor: '#2b1a0d',
-              border: '1pt solid #cbb298',
-              display: 'flex',
-              flexDirection: 'column',
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              borderRadius: '4pt',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#ecd5b9',
-              textAlign: 'center',
+              fontWeight: '900',
+              fontFamily: 'Georgia, serif',
+              fontSize: '14pt',
             }}
           >
-            <div
-              style={{
-                fontSize: '12.5pt',
-                fontFamily: 'Georgia, serif',
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                lineHeight: 1,
-              }}
-            >
-              AV
-            </div>
-            <div
-              style={{
-                fontSize: '4.5pt',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                marginTop: '1pt',
-                fontFamily: 'sans-serif',
-              }}
-            >
-              RESORT
-            </div>
+            AV
           </div>
 
           <div>
             <div
               style={{
-                fontSize: '20pt',
-                fontStyle: 'italic',
-                fontWeight: '700',
-                letterSpacing: '0.01em',
+                fontSize: '19pt',
+                fontWeight: '800',
+                letterSpacing: '-0.02em',
                 lineHeight: 1.1,
-                color: '#2b1a0d',
+                color: '#000000',
               }}
             >
               Aviora Resort
             </div>
             <div
-              className="label"
               style={{
-                fontSize: '7.2pt',
-                letterSpacing: '0.17em',
-                color: '#8c6d53',
+                fontSize: '6.5pt',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#4b5563',
+                fontWeight: '700',
                 marginTop: '2pt',
-                marginBottom: 0,
               }}
             >
               {documentSubtitle}
@@ -386,97 +323,417 @@ function Letterhead({
           </div>
         </div>
 
-        {/* Right Document Reference Header */}
+        {/* Right: Giant Document Title */}
         <div style={{ textAlign: 'right' }}>
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '4pt',
-              marginBottom: '2pt',
+              fontSize: '28pt',
+              fontWeight: '900',
+              letterSpacing: '0.04em',
+              lineHeight: 1,
+              color: '#000000',
+              textTransform: 'uppercase',
             }}
           >
-            <span className="gold-badge">{documentTitle}</span>
-            {status && <span className="status-pill">{status}</span>}
-          </div>
-          <div
-            className="mono"
-            style={{
-              fontSize: '14pt',
-              fontWeight: '700',
-              letterSpacing: '0.05em',
-              color: '#2b1a0d',
-              marginTop: '2pt',
-            }}
-          >
-            {reference}
-          </div>
-          <div className="sans muted" style={{ fontSize: '7.8pt', marginTop: '1.5pt' }}>
-            Issued: <span style={{ fontWeight: '600', color: '#3c2817' }}>{issued}</span>
+            {documentTitle}
           </div>
         </div>
       </div>
 
-      {/* Decorative Gold Rule */}
+      {/* Horizontal Divider Line */}
       <div
         style={{
-          marginTop: '9pt',
-          borderBottom: '2pt solid #7d4e24',
-          position: 'relative',
+          borderBottom: '1.5pt solid #000000',
+          marginTop: '8pt',
+          marginBottom: '10pt',
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Invoice Number, Date & Status Block matching reference image:
+ * Solid black box on the right with Invoice Number & Date.
+ * Credentials & License on the left.
+ */
+function InvoiceMetaBanner({ reference, date, status = 'Confirmed', labelPrefix = 'Invoice Number:' }) {
+  return (
+    <div
+      className="avoid-break"
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: '12pt',
+      }}
+    >
+      {/* Left: Resort Tax & License Credentials */}
+      <div style={{ fontSize: '7.8pt', color: '#4b5563', lineHeight: 1.5 }}>
+        <div>
+          <span style={{ fontWeight: '700', color: '#111827' }}>VAT / TIN Reg No: </span>
+          AVI-VAT-9400281
+        </div>
+        <div>
+          <span style={{ fontWeight: '700', color: '#111827' }}>SL Tourism License: </span>
+          SLTDA/SQ/2026/0842
+        </div>
+        <div>
+          <span style={{ fontWeight: '700', color: '#111827' }}>Folio Security Code: </span>
+          AVI-{reference}-SEC
+        </div>
+      </div>
+
+      {/* Right: Solid Black Badge */}
+      <div
+        style={{
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          borderRadius: '4pt',
+          padding: '8pt 14pt',
+          textAlign: 'left',
+          minWidth: '175pt',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         }}
       >
+        <div style={{ fontSize: '9pt', fontWeight: '700', marginBottom: '2pt', letterSpacing: '0.02em' }}>
+          {labelPrefix} <span style={{ fontFamily: 'monospace', fontSize: '9.5pt' }}>{reference}</span>
+        </div>
+        <div style={{ fontSize: '8pt', opacity: 0.95 }}>
+          Date: <span style={{ fontWeight: '600' }}>{date}</span>
+        </div>
+        <div style={{ fontSize: '8pt', opacity: 0.95, marginTop: '1pt' }}>
+          Status: <span style={{ fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{status}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Two-column FROM / TO Dossier strictly matching reference structure.
+ */
+function InvoiceParties({ guest, reference }) {
+  return (
+    <div
+      className="avoid-break"
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: '24pt',
+        marginBottom: '12pt',
+      }}
+    >
+      {/* Left Column: FROM */}
+      <div style={{ flex: 1 }}>
         <div
           style={{
-            position: 'absolute',
-            left: 0,
-            bottom: '-4pt',
-            width: '28pt',
-            height: '2pt',
-            backgroundColor: '#cbb298',
+            fontSize: '9.5pt',
+            fontWeight: '800',
+            color: '#000000',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: '4pt',
           }}
-        />
+        >
+          FROM:
+        </div>
+        <div style={{ fontSize: '8.5pt', color: '#1f2937', lineHeight: 1.48 }}>
+          <div style={{ fontWeight: '700', color: '#000000' }}>Aviora Resort &amp; Lagoon Sanctuary</div>
+          <div>Bentota Coastal Reserve, Southern Province</div>
+          <div>Post Code: 80500, Sri Lanka</div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Phone:</span> +94 11 000 0000 / +94 91 223 4567
+          </div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Email:</span> reservations@aviora.com
+          </div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Web:</span> www.avioraresort.com
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column: TO */}
+      <div style={{ flex: 1 }}>
+        <div
+          style={{
+            fontSize: '9.5pt',
+            fontWeight: '800',
+            color: '#000000',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: '4pt',
+          }}
+        >
+          TO:
+        </div>
+        <div style={{ fontSize: '8.5pt', color: '#1f2937', lineHeight: 1.48 }}>
+          <div style={{ fontWeight: '700', fontSize: '9.5pt', color: '#000000' }}>{guest.name}</div>
+          <div>{guest.country ? `Region / Country: ${guest.country}` : 'Valued International Guest'}</div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Phone:</span> {guest.phone}
+          </div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Email:</span> {guest.email}
+          </div>
+          <div>
+            <span style={{ fontWeight: '600' }}>Guest Folio:</span> G-{reference}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-function Row({ label, value }) {
+/**
+ * Key Reservation / Stay Schedule Bar (Professional Enhancement)
+ */
+function StayScheduleBar({ checkIn, checkOut, nights, bedding, adults, children, villaName }) {
   return (
-    <div style={{ marginBottom: '7pt' }}>
-      <div className="label">{label}</div>
-      <div style={{ marginTop: '1pt', color: '#23170f' }}>{value || '—'}</div>
+    <div
+      className="avoid-break"
+      style={{
+        display: 'flex',
+        border: '1px solid #d1d5db',
+        borderRadius: '3pt',
+        backgroundColor: '#f9fafb',
+        padding: '7pt 10pt',
+        marginBottom: '11pt',
+        fontSize: '8.2pt',
+      }}
+    >
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', paddingRight: '8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          CHECK-IN (ARRIVAL)
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{longDate(checkIn)}</div>
+        <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>From 14:00 onwards</div>
+      </div>
+
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', padding: '0 8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          CHECK-OUT (DEPARTURE)
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{longDate(checkOut)}</div>
+        <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>Until 12:00 noon</div>
+      </div>
+
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', padding: '0 8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          STAY DURATION &amp; GUESTS
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>
+          {nights} Night{nights === 1 ? '' : 's'} Total
+        </div>
+        <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>
+          {adults || 1} Adult{(adults || 1) === 1 ? '' : 's'}
+          {children ? `, ${children} Child${children === 1 ? '' : 'ren'}` : ''}
+        </div>
+      </div>
+
+      <div style={{ flex: 1.1, paddingLeft: '8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          VILLA &amp; BED ARRANGEMENT
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{villaName}</div>
+        <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>{bedding}</div>
+      </div>
     </div>
   );
 }
 
-function Footer({ note }) {
+function DiningScheduleBar({ venueName, date, time, partySize, occasion }) {
   return (
-    <div className="avoid-break" style={{ marginTop: '14pt' }}>
-      <div className="doc-hair" style={{ marginBottom: '6pt' }} />
+    <div
+      className="avoid-break"
+      style={{
+        display: 'flex',
+        border: '1px solid #d1d5db',
+        borderRadius: '3pt',
+        backgroundColor: '#f9fafb',
+        padding: '7pt 10pt',
+        marginBottom: '11pt',
+        fontSize: '8.2pt',
+      }}
+    >
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', paddingRight: '8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          DINING DATE
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{longDate(date)}</div>
+      </div>
+
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', padding: '0 8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          SITTING TIME
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{time}</div>
+      </div>
+
+      <div style={{ flex: 1, borderRight: '1px solid #e5e7eb', padding: '0 8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          PARTY SIZE (COVERS)
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>
+          {partySize} Guest{partySize === 1 ? '' : 's'}
+        </div>
+      </div>
+
+      <div style={{ flex: 1.2, paddingLeft: '8pt' }}>
+        <div style={{ fontSize: '6.8pt', fontWeight: '700', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          VENUE &amp; OCCASION
+        </div>
+        <div style={{ fontWeight: '700', color: '#000000', marginTop: '1pt' }}>{venueName}</div>
+        <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>{occasion || 'Fine Dining & Lagoon Atmosphere'}</div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Bottom Section strictly matching reference image:
+ * Left: Solid black box for Payment Method
+ * Center: Authorized Signature & Official Seal
+ * Right: Contact details with icons
+ */
+function InvoiceFooterBlocks({
+  paymentMethod,
+  paymentAccount,
+  status = 'Confirmed',
+  currency = 'LKR',
+  reference,
+  signatoryTitle = 'Front Desk & Cashier Auditing',
+}) {
+  return (
+    <div
+      className="avoid-break"
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        marginTop: '14pt',
+        paddingTop: '8pt',
+      }}
+    >
+      {/* Left: Solid Black Payment Block */}
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          fontSize: '7.5pt',
-          color: '#6f6257',
-          lineHeight: 1.45,
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          borderRadius: '3pt',
+          padding: '8pt 14pt',
+          fontSize: '8pt',
+          lineHeight: 1.5,
+          minWidth: '180pt',
         }}
       >
-        <div style={{ maxWidth: '70%' }}>
-          <div style={{ fontWeight: '600', color: '#3d2b1e', marginBottom: '2pt' }}>
-            {note}
-          </div>
-          <div className="sans">
-            Aviora Resort · Rainforest &amp; Lagoon Sanctuary, Sri Lanka ·
-            reservations@aviora.com · +94 11 000 0000
-          </div>
+        <div style={{ fontWeight: '700', fontSize: '8.5pt' }}>
+          Payment Method: <span style={{ fontWeight: '400' }}>{paymentMethod}</span>
         </div>
-        <div className="sans muted" style={{ textAlign: 'right', fontSize: '7pt' }}>
-          Official Guest Document
-          <br />
-          Aviora Central System
+        {paymentAccount && (
+          <div style={{ fontSize: '7.8pt', opacity: 0.9 }}>
+            Account / Card: <span style={{ fontFamily: 'monospace' }}>{paymentAccount}</span>
+          </div>
+        )}
+        <div style={{ fontSize: '7.8pt', opacity: 0.9 }}>
+          Settlement Status: <span style={{ fontWeight: '700' }}>{status}</span> · {currency}
+        </div>
+      </div>
+
+      {/* Center: Official Authorized Signatory Line & Digital Seal */}
+      <div style={{ textAlign: 'center', minWidth: '130pt' }}>
+        <div
+          style={{
+            borderBottom: '1px solid #9ca3af',
+            width: '120pt',
+            margin: '0 auto 4pt',
+            height: '18pt',
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'Georgia, serif',
+              fontStyle: 'italic',
+              fontSize: '8pt',
+              color: '#374151',
+              letterSpacing: '0.04em',
+            }}
+          >
+            Aviora Front Desk
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: '6.5pt',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: '#4b5563',
+          }}
+        >
+          Authorized Signatory
+        </div>
+        <div style={{ fontSize: '6pt', color: '#6b7280' }}>{signatoryTitle}</div>
+      </div>
+
+      {/* Right: Contact Information with Inline SVG Icons (Matching Image 3!) */}
+      <div style={{ textAlign: 'right', fontSize: '8.2pt', color: '#111827', lineHeight: 1.6 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5pt' }}>
+          {/* Phone Icon */}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          <span style={{ fontWeight: '600' }}>+94 11 000 0000</span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5pt' }}>
+          {/* Globe Icon */}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+          <span style={{ fontWeight: '500' }}>www.avioraresort.com</span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5pt' }}>
+          {/* Mail Icon */}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <span style={{ color: '#4b5563' }}>reservations@aviora.com</span>
         </div>
       </div>
     </div>
@@ -484,403 +741,435 @@ function Footer({ note }) {
 }
 
 /* --------------------------------------------------------------------------
-   Stay Documents (Voucher & Invoice)
+   Document 1: StayVoucher / Guest Villa Booking Invoice
    -------------------------------------------------------------------------- */
 
 function StayVoucher({ booking }) {
   const currentUser = useSelector(selectCurrentUser);
   const guest = resolveGuestDetails(booking, currentUser);
-  const nights = booking.nights ?? 1;
+  const nights = Number(booking.nights) || 1;
+
+  // Breakdown calculation
+  const roomBase = Number(booking.roomSubtotal) || Number(booking.finalTotal) || 0;
+  const unitNightRate = roomBase > 0 ? roomBase / nights : 0;
+  const addons = booking.addons || [];
+  const addonsTotal = addons.reduce((sum, a) => sum + (Number(a.lineTotal) || 0), 0);
+  const subTotal = roomBase + addonsTotal;
+  const discount = Number(booking.discountAmount) || 0;
+  const netSubtotal = booking.netSubtotal ? Number(booking.netSubtotal) : subTotal - discount;
+
+  // Compute or extract 10% service charge and taxes
+  let serviceCharge = 0;
+  let governmentTaxes = 0;
+
+  if (booking.taxes && Array.isArray(booking.taxes) && booking.taxes.length > 0) {
+    const scTax = booking.taxes.find(
+      (t) => t.code?.toLowerCase().includes('service') || t.displayName?.toLowerCase().includes('service')
+    );
+    serviceCharge = scTax ? Number(scTax.taxAmount) : netSubtotal * 0.1;
+    governmentTaxes = booking.taxes
+      .filter((t) => t !== scTax)
+      .reduce((sum, t) => sum + Number(t.taxAmount || 0), 0);
+  } else {
+    // Standard hospitality breakdown fallback
+    serviceCharge = netSubtotal * 0.1;
+    governmentTaxes = Math.max(0, Number(booking.finalTotal || 0) - (netSubtotal + serviceCharge));
+  }
+
+  const grandTotal = Number(booking.finalTotal) || (netSubtotal + serviceCharge + governmentTaxes);
+
+  let rowCounter = 1;
 
   return (
     <>
-      <Letterhead
-        documentTitle="Reservation Voucher"
+      {/* 1. Header */}
+      <InvoiceHeader documentTitle="INVOICE" documentSubtitle="SANCTUARY OF GRANDEUR · SRI LANKA" />
+
+      {/* 2. Reference & Date Block */}
+      <InvoiceMetaBanner
         reference={booking.referenceId}
-        issued={stamp(booking.bookedAt || new Date().toISOString())}
+        date={shortDate(booking.bookedAt || new Date().toISOString())}
         status={booking.status || 'Confirmed'}
+        labelPrefix="Invoice Number:"
       />
 
-      {/* 2-Column Guest & Sanctuary Dossier */}
-      <div className="avoid-break" style={{ display: 'flex', gap: '10pt', marginBottom: '8pt' }}>
-        {/* Guest Information Card */}
-        <div className="card" style={{ flex: 1 }}>
-          <div
-            className="label"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4pt',
-              borderBottom: '0.5pt solid #e7ded4',
-              paddingBottom: '3pt',
-              marginBottom: '7pt',
-            }}
-          >
-            <span style={{ color: '#7d4e24', fontSize: '8pt' }}>●</span> PRIMARY GUEST INFORMATION
-          </div>
+      {/* 3. FROM & TO Dossier */}
+      <InvoiceParties guest={guest} reference={booking.referenceId} />
 
-          <div style={{ marginBottom: '6pt' }}>
-            <div className="label">Guest Name</div>
-            <div style={{ fontSize: '11.5pt', fontWeight: '700', color: '#23170f' }}>
-              {guest.name}
-            </div>
-          </div>
+      {/* 4. Stay Schedule Strip (Professional Enhancement) */}
+      <StayScheduleBar
+        checkIn={booking.checkIn}
+        checkOut={booking.checkOut}
+        nights={nights}
+        bedding={guest.bedConfig}
+        adults={booking.adults}
+        children={booking.children}
+        villaName={guest.villaName}
+      />
 
-          <div style={{ marginBottom: '5pt' }}>
-            <div className="label">Email Address</div>
-            <div
-              className="sans"
-              style={{ fontSize: '8.5pt', color: '#332317', wordBreak: 'break-all' }}
-            >
-              {guest.email}
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', gap: '8pt' }}>
-            <div style={{ flex: 1 }}>
-              <div className="label">Telephone</div>
-              <div className="sans" style={{ fontSize: '8.5pt', color: '#332317' }}>
-                {guest.phone}
-              </div>
-            </div>
-            {guest.country && (
-              <div style={{ flex: 1 }}>
-                <div className="label">Country / Region</div>
-                <div className="sans" style={{ fontSize: '8.5pt', color: '#332317' }}>
-                  {guest.country}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Sanctuary & Accommodation Card */}
-        <div className="card" style={{ flex: 1 }}>
-          <div
-            className="label"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4pt',
-              borderBottom: '0.5pt solid #e7ded4',
-              paddingBottom: '3pt',
-              marginBottom: '7pt',
-            }}
-          >
-            <span style={{ color: '#7d4e24', fontSize: '8pt' }}>●</span> SANCTUARY &amp; ACCOMMODATION
-          </div>
-
-          <div style={{ marginBottom: '6pt' }}>
-            <div className="label">Reserved Villa</div>
-            <div
-              style={{
-                fontSize: '11.5pt',
-                fontWeight: '700',
-                fontStyle: 'italic',
-                color: '#7d4e24',
-              }}
-            >
-              {guest.villaName}
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', gap: '8pt', marginBottom: '5pt' }}>
-            <div style={{ flex: 1 }}>
-              <div className="label">Rate Plan</div>
-              <div
-                className="sans"
-                style={{ fontSize: '8.5pt', fontWeight: '600', color: '#23170f' }}
-              >
-                {guest.ratePlanName}
-              </div>
-            </div>
-            <div style={{ flex: 1 }}>
-              <div className="label">Bedding</div>
-              <div className="sans" style={{ fontSize: '8.5pt', color: '#23170f' }}>
-                {guest.bedConfig}
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="label">Party &amp; Duration</div>
-            <div
-              className="sans"
-              style={{ fontSize: '8.5pt', fontWeight: '600', color: '#23170f' }}
-            >
-              {booking.adults || 1} Adult{booking.adults === 1 ? '' : 's'}
-              {booking.children ? `, ${booking.children} Child${booking.children === 1 ? '' : 'ren'}` : ''}{' '}
-              · {nights} Night{nights === 1 ? '' : 's'} Total
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Check-In / Check-Out Schedule Banner */}
+      {/* 5. Section Heading strictly like Image 3 */}
       <div
         className="avoid-break"
         style={{
-          display: 'flex',
-          gap: '10pt',
-          padding: '8pt 11pt',
-          backgroundColor: '#f6f1eb',
-          border: '1pt solid #decbb8',
-          borderRadius: '5pt',
-          marginBottom: '8pt',
+          fontSize: '10.5pt',
+          fontWeight: '800',
+          color: '#000000',
+          marginBottom: '5pt',
         }}
       >
-        <div style={{ flex: 1, borderRight: '1pt solid #decbb8', paddingRight: '6pt' }}>
-          <div className="label" style={{ color: '#6d4826' }}>
-            ARRIVAL / CHECK-IN
-          </div>
-          <div style={{ fontSize: '10pt', fontWeight: 'bold', color: '#23170f' }}>
-            {longDate(booking.checkIn)}
-          </div>
-          <div className="sans muted" style={{ fontSize: '7.5pt', marginTop: '1pt' }}>
-            From 14:00 onwards
-          </div>
-        </div>
-
-        <div style={{ flex: 1, borderRight: '1pt solid #decbb8', paddingRight: '6pt' }}>
-          <div className="label" style={{ color: '#6d4826' }}>
-            DEPARTURE / CHECK-OUT
-          </div>
-          <div style={{ fontSize: '10pt', fontWeight: 'bold', color: '#23170f' }}>
-            {longDate(booking.checkOut)}
-          </div>
-          <div className="sans muted" style={{ fontSize: '7.5pt', marginTop: '1pt' }}>
-            Until 12:00 noon
-          </div>
-        </div>
-
-        <div
-          style={{
-            flex: 0.7,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-        >
-          <div className="label" style={{ color: '#6d4826' }}>
-            STAY DURATION
-          </div>
-          <div style={{ fontSize: '10.5pt', fontWeight: 'bold', color: '#7d4e24' }}>
-            {nights} Night{nights === 1 ? '' : 's'}
-          </div>
-        </div>
+        Description of Accommodation &amp; Sanctuary Services:
       </div>
 
-      {/* Curated Experiences / Add-ons (if any) */}
-      {booking.addons?.length > 0 && (
-        <div className="avoid-break" style={{ marginBottom: '8pt' }}>
-          <div className="label" style={{ marginBottom: '3pt' }}>
-            INCLUDED SANCTUARY EXPERIENCES &amp; ADD-ONS
-          </div>
-          <div className="card" style={{ padding: '3pt 8pt' }}>
-            <table style={{ width: '100%' }}>
-              <tbody>
-                {booking.addons.map((a) => (
-                  <tr key={a.id} style={{ borderBottom: '0.5pt solid #eee5db' }}>
-                    <td style={{ fontSize: '9pt', fontWeight: '600' }}>{a.name}</td>
-                    <td className="sans muted" style={{ fontSize: '8pt' }}>
-                      {a.chargeBasis || 'per stay'}
-                    </td>
-                    <td
-                      className="num sans"
-                      style={{ width: '20%', fontSize: '9pt', fontWeight: 'bold' }}
-                    >
-                      {a.quantity > 1 ? `×${a.quantity}` : 'Included'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      {/* 6. Itemized Services Table */}
+      <table className="avoid-break" style={{ width: '100%', marginBottom: '6pt' }}>
+        <thead>
+          <tr style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '6%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              No
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'left', width: '46%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Service Description
+            </th>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '14%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Duration
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Rate / Night
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Row 1: Reserved Villa */}
+          <tr>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+              {rowCounter++}
+            </td>
+            <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              <div style={{ fontWeight: '700', color: '#000000', fontSize: '9pt' }}>{guest.villaName}</div>
+              <div style={{ fontSize: '7.6pt', color: '#4b5563', marginTop: '1pt' }}>
+                Rate Plan: <span style={{ fontWeight: '600' }}>{guest.ratePlanName}</span> · {guest.bedConfig}
+              </div>
+              <div style={{ fontSize: '7.2pt', color: '#6b7280' }}>
+                {shortDate(booking.checkIn)} to {shortDate(booking.checkOut)} ({nights} night{nights === 1 ? '' : 's'})
+              </div>
+            </td>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+              {nights} Night{nights === 1 ? '' : 's'}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              {money(unitNightRate, booking.currency)}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+              {money(roomBase, booking.currency)}
+            </td>
+          </tr>
 
-      {/* Special Requests */}
-      {guest.specialRequests && (
-        <div
-          className="avoid-break card"
-          style={{ marginBottom: '8pt', backgroundColor: '#fcf8f2' }}
-        >
-          <div className="label" style={{ color: '#7d4e24' }}>
-            GUEST SPECIAL REQUESTS &amp; PREFERENCES
-          </div>
-          <div
-            className="sans"
-            style={{ fontSize: '8.5pt', color: '#332317', marginTop: '2pt', fontStyle: 'italic' }}
-          >
-            &ldquo;{guest.specialRequests}&rdquo;
-          </div>
-        </div>
-      )}
+          {/* Additional Addons / Experiences (if any) */}
+          {addons.map((a) => (
+            <tr key={a.id || a.name}>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+                {rowCounter++}
+              </td>
+              <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+                <div style={{ fontWeight: '700', color: '#000000', fontSize: '8.8pt' }}>{a.name}</div>
+                <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>{a.chargeBasis || 'Curated sanctuary experience'}</div>
+              </td>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+                {a.quantity > 1 ? `${a.quantity} Units` : '1 Experience'}
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+                {money(a.unitPrice, booking.currency)}
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+                {money(a.lineTotal, booking.currency)}
+              </td>
+            </tr>
+          ))}
 
-      {/* Grand Total & Settlement Card */}
-      <div className="avoid-break accent-card" style={{ marginTop: '6pt', marginBottom: '8pt' }}>
-        <table style={{ width: '100%' }}>
+          {/* Promotional Discount (if any) */}
+          {discount > 0 && (
+            <tr>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+                {rowCounter++}
+              </td>
+              <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+                <div style={{ fontWeight: '700', color: '#047857' }}>Promotional Privilege Savings</div>
+                <div style={{ fontSize: '7.5pt', color: '#065f46' }}>
+                  Code Applied: {booking.promoCode || 'RESORT-PROMO'} ({booking.promoDiscountPct || 10}%)
+                </div>
+              </td>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', color: '#047857' }}>
+                Special Rate
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', color: '#047857' }}>
+                −{booking.promoDiscountPct || 10}%
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700', color: '#047857' }}>
+                −{money(discount, booking.currency)}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* 7. Summary / Financial Breakdown (Right-aligned, matching Image 3!) */}
+      <div className="avoid-break" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8pt' }}>
+        <table style={{ width: '45%', borderCollapse: 'collapse', fontSize: '8.8pt' }}>
           <tbody>
             <tr>
-              <td>
-                <div
-                  className="label"
-                  style={{ color: '#7d4e24', fontSize: '7.5pt', marginBottom: '2pt' }}
-                >
-                  TOTAL STAY CHARGES (INCL. 10% SERVICE CHARGE &amp; TAXES)
-                </div>
-                <div className="sans muted" style={{ fontSize: '8pt' }}>
-                  {booking.payment?.method === 'card'
-                    ? `Settled via Credit/Debit Card ending ${booking.payment.cardLast4 ?? '••••'}`
-                    : 'Payment Arrangement: Payable at the resort upon departure'}
-                </div>
+              <td style={{ padding: '3.5pt 6pt', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
+                Sub Total:
+              </td>
+              <td className="num" style={{ padding: '3.5pt 6pt', width: '50%', fontWeight: '600' }}>
+                {money(subTotal, booking.currency)}
+              </td>
+            </tr>
+
+            {discount > 0 && (
+              <tr>
+                <td style={{ padding: '3pt 6pt', textAlign: 'right', color: '#047857', fontWeight: '600' }}>
+                  Promotional Discount:
+                </td>
+                <td className="num" style={{ padding: '3pt 6pt', color: '#047857', fontWeight: '600' }}>
+                  −{money(discount, booking.currency)}
+                </td>
+              </tr>
+            )}
+
+            <tr>
+              <td style={{ padding: '3pt 6pt', textAlign: 'right', color: '#4b5563' }}>
+                Service Charge (10%):
+              </td>
+              <td className="num" style={{ padding: '3pt 6pt', color: '#4b5563' }}>
+                {money(serviceCharge, booking.currency)}
+              </td>
+            </tr>
+
+            {governmentTaxes > 0 && (
+              <tr>
+                <td style={{ padding: '3pt 6pt', textAlign: 'right', color: '#4b5563' }}>
+                  Govt Taxes &amp; Tourism VAT:
+                </td>
+                <td className="num" style={{ padding: '3pt 6pt', color: '#4b5563' }}>
+                  {money(governmentTaxes, booking.currency)}
+                </td>
+              </tr>
+            )}
+
+            <tr>
+              <td
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  textAlign: 'right',
+                  fontWeight: '800',
+                  fontSize: '10.5pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
+              >
+                Total:
               </td>
               <td
                 className="num"
-                style={{ fontSize: '16pt', fontWeight: 'bold', color: '#2b1a0d' }}
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  fontWeight: '800',
+                  fontSize: '11pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
               >
-                {money(booking.finalTotal, booking.currency)}
+                {money(grandTotal, booking.currency)}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Cancellation Policy Banner */}
-      <div
-        className="avoid-break"
-        style={{
-          padding: '7pt 9pt',
-          backgroundColor: booking.isRefundable !== false ? '#f1f8f3' : '#fcf4f2',
-          border: `1pt solid ${booking.isRefundable !== false ? '#c4e3cb' : '#ecc5be'}`,
-          borderRadius: '5pt',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6pt',
-        }}
-      >
-        <span
-          style={{
-            fontSize: '9.5pt',
-            color: booking.isRefundable !== false ? '#1e5a32' : '#9c3426',
-          }}
-        >
-          {booking.isRefundable !== false ? '✓' : 'ℹ'}
-        </span>
+      {/* 8. Guest Special Requests Box (If any) */}
+      {guest.specialRequests && (
         <div
-          className="sans"
+          className="avoid-break"
           style={{
-            fontSize: '8pt',
-            color: booking.isRefundable !== false ? '#1e5a32' : '#7c2519',
+            borderLeft: '2.5pt solid #000000',
+            backgroundColor: '#f9fafb',
+            padding: '5pt 8pt',
+            marginBottom: '7pt',
+            fontSize: '7.8pt',
+            color: '#1f2937',
           }}
         >
+          <span style={{ fontWeight: '700', textTransform: 'uppercase', fontSize: '7pt', letterSpacing: '0.05em' }}>
+            Guest Special Requests &amp; Preferences:{' '}
+          </span>
+          &ldquo;{guest.specialRequests}&rdquo;
+        </div>
+      )}
+
+      {/* 9. Thank You Notice & Terms */}
+      <div className="avoid-break" style={{ fontSize: '8pt', color: '#374151', lineHeight: 1.45, marginBottom: '6pt' }}>
+        <div>
+          Thank you for choosing Aviora Resort. Please present this invoice or photo identification upon arrival at Sanctuary Reception.
+        </div>
+        <div style={{ marginTop: '2pt', fontSize: '7.6pt', color: '#4b5563' }}>
           <span style={{ fontWeight: '700' }}>Cancellation Policy: </span>
           {booking.isRefundable !== false
             ? booking.cancellationDeadline
-              ? `Complimentary cancellation permitted until ${stamp(booking.cancellationDeadline)}.`
-              : 'Complimentary cancellation prior to check-in.'
+              ? `Complimentary cancellation permitted until ${stamp(booking.cancellationDeadline)}. Later changes incur full rate.`
+              : 'Complimentary cancellation permitted prior to check-in.'
             : 'Non-refundable rate plan. Changes or cancellations are subject to full stay forfeiture.'}
         </div>
       </div>
 
-      <Footer
-        note={`Please present this official voucher or photo ID upon arrival at Sanctuary Reception. Status: ${booking.status || 'Confirmed'}.`}
+      {/* 10. Bottom Blocks (Matching Image 3!) */}
+      <InvoiceFooterBlocks
+        paymentMethod={
+          booking.payment?.method === 'card'
+            ? 'Credit / Debit Card'
+            : 'Payable at Resort upon Check-out'
+        }
+        paymentAccount={
+          booking.payment?.cardLast4 ? `Card ending ${booking.payment.cardLast4}` : 'Payable on departure'
+        }
+        status={booking.status || 'Confirmed'}
+        currency={booking.currency || 'LKR'}
+        reference={booking.referenceId}
+        signatoryTitle="Front Desk & Cashier Auditing"
       />
     </>
   );
 }
 
+/* --------------------------------------------------------------------------
+   Document 2: StayInvoice / Accounting Tax Invoice for Admin
+   -------------------------------------------------------------------------- */
+
 function StayInvoice({ booking }) {
   const currentUser = useSelector(selectCurrentUser);
   const guest = resolveGuestDetails(booking, currentUser);
+  const nights = Number(booking.nights) || 1;
+
+  const roomBase = Number(booking.roomSubtotal) || Number(booking.finalTotal) || 0;
+  const addons = booking.addons || [];
+  const discount = Number(booking.discountAmount) || 0;
+  const netSubtotal = Number(booking.netSubtotal) || (roomBase - discount);
+  const finalTotal = Number(booking.finalTotal) || netSubtotal;
+
+  let rowCounter = 1;
 
   return (
     <>
-      <Letterhead
-        documentTitle="Tax Invoice"
+      <InvoiceHeader documentTitle="TAX INVOICE" documentSubtitle="CERTIFIED CORPORATE TAX INVOICE · SRI LANKA" />
+
+      <InvoiceMetaBanner
         reference={booking.referenceId}
-        issued={stamp(new Date().toISOString())}
-        status={booking.status || 'Confirmed'}
+        date={shortDate(new Date().toISOString())}
+        status={booking.status || 'Settled'}
+        labelPrefix="Tax Invoice No:"
       />
 
-      {/* Billing & Stay Header Cards */}
-      <div className="avoid-break" style={{ display: 'flex', gap: '10pt', marginBottom: '8pt' }}>
-        <div className="card" style={{ flex: 1 }}>
-          <div className="label" style={{ borderBottom: '0.5pt solid #e7ded4', paddingBottom: '3pt', marginBottom: '6pt' }}>
-            BILLED TO
-          </div>
-          <div style={{ fontSize: '11pt', fontWeight: '700', color: '#23170f' }}>
-            {guest.name}
-          </div>
-          <div className="sans muted" style={{ fontSize: '8.5pt', marginTop: '2pt' }}>
-            {guest.email}
-            {guest.phone ? ` · ${guest.phone}` : ''}
-            {guest.country ? ` · ${guest.country}` : ''}
-          </div>
-        </div>
+      <InvoiceParties guest={guest} reference={booking.referenceId} />
 
-        <div className="card" style={{ flex: 1 }}>
-          <div className="label" style={{ borderBottom: '0.5pt solid #e7ded4', paddingBottom: '3pt', marginBottom: '6pt' }}>
-            STAY PARTICULARS
-          </div>
-          <div style={{ fontSize: '11pt', fontWeight: '700', fontStyle: 'italic', color: '#7d4e24' }}>
-            {guest.villaName}
-          </div>
-          <div className="sans muted" style={{ fontSize: '8.5pt', marginTop: '2pt' }}>
-            {longDate(booking.checkIn)} to {longDate(booking.checkOut)} ({booking.nights || 1} Night{booking.nights === 1 ? '' : 's'})
-          </div>
-        </div>
+      <StayScheduleBar
+        checkIn={booking.checkIn}
+        checkOut={booking.checkOut}
+        nights={nights}
+        bedding={guest.bedConfig}
+        adults={booking.adults}
+        children={booking.children}
+        villaName={guest.villaName}
+      />
+
+      <div
+        className="avoid-break"
+        style={{
+          fontSize: '10.5pt',
+          fontWeight: '800',
+          color: '#000000',
+          marginBottom: '5pt',
+        }}
+      >
+        Itemized Hospitality &amp; Accommodation Charges:
       </div>
 
-      {/* Folio Line Items Table */}
-      <table className="avoid-break card" style={{ width: '100%', padding: '4pt 8pt', marginBottom: '8pt' }}>
+      <table className="avoid-break" style={{ width: '100%', marginBottom: '6pt' }}>
         <thead>
-          <tr style={{ borderBottom: '1pt solid #decbb8' }}>
-            <th className="label" style={{ textAlign: 'left' }}>
-              ITEM / DESCRIPTION
+          <tr style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '6%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              No
             </th>
-            <th className="label num">AMOUNT</th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'left', width: '46%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Service Description
+            </th>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '14%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Duration
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Unit Rate
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Total
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr style={{ borderBottom: '0.5pt solid #eee5db' }}>
-            <td>
-              <div style={{ fontWeight: '600' }}>Accommodation — {guest.ratePlanName}</div>
-              <div className="sans muted" style={{ fontSize: '8pt' }}>
-                {booking.nights} night{booking.nights === 1 ? '' : 's'}
-                {booking.ratePlanDiscountPct
-                  ? ` · rate modifier ${booking.ratePlanDiscountPct}%`
-                  : ''}
+          <tr>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+              {rowCounter++}
+            </td>
+            <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              <div style={{ fontWeight: '700', color: '#000000' }}>{guest.villaName} — {guest.ratePlanName}</div>
+              <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>
+                Folio stay: {shortDate(booking.checkIn)} to {shortDate(booking.checkOut)}
               </div>
             </td>
-            <td className="num" style={{ fontWeight: '600' }}>
-              {money(booking.roomSubtotal, booking.currency)}
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+              {nights} Night{nights === 1 ? '' : 's'}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              {money(roomBase / nights, booking.currency)}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+              {money(roomBase, booking.currency)}
             </td>
           </tr>
 
-          {booking.addons?.map((a) => (
-            <tr key={a.id} style={{ borderBottom: '0.5pt solid #eee5db' }}>
-              <td>
-                <div style={{ fontWeight: '600' }}>{a.name}</div>
-                <div className="sans muted" style={{ fontSize: '8pt' }}>
-                  {money(a.unitPrice, booking.currency)}
-                  {a.quantity > 1 ? ` × ${a.quantity}` : ''} · {a.chargeBasis}
-                </div>
+          {addons.map((a) => (
+            <tr key={a.id || a.name}>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+                {rowCounter++}
               </td>
-              <td className="num">{money(a.lineTotal, booking.currency)}</td>
+              <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+                <div style={{ fontWeight: '700', color: '#000000' }}>{a.name}</div>
+                <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>{a.chargeBasis}</div>
+              </td>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+                {a.quantity || 1}
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+                {money(a.unitPrice, booking.currency)}
+              </td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+                {money(a.lineTotal, booking.currency)}
+              </td>
             </tr>
           ))}
 
-          {booking.discountAmount > 0 && (
-            <tr style={{ borderBottom: '0.5pt solid #eee5db' }}>
-              <td>
-                <div style={{ fontWeight: '600', color: '#1e5a32' }}>Promotional Discount</div>
-                <div className="sans muted" style={{ fontSize: '8pt' }}>
-                  Code: {booking.promoCode} ({booking.promoDiscountPct}%)
-                </div>
+          {discount > 0 && (
+            <tr>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+                {rowCounter++}
               </td>
-              <td className="num" style={{ color: '#1e5a32', fontWeight: '600' }}>
-                −{money(booking.discountAmount, booking.currency)}
+              <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', color: '#047857' }}>
+                Promotional Discount ({booking.promoCode})
+              </td>
+              <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', color: '#047857' }}>—</td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', color: '#047857' }}>−{booking.promoDiscountPct}%</td>
+              <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700', color: '#047857' }}>
+                −{money(discount, booking.currency)}
               </td>
             </tr>
           )}
@@ -888,250 +1177,458 @@ function StayInvoice({ booking }) {
       </table>
 
       {/* Tax Cascade Breakdown */}
-      <table className="avoid-break" style={{ width: '100%', marginBottom: '6pt' }}>
-        <tbody>
-          <tr>
-            <td className="label">Net Subtotal</td>
-            <td className="num sans" style={{ fontWeight: '600' }}>
-              {money(booking.netSubtotal, booking.currency)}
-            </td>
-          </tr>
-
-          {booking.taxes?.map((t) => (
-            <tr key={t.code}>
-              <td className="sans muted" style={{ fontSize: '8.5pt' }}>
-                {t.displayName} ({t.percentage}%)
-                <span className="muted" style={{ fontSize: '7.8pt' }}>
-                  {' '}
-                  on {money(t.baseAmount, booking.currency)}
-                </span>
-              </td>
-              <td className="num sans muted" style={{ fontSize: '8.5pt' }}>
-                {money(t.taxAmount, booking.currency)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Total Due Banner */}
-      <div className="avoid-break accent-card" style={{ marginTop: '4pt', marginBottom: '8pt' }}>
-        <table style={{ width: '100%' }}>
+      <div className="avoid-break" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8pt' }}>
+        <table style={{ width: '48%', borderCollapse: 'collapse', fontSize: '8.8pt' }}>
           <tbody>
             <tr>
-              <td style={{ fontSize: '11pt', fontWeight: 'bold', color: '#2b1a0d' }}>
-                Total Folio Balance Due
+              <td style={{ padding: '3pt 6pt', textAlign: 'right', fontWeight: '600' }}>Net Subtotal:</td>
+              <td className="num" style={{ padding: '3pt 6pt', fontWeight: '600' }}>
+                {money(netSubtotal, booking.currency)}
+              </td>
+            </tr>
+
+            {booking.taxes?.map((t) => (
+              <tr key={t.code || t.displayName}>
+                <td style={{ padding: '2.5pt 6pt', textAlign: 'right', color: '#4b5563' }}>
+                  {t.displayName} ({t.percentage}%):
+                </td>
+                <td className="num" style={{ padding: '2.5pt 6pt', color: '#4b5563' }}>
+                  {money(t.taxAmount, booking.currency)}
+                </td>
+              </tr>
+            ))}
+
+            <tr>
+              <td
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  textAlign: 'right',
+                  fontWeight: '800',
+                  fontSize: '10.5pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
+              >
+                Total Folio Balance:
               </td>
               <td
                 className="num"
-                style={{ fontSize: '16pt', fontWeight: 'bold', color: '#2b1a0d' }}
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  fontWeight: '800',
+                  fontSize: '11pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
               >
-                {money(booking.finalTotal, booking.currency)}
+                {money(finalTotal, booking.currency)}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Payment Information */}
-      <div className="avoid-break" style={{ display: 'flex', gap: '10pt', marginTop: '6pt' }}>
-        <div className="card" style={{ flex: 1 }}>
-          <Row
-            label="Payment Settlement"
-            value={
-              booking.payment
-                ? `${booking.payment.method === 'card' ? 'Credit/Debit Card' : 'Payable at resort'} · ${
-                    booking.payment.status
-                  }${
-                    booking.payment.cardLast4 ? ` · ending ${booking.payment.cardLast4}` : ''
-                  }`
-                : 'Payable at resort upon check-out'
-            }
-          />
-        </div>
-        <div className="card" style={{ flex: 1 }}>
-          <Row label="Reservation Status" value={booking.status || 'Confirmed'} />
-        </div>
-        <div className="card" style={{ flex: 1 }}>
-          <Row label="Booking Date" value={stamp(booking.bookedAt || new Date().toISOString())} />
-        </div>
+      <div className="avoid-break" style={{ fontSize: '7.8pt', color: '#4b5563', marginBottom: '8pt' }}>
+        This is an official certified tax invoice generated electronically by Aviora Central Financial Accounting. Valid without physical rubber seal.
       </div>
 
-      <Footer note="This is a certified computer-generated tax invoice valid without signature. All amounts are stated in Sri Lankan Rupees (LKR)." />
+      <InvoiceFooterBlocks
+        paymentMethod={
+          booking.payment?.method === 'card'
+            ? 'Credit / Debit Card'
+            : 'Direct Resort Folio Settlement'
+        }
+        paymentAccount={booking.payment?.cardLast4 ? `Card ending ${booking.payment.cardLast4}` : 'Folio Account'}
+        status="Certified Paid"
+        currency={booking.currency || 'LKR'}
+        reference={booking.referenceId}
+        signatoryTitle="Corporate Financial Controller"
+      />
     </>
   );
 }
 
 /* --------------------------------------------------------------------------
-   Dining Documents (Table Voucher & Service Docket)
+   Document 3: TableVoucher / Restaurant Dining Reservation Invoice
    -------------------------------------------------------------------------- */
 
 function TableVoucher({ table }) {
   const currentUser = useSelector(selectCurrentUser);
   const dining = resolveDiningDetails(table, currentUser);
 
+  const guest = {
+    name: dining.name,
+    email: dining.email,
+    phone: dining.phone,
+    country: table.country || 'Valued Dining Guest',
+  };
+
   return (
     <>
-      <Letterhead
-        documentTitle="Table Reservation"
+      {/* 1. Header */}
+      <InvoiceHeader documentTitle="INVOICE" documentSubtitle="RESTAURANT &amp; LAGOON DINING SANCTUARY · SRI LANKA" />
+
+      {/* 2. Reference & Date Block */}
+      <InvoiceMetaBanner
         reference={table.referenceId}
-        issued={stamp(new Date().toISOString())}
+        date={shortDate(new Date().toISOString())}
         status={table.status || 'Confirmed'}
+        labelPrefix="Invoice Number:"
       />
 
-      <div className="avoid-break" style={{ display: 'flex', gap: '10pt', marginBottom: '8pt' }}>
-        <div className="card" style={{ flex: 1 }}>
-          <div className="label" style={{ borderBottom: '0.5pt solid #e7ded4', paddingBottom: '3pt', marginBottom: '6pt' }}>
-            GUEST &amp; RESTAURANT
-          </div>
-          <div style={{ fontSize: '11.5pt', fontWeight: '700', color: '#7d4e24', fontStyle: 'italic', marginBottom: '4pt' }}>
-            {dining.venueName}
-          </div>
-          <Row label="Guest Name" value={dining.name} />
-          <Row label="Email" value={dining.email} />
-          <Row label="Telephone" value={dining.phone} />
-        </div>
+      {/* 3. FROM & TO Dossier */}
+      <InvoiceParties guest={guest} reference={table.referenceId} />
 
-        <div className="card" style={{ flex: 1 }}>
-          <div className="label" style={{ borderBottom: '0.5pt solid #e7ded4', paddingBottom: '3pt', marginBottom: '6pt' }}>
-            TABLE PARTICULARS
-          </div>
-          <Row label="Dining Date" value={longDate(table.date)} />
-          <Row label="Sitting Time" value={table.time} />
-          <Row
-            label="Party Size"
-            value={`${table.partySize} Guest${table.partySize === 1 ? '' : 's'}`}
-          />
-          {table.occasion && <Row label="Occasion" value={table.occasion} />}
-        </div>
-      </div>
+      {/* 4. Dining Schedule Strip (Professional Enhancement) */}
+      <DiningScheduleBar
+        venueName={dining.venueName}
+        date={table.date}
+        time={table.time}
+        partySize={table.partySize}
+        occasion={table.occasion}
+      />
 
-      {table.dietaryNotes && (
-        <div
-          className="avoid-break card"
-          style={{ marginBottom: '8pt', backgroundColor: '#fdf6ec', border: '1pt solid #e8cb9b' }}
-        >
-          <div className="label" style={{ color: '#8a5a36' }}>
-            DIETARY REQUIREMENTS &amp; ALLERGIES
-          </div>
-          <div className="sans" style={{ fontSize: '9pt', fontWeight: '600', color: '#3b2413' }}>
-            {table.dietaryNotes}
-          </div>
-        </div>
-      )}
-
-      {table.specialRequests && (
-        <div className="avoid-break card" style={{ marginBottom: '8pt' }}>
-          <div className="label">SPECIAL REQUESTS</div>
-          <div className="sans" style={{ fontSize: '8.5pt', color: '#332317' }}>
-            {table.specialRequests}
-          </div>
-        </div>
-      )}
-
+      {/* 5. Section Heading strictly like Image 3 */}
       <div
         className="avoid-break"
         style={{
-          padding: '8pt 10pt',
-          background: '#f6f2ee',
-          border: '0.5pt solid #d8cec4',
-          borderRadius: '5pt',
-          fontSize: '8.5pt',
+          fontSize: '10.5pt',
+          fontWeight: '800',
+          color: '#000000',
+          marginBottom: '5pt',
         }}
       >
-        {table.canCancel && table.cancellationDeadline
-          ? `Complimentary cancellation permitted until ${stamp(table.cancellationDeadline)}. `
-          : ''}
-        {dining.venueName} requests {table.noticeHours || 2} hours notice for any amendments.
+        Description of Dining &amp; Table Reservation Services:
       </div>
 
-      <Footer note="No deposit charge is taken at the time of table reservation. Restaurant covers are settled directly at the venue." />
-    </>
-  );
-}
+      {/* 6. Itemized Services Table */}
+      <table className="avoid-break" style={{ width: '100%', marginBottom: '6pt' }}>
+        <thead>
+          <tr style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '6%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              No
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'left', width: '46%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Service Description
+            </th>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '14%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Sitting / Time
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Party Size
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '17%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Row 1: Restaurant Table Reservation */}
+          <tr>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+              1
+            </td>
+            <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              <div style={{ fontWeight: '700', color: '#000000', fontSize: '9pt' }}>
+                {dining.venueName} — Table Reservation
+              </div>
+              <div style={{ fontSize: '7.6pt', color: '#4b5563', marginTop: '1pt' }}>
+                Dining Date: <span style={{ fontWeight: '600' }}>{longDate(table.date)}</span> · Sitting: {table.time}
+              </div>
+              <div style={{ fontSize: '7.2pt', color: '#6b7280' }}>
+                {table.occasion ? `Occasion: ${table.occasion} · ` : ''}Atmosphere: Fine Dining &amp; Lagoon Deck
+              </div>
+            </td>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+              {table.time}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              {table.partySize} Guest{table.partySize === 1 ? '' : 's'}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+              Complimentary
+            </td>
+          </tr>
 
-function TableDocket({ table }) {
-  const currentUser = useSelector(selectCurrentUser);
-  const dining = resolveDiningDetails(table, currentUser);
+          {/* Row 2: Guaranteed Table Service Cover */}
+          <tr>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+              2
+            </td>
+            <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              <div style={{ fontWeight: '700', color: '#000000', fontSize: '8.8pt' }}>
+                Chef&apos;s Culinary Cover &amp; Table Allocation
+              </div>
+              <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>
+                Guaranteed table seating for {table.partySize} covers. Dining &amp; beverages settled directly at venue.
+              </div>
+            </td>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+              During Sitting
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              {table.partySize} Cover{table.partySize === 1 ? '' : 's'}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+              Settled at Venue
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  return (
-    <>
-      <Letterhead
-        documentTitle="Service Docket"
-        reference={table.referenceId}
-        issued={stamp(new Date().toISOString())}
-        status={table.status || 'Confirmed'}
-      />
+      {/* 7. Summary / Financial Breakdown (Right-aligned, matching Image 3!) */}
+      <div className="avoid-break" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8pt' }}>
+        <table style={{ width: '45%', borderCollapse: 'collapse', fontSize: '8.8pt' }}>
+          <tbody>
+            <tr>
+              <td style={{ padding: '3.5pt 6pt', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
+                Table Reservation Fee:
+              </td>
+              <td className="num" style={{ padding: '3.5pt 6pt', width: '50%', fontWeight: '600' }}>
+                Rs. 0.00
+              </td>
+            </tr>
 
-      <div
-        className="avoid-break card"
-        style={{
-          display: 'flex',
-          gap: '20pt',
-          alignItems: 'baseline',
-          marginBottom: '10pt',
-          backgroundColor: '#2b1a0d',
-          color: '#ffffff',
-          border: 'none',
-        }}
-      >
-        <div style={{ fontSize: '26pt', fontWeight: 'bold', color: '#ecc59b', lineHeight: 1 }}>
-          {table.time}
-        </div>
-        <div style={{ fontSize: '17pt', fontWeight: '600', color: '#ffffff' }}>
-          {table.partySize} Cover{table.partySize === 1 ? '' : 's'}
-        </div>
-        <div className="sans muted" style={{ fontSize: '10pt', color: '#c4b5a8' }}>
-          {longDate(table.date)}
-        </div>
+            <tr>
+              <td style={{ padding: '3pt 6pt', textAlign: 'right', color: '#4b5563' }}>
+                Advance Holding Deposit:
+              </td>
+              <td className="num" style={{ padding: '3pt 6pt', color: '#4b5563' }}>
+                Rs. 0.00 (Waived)
+              </td>
+            </tr>
+
+            <tr>
+              <td
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  textAlign: 'right',
+                  fontWeight: '800',
+                  fontSize: '10.5pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
+              >
+                Total Due Online:
+              </td>
+              <td
+                className="num"
+                style={{
+                  padding: '6pt 6pt 4pt',
+                  fontWeight: '800',
+                  fontSize: '11pt',
+                  borderTop: '1.5pt solid #000000',
+                  color: '#000000',
+                }}
+              >
+                Rs. 0.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div className="avoid-break" style={{ display: 'flex', gap: '10pt', marginBottom: '8pt' }}>
-        <div className="card" style={{ flex: 1 }}>
-          <Row label="Restaurant" value={dining.venueName} />
-          <Row label="Guest Name" value={dining.name} />
-          <Row label="Contact" value={dining.phone || dining.email} />
-        </div>
-        <div className="card" style={{ flex: 1 }}>
-          <Row label="Status" value={table.status || 'Confirmed'} />
-          <Row label="Occasion" value={table.occasion || 'General Dining'} />
-          <Row label="Linked Stay" value={table.stayReference || 'Non-resident Guest'} />
-        </div>
-      </div>
-
-      {table.dietaryNotes && (
+      {/* 8. Dietary Requirements & Special Requests Box (If any) */}
+      {(table.dietaryNotes || table.specialRequests) && (
         <div
           className="avoid-break"
           style={{
-            marginBottom: '8pt',
-            padding: '9pt 11pt',
-            border: '1.5pt solid #7d4e24',
-            background: '#fdf6ec',
-            borderRadius: '5pt',
+            borderLeft: '2.5pt solid #000000',
+            backgroundColor: '#f9fafb',
+            padding: '5pt 8pt',
+            marginBottom: '7pt',
+            fontSize: '7.8pt',
+            color: '#1f2937',
           }}
         >
-          <div className="label" style={{ color: '#7d4e24', marginBottom: '2pt' }}>
-            DIETARY REQUIREMENTS — BRIEF THE PASS
-          </div>
-          <div style={{ fontSize: '11pt', fontWeight: 'bold', color: '#2b1a0d' }}>
-            {table.dietaryNotes}
-          </div>
+          {table.dietaryNotes && (
+            <div style={{ marginBottom: table.specialRequests ? '3pt' : 0 }}>
+              <span style={{ fontWeight: '700', textTransform: 'uppercase', fontSize: '7pt', letterSpacing: '0.05em' }}>
+                Dietary Requirements &amp; Allergen Advisory:{' '}
+              </span>
+              <span style={{ fontWeight: '600', color: '#991b1b' }}>{table.dietaryNotes}</span>
+            </div>
+          )}
+          {table.specialRequests && (
+            <div>
+              <span style={{ fontWeight: '700', textTransform: 'uppercase', fontSize: '7pt', letterSpacing: '0.05em' }}>
+                Special Table Notes:{' '}
+              </span>
+              &ldquo;{table.specialRequests}&rdquo;
+            </div>
+          )}
         </div>
       )}
 
-      {table.specialRequests && (
-        <div className="avoid-break card" style={{ marginBottom: '8pt' }}>
-          <Row label="Guest Notes" value={table.specialRequests} />
+      {/* 9. Thank You Notice & Terms */}
+      <div className="avoid-break" style={{ fontSize: '8pt', color: '#374151', lineHeight: 1.45, marginBottom: '6pt' }}>
+        <div>
+          Thank you for reserving a dining table at Aviora Resort. No advance deposit is taken; restaurant covers and refreshments are settled directly at the venue.
         </div>
-      )}
+        <div style={{ marginTop: '2pt', fontSize: '7.6pt', color: '#4b5563' }}>
+          <span style={{ fontWeight: '700' }}>Amendment Policy: </span>
+          {dining.venueName} requests {table.noticeHours || 4} hours notice for any amendments or cancellations.
+          {table.canCancel && table.cancellationDeadline && (
+            <span> (Complimentary cancellation allowed until {stamp(table.cancellationDeadline)}).</span>
+          )}
+        </div>
+      </div>
 
-      <Footer note={`Internal restaurant service document. Booked ${stamp(table.createdAt || new Date().toISOString())}.`} />
+      {/* 10. Bottom Blocks (Matching Image 3!) */}
+      <InvoiceFooterBlocks
+        paymentMethod="Settled Directly at Restaurant"
+        paymentAccount="No Online Deposit Required"
+        status={table.status || 'Confirmed'}
+        currency="LKR"
+        reference={table.referenceId}
+        signatoryTitle="Maitre d' &amp; Restaurant Manager"
+      />
     </>
   );
 }
 
 /* --------------------------------------------------------------------------
-   The print pipeline.
+   Document 4: TableDocket / Kitchen & Service Pass Docket for Admin
+   -------------------------------------------------------------------------- */
+
+function TableDocket({ table }) {
+  const currentUser = useSelector(selectCurrentUser);
+  const dining = resolveDiningDetails(table, currentUser);
+
+  const guest = {
+    name: dining.name,
+    email: dining.email,
+    phone: dining.phone,
+    country: 'Resident / Dining Guest',
+  };
+
+  return (
+    <>
+      <InvoiceHeader documentTitle="SERVICE DOCKET" documentSubtitle="RESTAURANT SERVICE PASS &amp; KITCHEN BRIEFING" />
+
+      <InvoiceMetaBanner
+        reference={table.referenceId}
+        date={shortDate(new Date().toISOString())}
+        status={table.status || 'Active Pass'}
+        labelPrefix="Service Docket No:"
+      />
+
+      <InvoiceParties guest={guest} reference={table.referenceId} />
+
+      <DiningScheduleBar
+        venueName={dining.venueName}
+        date={table.date}
+        time={table.time}
+        partySize={table.partySize}
+        occasion={table.occasion}
+      />
+
+      <div
+        className="avoid-break"
+        style={{
+          fontSize: '10.5pt',
+          fontWeight: '800',
+          color: '#000000',
+          marginBottom: '5pt',
+        }}
+      >
+        Table Briefing &amp; Kitchen Pass Particulars:
+      </div>
+
+      <table className="avoid-break" style={{ width: '100%', marginBottom: '8pt' }}>
+        <thead>
+          <tr style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '6%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              No
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'left', width: '46%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Service Parameter
+            </th>
+            <th style={{ padding: '6pt 6pt', textAlign: 'center', width: '16%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Scheduled Sitting
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '16%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Cover Allocation
+            </th>
+            <th style={{ padding: '6pt 8pt', textAlign: 'right', width: '16%', fontSize: '8pt', fontWeight: '700', border: '1px solid #000000' }}>
+              Operational Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt', fontWeight: '600' }}>
+              1
+            </td>
+            <td style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              <div style={{ fontWeight: '700', color: '#000000' }}>{dining.venueName} Table Reservation</div>
+              <div style={{ fontSize: '7.5pt', color: '#6b7280' }}>
+                Guest: {dining.name} · Phone: {dining.phone}
+              </div>
+            </td>
+            <td style={{ textAlign: 'center', border: '1px solid #e5e7eb', padding: '6pt 6pt' }}>
+              {table.time}
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt' }}>
+              {table.partySize} Covers
+            </td>
+            <td className="num" style={{ border: '1px solid #e5e7eb', padding: '6pt 8pt', fontWeight: '700' }}>
+              Ready for Pass
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      {table.dietaryNotes && (
+        <div
+          className="avoid-break"
+          style={{
+            border: '1.5pt solid #000000',
+            backgroundColor: '#fef2f2',
+            padding: '7pt 10pt',
+            marginBottom: '8pt',
+            borderRadius: '2pt',
+          }}
+        >
+          <div style={{ fontSize: '7.5pt', fontWeight: '800', color: '#991b1b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            CRITICAL DIETARY REQUIREMENTS &amp; ALLERGIES — BRIEF EXECUTIVE CHEF
+          </div>
+          <div style={{ fontSize: '9.5pt', fontWeight: '700', color: '#111827', marginTop: '2pt' }}>
+            {table.dietaryNotes}
+          </div>
+        </div>
+      )}
+
+      {table.specialRequests && (
+        <div
+          className="avoid-break"
+          style={{
+            borderLeft: '2.5pt solid #000000',
+            backgroundColor: '#f9fafb',
+            padding: '5pt 8pt',
+            marginBottom: '8pt',
+            fontSize: '8pt',
+          }}
+        >
+          <span style={{ fontWeight: '700' }}>Guest Service Notes: </span>
+          {table.specialRequests}
+        </div>
+      )}
+
+      <InvoiceFooterBlocks
+        paymentMethod="Direct Restaurant Settlement"
+        paymentAccount={table.stayReference ? `Linked Stay: ${table.stayReference}` : 'Non-resident Table'}
+        status="Confirmed for Service"
+        currency="LKR"
+        reference={table.referenceId}
+        signatoryTitle="Executive Chef / Restaurant Lead"
+      />
+    </>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The print pipeline with requestAnimationFrame.
    -------------------------------------------------------------------------- */
 
 function usePrintDocument() {
@@ -1171,11 +1668,16 @@ function usePrintDocument() {
 }
 
 /**
- * The two buttons. `invoice` is rendered only when isAdmin is true - and the
- * data behind it (payment method, card tail, the tax breakdown) only ever
- * reaches an admin session anyway.
+ * Action Buttons for triggering document print / PDF download.
+ * Default guest button is renamed to "PDF Invoice" to match user expectations.
  */
-export function DocumentButtons({ voucher, invoice, isAdmin = false, compact = false }) {
+export function DocumentButtons({
+  voucher,
+  invoice,
+  isAdmin = false,
+  compact = false,
+  voucherLabel = 'PDF Invoice',
+}) {
   const { print, printing, portal } = usePrintDocument();
 
   const size = compact ? 12 : 13;
@@ -1190,7 +1692,7 @@ export function DocumentButtons({ voucher, invoice, isAdmin = false, compact = f
           type="button"
           onClick={() => print(voucher)}
           disabled={printing}
-          title="Open official voucher. Choose Save as PDF in the print dialog to download."
+          title="Open official invoice. Choose Save as PDF in the print dialog to download."
           className={`${base} bg-white border border-primary/30 text-deep-wood font-bold uppercase tracking-wider hover:bg-primary/5 transition-colors cursor-pointer shadow-xs flex items-center gap-1.5 disabled:opacity-50`}
         >
           {printing ? (
@@ -1198,10 +1700,10 @@ export function DocumentButtons({ voucher, invoice, isAdmin = false, compact = f
           ) : (
             <FileText size={size} className="text-primary" />
           )}
-          PDF Voucher
+          {voucherLabel}
         </button>
 
-        {isAdmin && invoice && (
+        {/* {isAdmin && invoice && (
           <button
             type="button"
             onClick={() => print(invoice)}
@@ -1212,7 +1714,7 @@ export function DocumentButtons({ voucher, invoice, isAdmin = false, compact = f
             <Printer size={size} />
             Tax Invoice
           </button>
-        )}
+        )} */}
       </div>
 
       {portal}
@@ -1230,6 +1732,7 @@ export function StayDocuments({ booking, isAdmin = false, compact = false }) {
       invoice={<StayInvoice booking={booking} />}
       isAdmin={isAdmin}
       compact={compact}
+      voucherLabel="PDF Invoice"
     />
   );
 }
@@ -1243,6 +1746,7 @@ export function TableDocuments({ table, isAdmin = false, compact = false }) {
       invoice={<TableDocket table={table} />}
       isAdmin={isAdmin}
       compact={compact}
+      voucherLabel="PDF Invoice"
     />
   );
 }

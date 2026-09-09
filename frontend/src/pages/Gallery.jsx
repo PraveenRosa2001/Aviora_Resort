@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { openLightbox, closeLightbox, nextLightboxImage, prevLightboxImage,
          selectLightboxOpen, selectLightboxImageId, selectLightboxItems } from '../features/gallery/gallerySlice';
+import PageSketchBackground from '../components/common/PageSketchBackground';
 
 // Gallery items — Phase 2: fetched from /api/gallery
 const galleryItems = [
@@ -137,7 +138,7 @@ export default function Gallery() {
 
       {/* Filters */}
       <div
-        className="sticky top-[72px] z-30 border-b border-border-subtle bg-bg-primary/95 backdrop-blur-md"
+        className="sticky top-[72px] z-30 border-b border-primary/20 bg-[#F4F1EA]/95 backdrop-blur-md"
       >
         <div className="container-resort py-4 flex flex-wrap gap-3" role="tablist" aria-label="Filter gallery by category">
           {CATEGORY_FILTERS.map((cat) => (
@@ -163,25 +164,11 @@ export default function Gallery() {
       {/* Masonry grid */}
       <section
         id="gallery-grid"
-        className="section-padding relative"
-        style={{ backgroundColor: 'var(--color-bg-primary)' }}
+        className="section-padding relative overflow-hidden bg-transparent"
         aria-label="Photo gallery grid"
       >
         {/* ── Decorative Background Sketch ── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none"
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-            backgroundImage: "url('/assets/images/loading-sketch.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.2,
-          }}
-        />
+        <PageSketchBackground subtitle="The Estate in Frames · Photo Collection" />
         <div className="container-resort relative" style={{ zIndex: 1 }}>
           <motion.div
             layout

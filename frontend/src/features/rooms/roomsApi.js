@@ -659,6 +659,35 @@ export const roomsApi = createApi({
       }),
       invalidatesTags: ["Gallery"],
     }),
+    /* ================= media uploads ================= */
+
+    /**
+     * POST /api/admin/media/upload?folder=villas
+     *
+     * Storage only - nothing is written to the database. The caller decides
+     * what points at the returned path, so a failed save leaves an orphaned
+     * file rather than a row pointing at nothing.
+     *
+     * The body is a FormData, so no Content-Type is set here: the browser has
+     * to supply its own multipart boundary. Forcing "application/json" on this
+     * call is the usual reason an upload arrives empty at the server.
+     */
+    uploadMedia: builder.mutation({
+      query: ({ formData, folder = "villas" }) => ({
+        url: `/admin/media/upload?folder=${folder}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    /** DELETE /api/admin/media — removes an uploaded file, not an /assets path. */
+    deleteMedia: builder.mutation({
+      query: (url) => ({
+        url: "/admin/media",
+        method: "DELETE",
+        body: { url },
+      }),
+    }),
   }),
 });
 
@@ -737,4 +766,7 @@ export const {
   useReorderGalleryMutation,
 
   useSaveDiningMenuMutation,
+
+  useUploadMediaMutation,
+  useDeleteMediaMutation,
 } = roomsApi;

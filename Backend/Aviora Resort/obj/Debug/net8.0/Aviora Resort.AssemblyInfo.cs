@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Aviora Resort")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41bcc77c9be3598b66e9cb6fb95d8aff2aad8502")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b7bfa36b4bd8c773cc673f0b0714ab087f7e5679")]
 [assembly: System.Reflection.AssemblyProductAttribute("Aviora Resort")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Aviora Resort")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

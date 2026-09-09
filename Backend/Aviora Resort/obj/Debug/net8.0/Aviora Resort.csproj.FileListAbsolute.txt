@@ -450,3 +450,4 @@ D:\Aviora Resort Project\aviora-resort\Backend\Aviora Resort\obj\Debug\net8.0\re
 D:\Aviora Resort Project\aviora-resort\Backend\Aviora Resort\obj\Debug\net8.0\Aviora Resort.pdb
 D:\Aviora Resort Project\aviora-resort\Backend\Aviora Resort\obj\Debug\net8.0\Aviora Resort.genruntimeconfig.cache
 D:\Aviora Resort Project\aviora-resort\Backend\Aviora Resort\obj\Debug\net8.0\ref\Aviora Resort.dll
+D:\Aviora Resort Project\aviora-resort\Backend\Aviora Resort\bin\Debug\net8.0\Aviora Resort.staticwebassets.runtime.json

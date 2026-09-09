@@ -56,6 +56,7 @@ import {
   useCreateBookingMutation,
 } from "../rooms/roomsApi";
 import { useToast } from "../../components/common/Toast";
+import { mediaUrl } from "../../config/mediaUrl";
 
 const money = (value) => `Rs.${Number(value ?? 0).toLocaleString()}`;
 
@@ -150,7 +151,9 @@ export default function BookingCheckoutModal() {
       .catch((err) => {
         if (cancelled) return;
         setQuote(null);
-        setQuoteError(err?.data?.message || "Pricing is unavailable right now.");
+        setQuoteError(
+          err?.data?.message || "Pricing is unavailable right now.",
+        );
       });
 
     return () => {
@@ -328,7 +331,7 @@ export default function BookingCheckoutModal() {
           </div>
 
           {/* ── Progress Stepper Bar ── */}
-          <div className="px-6 py-3 bg-surface-container-low border-b border-primary/20 shrink-0">
+          <div className="px-6 py-3 bg-surface-container-low/50 border-b border-primary/20 shrink-0">
             <div className="flex items-center justify-between max-w-3xl mx-auto">
               {[
                 { num: 1, title: "Villa & Rate" },
@@ -375,10 +378,10 @@ export default function BookingCheckoutModal() {
                 {/* Left Col: Villa Summary & Date Search Bar */}
                 <div className="lg:col-span-7 flex flex-col gap-6">
                   {/* Villa Selector Card */}
-                  <div className="p-5 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-xs">
+                  <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-xs">
                     <div className="flex gap-4 items-start">
                       <img
-                        src={villa?.image}
+                        src={mediaUrl(villa?.image)}
                         alt={villa?.name}
                         className="w-28 h-24 object-cover rounded-md flex-shrink-0"
                       />
@@ -437,7 +440,7 @@ export default function BookingCheckoutModal() {
                   </div>
 
                   {/* Dates & Guests Search Widget */}
-                  <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-lg">
+                  <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg">
                     <h4 className="text-sm font-bold text-deep-wood uppercase tracking-wider mb-3 flex items-center gap-2">
                       <Calendar size={16} className="text-primary" /> Stay
                       Parameters
@@ -522,7 +525,7 @@ export default function BookingCheckoutModal() {
                               "p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 relative",
                               isSelected
                                 ? "bg-white border-primary shadow-md ring-2 ring-primary/40"
-                                : "bg-surface-container-low border-primary/30 hover:border-primary",
+                                : "bg-surface-container-low/50 border-primary/30 hover:border-primary",
                             ].join(" ")}
                           >
                             <div className="flex items-start justify-between">
@@ -584,7 +587,7 @@ export default function BookingCheckoutModal() {
 
                 {/* Right Col: Price Summary Card & Next CTA */}
                 <div className="lg:col-span-5 flex flex-col justify-between">
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
                     <h4
                       className="text-base font-bold text-deep-wood italic mb-4 border-b border-primary/20 pb-3"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -614,7 +617,10 @@ export default function BookingCheckoutModal() {
                       <div className="flex justify-between">
                         <span>Rate Plan:</span>
                         <span className="font-bold text-secondary">
-                          {quote?.priced ? ratePlans.find((r) => r.id === selectedRatePlan)?.name ?? selectedRatePlan : selectedRatePlan}
+                          {quote?.priced
+                            ? (ratePlans.find((r) => r.id === selectedRatePlan)
+                                ?.name ?? selectedRatePlan)
+                            : selectedRatePlan}
                         </span>
                       </div>
 
@@ -654,7 +660,7 @@ export default function BookingCheckoutModal() {
                         Continue to Guest Details <ArrowRight size={16} />
                       </button>
 
-                      <div className="p-3 bg-surface-container-low rounded-xs border-2 border-primary/30 flex items-center gap-2 text-[11px] text-deep-wood font-medium">
+                      <div className="p-3 bg-surface-container-low/50 rounded-xs border-2 border-primary/30 flex items-center gap-2 text-[11px] text-deep-wood font-medium">
                         <ShieldCheck
                           size={16}
                           className="text-secondary shrink-0"
@@ -674,7 +680,7 @@ export default function BookingCheckoutModal() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <div className="lg:col-span-7 flex flex-col gap-6">
                   {/* Guest Information Form */}
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-xs">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-xs">
                     <h3
                       className="text-lg font-bold text-deep-wood italic mb-4"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -848,7 +854,7 @@ export default function BookingCheckoutModal() {
                   </div>
 
                   {/* Add-ons & Extras */}
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-xs">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-xs">
                     <h3
                       className="text-lg font-bold text-deep-wood italic mb-1"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -906,7 +912,7 @@ export default function BookingCheckoutModal() {
 
                 {/* Right Col: Summary & Navigation */}
                 <div className="lg:col-span-5 flex flex-col justify-between">
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
                     <h4
                       className="text-base font-bold text-deep-wood italic mb-4 border-b border-primary/20 pb-3"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -989,7 +995,7 @@ export default function BookingCheckoutModal() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <div className="lg:col-span-7 flex flex-col gap-6">
                   {/* Payment Method Selector */}
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-xs">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-xs">
                     <h3
                       className="text-lg font-bold text-deep-wood italic mb-4"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -1128,7 +1134,7 @@ export default function BookingCheckoutModal() {
                   </div>
 
                   {/* Promo Code Card */}
-                  <div className="p-5 bg-surface-container-lowest border-2 border-primary/30 rounded-lg">
+                  <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg">
                     <h4 className="text-xs font-bold text-deep-wood uppercase tracking-wider mb-2">
                       Have a Promo Code?
                     </h4>
@@ -1156,18 +1162,21 @@ export default function BookingCheckoutModal() {
                         subtotal.
                       </p>
                     )}
-                    {promoCodeInput && quote && !quote.promoApplied && quote.promoMessage && (
-                      <p className="text-xs text-amber-700 font-bold mt-2 flex items-start gap-1.5">
-                        <AlertCircle size={13} className="shrink-0 mt-0.5" />
-                        {quote.promoMessage}
-                      </p>
-                    )}
+                    {promoCodeInput &&
+                      quote &&
+                      !quote.promoApplied &&
+                      quote.promoMessage && (
+                        <p className="text-xs text-amber-700 font-bold mt-2 flex items-start gap-1.5">
+                          <AlertCircle size={13} className="shrink-0 mt-0.5" />
+                          {quote.promoMessage}
+                        </p>
+                      )}
                   </div>
                 </div>
 
                 {/* Right Col: Final Checkout Card */}
                 <div className="lg:col-span-5 flex flex-col justify-between">
-                  <div className="p-6 bg-surface-container-lowest border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
+                  <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-lg shadow-sm sticky top-0">
                     <h4
                       className="text-base font-bold text-deep-wood italic mb-4 border-b border-primary/20 pb-3"
                       style={{ fontFamily: "var(--font-heading)" }}
@@ -1236,7 +1245,9 @@ export default function BookingCheckoutModal() {
                           party too large, plan not offered. Without this a
                           guest reaches step 3 and only finds out at submit. */}
                       <button
-                        disabled={isProcessing || creating || pricing || !canProceed}
+                        disabled={
+                          isProcessing || creating || pricing || !canProceed
+                        }
                         onClick={handleFinalSubmit}
                         className="w-full py-3.5 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-colors duration-300 rounded-xs flex items-center justify-center gap-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                       >
@@ -1249,7 +1260,8 @@ export default function BookingCheckoutModal() {
                           <span>Unavailable for These Dates</span>
                         ) : (
                           <>
-                            <Sparkles size={16} /> Complete &amp; Lock Reservation
+                            <Sparkles size={16} /> Complete &amp; Lock
+                            Reservation
                           </>
                         )}
                       </button>
@@ -1282,8 +1294,11 @@ export default function BookingCheckoutModal() {
                     Reservation Confirmed!
                   </h3>
                   <p className="text-xs text-deep-wood/80 font-medium mt-1">
-                    Thank you, {activeBooking.guest?.firstName || activeBooking.guestInfo?.firstName || "Guest"}. Your luxury
-                    stay is officially booked.
+                    Thank you,{" "}
+                    {activeBooking.guest?.firstName ||
+                      activeBooking.guestInfo?.firstName ||
+                      "Guest"}
+                    . Your luxury stay is officially booked.
                   </p>
                 </div>
 
@@ -1305,45 +1320,84 @@ export default function BookingCheckoutModal() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mb-4">
                     <div>
-                      <span className="text-deep-wood/60 block font-semibold">Villa Reserved:</span>
-                      <span className="font-bold text-deep-wood text-sm">{activeBooking.villaName}</span>
+                      <span className="text-deep-wood/60 block font-semibold">
+                        Villa Reserved:
+                      </span>
+                      <span className="font-bold text-deep-wood text-sm">
+                        {activeBooking.villaName}
+                      </span>
                     </div>
                     <div>
-                      <span className="text-deep-wood/60 block font-semibold">Guests:</span>
-                      <span className="font-bold text-deep-wood">{activeBooking.adults} Adults, {activeBooking.children} Children</span>
+                      <span className="text-deep-wood/60 block font-semibold">
+                        Guests:
+                      </span>
+                      <span className="font-bold text-deep-wood">
+                        {activeBooking.adults} Adults, {activeBooking.children}{" "}
+                        Children
+                      </span>
                     </div>
                     <div>
-                      <span className="text-deep-wood/60 block font-semibold">Check-in:</span>
-                      <span className="font-bold text-deep-wood">{activeBooking.checkIn} (From 14:00)</span>
+                      <span className="text-deep-wood/60 block font-semibold">
+                        Check-in:
+                      </span>
+                      <span className="font-bold text-deep-wood">
+                        {activeBooking.checkIn} (From 14:00)
+                      </span>
                     </div>
                     <div>
-                      <span className="text-deep-wood/60 block font-semibold">Check-out:</span>
-                      <span className="font-bold text-deep-wood">{activeBooking.checkOut} (Until 12:00)</span>
+                      <span className="text-deep-wood/60 block font-semibold">
+                        Check-out:
+                      </span>
+                      <span className="font-bold text-deep-wood">
+                        {activeBooking.checkOut} (Until 12:00)
+                      </span>
                     </div>
                   </div>
 
-                  {((activeBooking.addons?.length > 0) || (activeBooking.selectedAddons?.length > 0)) && (
+                  {(activeBooking.addons?.length > 0 ||
+                    activeBooking.selectedAddons?.length > 0) && (
                     <div className="pt-3 border-t border-primary/20 mb-4">
-                      <span className="text-[11px] font-bold text-deep-wood block mb-1">Included Luxury Enhancements:</span>
+                      <span className="text-[11px] font-bold text-deep-wood block mb-1">
+                        Included Luxury Enhancements:
+                      </span>
                       <div className="flex flex-wrap gap-2">
-                        {(activeBooking.addons || activeBooking.selectedAddons || []).map((addon, idx) => (
-                          <span key={addon.id || addon.code || idx} className="px-2 py-1 bg-surface-container text-[11px] font-bold text-deep-wood rounded-xs">
-                            {addon.icon ? `${addon.icon} ` : ""}{addon.name || addon.addonName || (typeof addon === "string" ? addon : "Add-on")}
+                        {(
+                          activeBooking.addons ||
+                          activeBooking.selectedAddons ||
+                          []
+                        ).map((addon, idx) => (
+                          <span
+                            key={addon.id || addon.code || idx}
+                            className="px-2 py-1 bg-surface-container text-[11px] font-bold text-deep-wood rounded-xs"
+                          >
+                            {addon.icon ? `${addon.icon} ` : ""}
+                            {addon.name ||
+                              addon.addonName ||
+                              (typeof addon === "string" ? addon : "Add-on")}
                           </span>
                         ))}
                       </div>
                     </div>
                   )}
 
-                  <div className="pt-4 border-t border-primary/20 flex items-center justify-between bg-surface-container-low p-4 rounded-lg">
+                  <div className="pt-4 border-t border-primary/20 flex items-center justify-between bg-surface-container-low/50 p-4 rounded-lg">
                     <div>
-                      <span className="text-[10px] text-deep-wood/70 block font-semibold">Total Amount Charged / Guaranteed:</span>
-                      <span className="text-2xl font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+                      <span className="text-[10px] text-deep-wood/70 block font-semibold">
+                        Total Amount Charged / Guaranteed:
+                      </span>
+                      <span
+                        className="text-2xl font-bold text-primary"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
                         {money(activeBooking?.finalTotal)}
                       </span>
                     </div>
                     <span className="text-xs text-deep-wood font-medium">
-                      Confirmation email sent to <strong>{activeBooking.guest?.email || activeBooking.guestInfo?.email}</strong>
+                      Confirmation email sent to{" "}
+                      <strong>
+                        {activeBooking.guest?.email ||
+                          activeBooking.guestInfo?.email}
+                      </strong>
                     </span>
                   </div>
                 </div>

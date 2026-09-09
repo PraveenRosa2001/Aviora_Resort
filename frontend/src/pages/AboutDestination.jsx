@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Plane, Clock, Star } from 'lucide-react';
 import SectionDivider from '../components/common/SectionDivider';
 import Button from '../components/common/Button';
+import PageSketchBackground from '../components/common/PageSketchBackground';
 
 function FadeSection({ children, className = '', delay = 0 }) {
   return (
@@ -80,29 +81,18 @@ export default function AboutDestination() {
         </div>
       </section>
 
-      {/* Narrative blocks */}
-      <section
-        id="destination-story"
-        className="section-padding relative"
-        style={{ backgroundColor: 'var(--color-bg-primary)' }}
-        aria-label="Destination story"
-      >
-        {/* ── Decorative Background Sketch ── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none"
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-            backgroundImage: "url('/assets/images/loading-sketch.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.2,
-          }}
-        />
-        <div className="container-resort grid grid-cols-1 lg:grid-cols-2 gap-20 items-start relative" style={{ zIndex: 1 }}>
+      {/* ── BELOW-HEADER CONTENT WITH RESPONSIVE SKETCH BACKGROUND ── */}
+      <div className="relative w-full overflow-hidden bg-[#F4F1EA] pb-24">
+        <PageSketchBackground subtitle="Sinharaja UNESCO Heritage Folio" />
+        <div className="relative z-10 pt-8">
+
+        {/* Narrative blocks */}
+        <section
+          id="destination-story"
+          className="section-padding relative bg-transparent"
+          aria-label="Destination story"
+        >
+          <div className="container-resort grid grid-cols-1 lg:grid-cols-2 gap-20 items-start relative" style={{ zIndex: 1 }}>
           <FadeSection>
             <p className="eyebrow-label text-accent-gold mb-4">The Region</p>
             <h2 className="font-heading text-text-primary mb-6">An Ecological Cathedral</h2>
@@ -159,25 +149,9 @@ export default function AboutDestination() {
       {/* Getting here */}
       <section
         id="destination-getting-here"
-        className="section-padding relative"
-        style={{ backgroundColor: 'var(--color-bg-primary)' }}
+        className="section-padding relative bg-transparent"
         aria-label="How to get to Aviora Resort"
       >
-        {/* ── Decorative Background Sketch ── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none"
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-            backgroundImage: "url('/assets/images/loading-sketch.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.2,
-          }}
-        />
         <FadeSection className="container-resort mb-12 text-center">
           <p className="eyebrow-label text-accent-gold mb-4">Getting Here</p>
           <h2 className="font-heading text-text-primary">The Journey Is Already Part of It</h2>
@@ -203,7 +177,9 @@ export default function AboutDestination() {
             Arrange Your Transfer
           </Button>
         </FadeSection>
-      </section>
+        </section>
+        </div>
+      </div>
     </>
   );
 }

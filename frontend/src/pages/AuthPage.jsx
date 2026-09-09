@@ -29,7 +29,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import {
-   performLogin,
+  performLogin,
   registerUser,
   clearAuthError,
   requestPasswordReset,
@@ -97,7 +97,9 @@ export default function AuthPage({ initialMode }) {
   // If already authenticated, redirect smoothly
   useEffect(() => {
     if (isAuthenticated && currentUser) {
-      showSuccess(`Welcome back, ${currentUser.firstName || "Guest"}!`, { title: "Authentication Success" });
+      showSuccess(`Welcome back, ${currentUser.firstName || "Guest"}!`, {
+        title: "Authentication Success",
+      });
       const target =
         redirectParam || (currentUser.role === "admin" ? "/admin" : "/");
       const timer = setTimeout(() => {
@@ -202,35 +204,38 @@ export default function AuthPage({ initialMode }) {
     );
   };
 
-
   const handleResetPassword = async (e) => {
-  e.preventDefault();
-  setResetError("");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!resetEmail.trim()) {
-    setResetError("Email address is required");
-    return;
-  }
-  if (!emailRegex.test(resetEmail.trim())) {
-    setResetError("Please enter a valid email address");
-    return;
-  }
+    e.preventDefault();
+    setResetError("");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!resetEmail.trim()) {
+      setResetError("Email address is required");
+      return;
+    }
+    if (!emailRegex.test(resetEmail.trim())) {
+      setResetError("Please enter a valid email address");
+      return;
+    }
 
-  try {
-    await requestPasswordReset(resetEmail);
-    setResetSent(true);
-    showSuccess(`Password reset instructions sent to ${resetEmail}`, { title: "Password Reset" });
-    setTimeout(() => {
-      setIsForgotPasswordOpen(false);
-      setResetSent(false);
-      setResetEmail("");
-      setResetError("");
-    }, 2500);
-  } catch (err) {
-    setResetError(err.message);
-    showError(err.message || "Failed to send reset email.", { title: "Reset Error" });
-  }
-};
+    try {
+      await requestPasswordReset(resetEmail);
+      setResetSent(true);
+      showSuccess(`Password reset instructions sent to ${resetEmail}`, {
+        title: "Password Reset",
+      });
+      setTimeout(() => {
+        setIsForgotPasswordOpen(false);
+        setResetSent(false);
+        setResetEmail("");
+        setResetError("");
+      }, 2500);
+    } catch (err) {
+      setResetError(err.message);
+      showError(err.message || "Failed to send reset email.", {
+        title: "Reset Error",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#fdfcfb] text-deep-wood flex flex-col lg:flex-row overflow-x-hidden pt-16 lg:pt-0">
@@ -418,7 +423,8 @@ export default function AuthPage({ initialMode }) {
           </div>
 
           {/* Table Reservation Required Notice (Matching Resort Table Reservation Brand) */}
-          {(location.state?.reason === "dining_reservation" || redirectParam?.includes("dining")) && (
+          {(location.state?.reason === "dining_reservation" ||
+            redirectParam?.includes("dining")) && (
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -438,13 +444,15 @@ export default function AuthPage({ initialMode }) {
                     className="text-sm font-bold text-white truncate italic"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    {location.state?.venueName || searchParams.get("venue") || "Aviora Culinary Sanctuaries"}
+                    {location.state?.venueName ||
+                      searchParams.get("venue") ||
+                      "Aviora Culinary Sanctuaries"}
                   </h4>
                 </div>
               </div>
 
               {/* Information Body */}
-              <div className="p-4 bg-surface-container-low/40 flex items-start gap-3.5">
+              <div className="p-4 bg-surface-container-low/50/40 flex items-start gap-3.5">
                 <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
                   <UserCheck size={18} />
                 </div>
@@ -456,9 +464,12 @@ export default function AuthPage({ initialMode }) {
                     Sign in to reserve a table
                   </h5>
                   <p className="text-deep-wood/80 text-xs leading-relaxed font-medium">
-                    Table reservations are held against your account, so you can see and cancel them from anywhere. Please{" "}
+                    Table reservations are held against your account, so you can
+                    see and cancel them from anywhere. Please{" "}
                     <span className="font-bold text-primary">
-                      {activeTab === "login" ? "sign in" : "create your guest profile"}
+                      {activeTab === "login"
+                        ? "sign in"
+                        : "create your guest profile"}
                     </span>{" "}
                     to continue.
                   </p>
@@ -468,31 +479,32 @@ export default function AuthPage({ initialMode }) {
           )}
 
           {/* Villa Reservation in Progress Banner */}
-          {redirectParam?.includes("booking") && !redirectParam?.includes("dining") && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-deep-wood text-xs flex items-start gap-3 shadow-xs"
-            >
-              <Sparkles
-                size={16}
-                className="text-secondary flex-shrink-0 mt-0.5"
-              />
-              <div>
-                <p className="font-bold text-deep-wood text-xs sm:text-sm">
-                  Reservation in Progress
-                </p>
-                <p className="text-deep-wood/80 text-[11px] mt-0.5">
-                  Please{" "}
-                  {activeTab === "login"
-                    ? "sign in to your account"
-                    : "create your guest profile"}{" "}
-                  to complete your villa reservation. Your selected dates and
-                  suite preferences are preserved.
-                </p>
-              </div>
-            </motion.div>
-          )}
+          {redirectParam?.includes("booking") &&
+            !redirectParam?.includes("dining") && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-deep-wood text-xs flex items-start gap-3 shadow-xs"
+              >
+                <Sparkles
+                  size={16}
+                  className="text-secondary flex-shrink-0 mt-0.5"
+                />
+                <div>
+                  <p className="font-bold text-deep-wood text-xs sm:text-sm">
+                    Reservation in Progress
+                  </p>
+                  <p className="text-deep-wood/80 text-[11px] mt-0.5">
+                    Please{" "}
+                    {activeTab === "login"
+                      ? "sign in to your account"
+                      : "create your guest profile"}{" "}
+                    to complete your villa reservation. Your selected dates and
+                    suite preferences are preserved.
+                  </p>
+                </div>
+              </motion.div>
+            )}
 
           {/* Global Backend Error Alert */}
           {authError && (
@@ -549,11 +561,16 @@ export default function AuthPage({ initialMode }) {
                 </p>
               </div>
 
-              <form onSubmit={handleLoginSubmit} noValidate className="space-y-4">
+              <form
+                onSubmit={handleLoginSubmit}
+                noValidate
+                className="space-y-4"
+              >
                 {/* Email Input */}
                 <div>
                   <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1.5">
-                    Email Address <span className="text-red-500 font-bold ml-0.5">*</span>
+                    Email Address{" "}
+                    <span className="text-red-500 font-bold ml-0.5">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-deep-wood/40">
@@ -590,7 +607,8 @@ export default function AuthPage({ initialMode }) {
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider">
-                      Password <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Password{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <button
                       type="button"
@@ -611,7 +629,10 @@ export default function AuthPage({ initialMode }) {
                       onChange={(e) => {
                         setLoginPassword(e.target.value);
                         if (loginErrors.password) {
-                          setLoginErrors((prev) => ({ ...prev, password: null }));
+                          setLoginErrors((prev) => ({
+                            ...prev,
+                            password: null,
+                          }));
                         }
                       }}
                       placeholder="••••••••••••"
@@ -702,12 +723,17 @@ export default function AuthPage({ initialMode }) {
                 </p>
               </div>
 
-              <form onSubmit={handleRegisterSubmit} noValidate className="space-y-3.5">
+              <form
+                onSubmit={handleRegisterSubmit}
+                noValidate
+                className="space-y-3.5"
+              >
                 {/* First Name & Last Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                      First Name <span className="text-red-500 font-bold ml-0.5">*</span>
+                      First Name{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       id="register-firstname"
@@ -716,7 +742,10 @@ export default function AuthPage({ initialMode }) {
                       onChange={(e) => {
                         setRegFirstName(e.target.value);
                         if (regErrors.firstName) {
-                          setRegErrors((prev) => ({ ...prev, firstName: null }));
+                          setRegErrors((prev) => ({
+                            ...prev,
+                            firstName: null,
+                          }));
                         }
                       }}
                       placeholder="e.g. Elena"
@@ -737,7 +766,8 @@ export default function AuthPage({ initialMode }) {
 
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                      Last Name <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Last Name{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       id="register-lastname"
@@ -770,7 +800,8 @@ export default function AuthPage({ initialMode }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                      Email Address <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Email Address{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       id="register-email"
@@ -816,7 +847,8 @@ export default function AuthPage({ initialMode }) {
                 {/* Country */}
                 <div>
                   <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                    Country of Residence <span className="text-red-500 font-bold ml-0.5">*</span>
+                    Country of Residence{" "}
+                    <span className="text-red-500 font-bold ml-0.5">*</span>
                   </label>
                   <input
                     type="text"
@@ -847,7 +879,8 @@ export default function AuthPage({ initialMode }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                      Password <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Password{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       id="register-password"
@@ -877,7 +910,8 @@ export default function AuthPage({ initialMode }) {
 
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1">
-                      Confirm Password <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Confirm Password{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       id="register-confirmpassword"
@@ -886,7 +920,10 @@ export default function AuthPage({ initialMode }) {
                       onChange={(e) => {
                         setRegConfirmPassword(e.target.value);
                         if (regErrors.confirmPassword) {
-                          setRegErrors((prev) => ({ ...prev, confirmPassword: null }));
+                          setRegErrors((prev) => ({
+                            ...prev,
+                            confirmPassword: null,
+                          }));
                         }
                       }}
                       placeholder="Repeat password"
@@ -915,7 +952,10 @@ export default function AuthPage({ initialMode }) {
                       onChange={(e) => {
                         setAgreeTerms(e.target.checked);
                         if (regErrors.agreeTerms) {
-                          setRegErrors((prev) => ({ ...prev, agreeTerms: null }));
+                          setRegErrors((prev) => ({
+                            ...prev,
+                            agreeTerms: null,
+                          }));
                         }
                       }}
                       className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer"
@@ -923,7 +963,8 @@ export default function AuthPage({ initialMode }) {
                     <span className="text-[11px] text-deep-wood/75 leading-normal">
                       I agree to the Aviora Sanctuary Terms of Stay and Privacy
                       Policy to receive reservation receipts and digital
-                      concierge itineraries. <span className="text-red-500 font-bold ml-0.5">*</span>
+                      concierge itineraries.{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </span>
                   </label>
                   {regErrors.agreeTerms && (
@@ -1020,10 +1061,15 @@ export default function AuthPage({ initialMode }) {
                   </span>
                 </div>
               ) : (
-                <form onSubmit={handleResetPassword} noValidate className="space-y-3.5">
+                <form
+                  onSubmit={handleResetPassword}
+                  noValidate
+                  className="space-y-3.5"
+                >
                   <div>
                     <label className="block text-xs font-bold text-deep-wood uppercase tracking-wider mb-1.5">
-                      Email Address <span className="text-red-500 font-bold ml-0.5">*</span>
+                      Email Address{" "}
+                      <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
                     <input
                       type="email"

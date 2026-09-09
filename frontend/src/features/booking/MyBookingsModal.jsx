@@ -188,7 +188,7 @@
 //               at this resort, and the table bookings had no home at all until
 //               now - GET /api/dining/reservations/my existed and nothing
 //               called it. */}
-//           <div className="px-6 pt-4 pb-3 bg-surface-container-low border-b border-primary/20 flex items-center gap-2 shrink-0">
+//           <div className="px-6 pt-4 pb-3 bg-surface-container-low/50 border-b border-primary/20 flex items-center gap-2 shrink-0">
 //             {[
 //               { id: 'stays', label: 'Villa Stays', icon: BedDouble, count: bookings.length },
 //               { id: 'tables', label: 'Dining Tables', icon: UtensilsCrossed, count: tables.length },
@@ -274,7 +274,7 @@
 //                 <div
 //                   key={b.referenceId}
 //                   className={[
-//                     'p-5 bg-surface-container-lowest border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
+//                     'p-5 bg-surface-container-low/50 border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
 //                     b.status === 'Cancelled'
 //                       ? 'border-outline-variant/30 opacity-65'
 //                       : 'border-primary/30',
@@ -440,7 +440,7 @@
 //                 <div
 //                   key={t.referenceId}
 //                   className={[
-//                     'p-5 bg-surface-container-lowest border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
+//                     'p-5 bg-surface-container-low/50 border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
 //                     t.status === 'Cancelled'
 //                       ? 'border-outline-variant/30 opacity-65'
 //                       : 'border-primary/30',
@@ -603,7 +603,7 @@
 //                   </p>
 //                 </div>
 
-//                 <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex gap-2.5">
+//                 <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex gap-2.5">
 //                   <button
 //                     onClick={() => setConfirmTarget(null)}
 //                     className="flex-1 py-2.5 rounded-xl bg-white border border-outline-variant/50 text-deep-wood text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-colors cursor-pointer"
@@ -672,7 +672,7 @@
 //                   </p>
 //                 </div>
 
-//                 <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex gap-2.5">
+//                 <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex gap-2.5">
 //                   <button
 //                     onClick={() => setConfirmTable(null)}
 //                     className="flex-1 py-2.5 rounded-xl bg-white border border-outline-variant/50 text-deep-wood text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-colors cursor-pointer"
@@ -701,10 +701,10 @@
 //   );
 // }
 
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Calendar,
@@ -720,23 +720,24 @@ import {
   UtensilsCrossed,
   BedDouble,
   Leaf,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   selectIsMyBookingsOpen,
   closeMyBookings,
   openCheckout,
-} from './bookingSlice';
+} from "./bookingSlice";
 import {
   useGetMyBookingsQuery,
   useCancelBookingMutation,
   useGetMyDiningReservationsQuery,
   useCancelDiningReservationMutation,
-} from '../rooms/roomsApi';
-import { useToast } from '../../components/common/Toast';
+} from "../rooms/roomsApi";
+import { useToast } from "../../components/common/Toast";
 import {
   StayDocuments,
   TableDocuments,
-} from '../../components/documents/ReservationDocuments';
+} from "../../components/documents/ReservationDocuments";
+import { mediaUrl } from '../../config/mediaUrl';
 
 /* --------------------------------------------------------------------------
    Reservations now come from GET /api/bookings/my rather than localStorage.
@@ -747,21 +748,23 @@ import {
    -------------------------------------------------------------------------- */
 
 const STATUS_STYLES = {
-  Confirmed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  'Checked-In': 'bg-blue-100 text-blue-800 border-blue-200',
-  'Checked-Out': 'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
-  Cancelled: 'bg-red-100 text-red-800 border-red-200',
-  'No-Show': 'bg-amber-100 text-amber-900 border-amber-200',
+  Confirmed: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  "Checked-In": "bg-blue-100 text-blue-800 border-blue-200",
+  "Checked-Out":
+    "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
+  Cancelled: "bg-red-100 text-red-800 border-red-200",
+  "No-Show": "bg-amber-100 text-amber-900 border-amber-200",
 };
 
 /* Dining statuses run Confirmed -> Seated -> Completed, so they need their
    own palette rather than reusing the stay one. */
 const DINING_STATUS_STYLES = {
-  Confirmed: 'bg-amber-100 text-amber-900 border-amber-200',
-  Seated: 'bg-blue-100 text-blue-800 border-blue-200',
-  Completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  Cancelled: 'bg-red-100 text-red-800 border-red-200',
-  'No-Show': 'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
+  Confirmed: "bg-amber-100 text-amber-900 border-amber-200",
+  Seated: "bg-blue-100 text-blue-800 border-blue-200",
+  Completed: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  Cancelled: "bg-red-100 text-red-800 border-red-200",
+  "No-Show":
+    "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
 };
 
 const formatMoney = (value) => `Rs.${Number(value ?? 0).toLocaleString()}`;
@@ -769,10 +772,10 @@ const formatMoney = (value) => `Rs.${Number(value ?? 0).toLocaleString()}`;
 const formatDeadline = (iso) => {
   if (!iso) return null;
   const d = new Date(iso);
-  return d.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
+  return d.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
   });
 };
 
@@ -781,11 +784,11 @@ const formatDeadline = (iso) => {
 const formatDeadlineTime = (iso) => {
   if (!iso) return null;
   const d = new Date(iso);
-  return d.toLocaleString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
+  return d.toLocaleString("en-GB", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
@@ -818,7 +821,7 @@ export default function MyBookingsModal() {
   const [cancelTable, { isLoading: cancellingTable }] =
     useCancelDiningReservationMutation();
 
-  const [tab, setTab] = useState('stays'); // 'stays' | 'tables'
+  const [tab, setTab] = useState("stays"); // 'stays' | 'tables'
   const [confirmTarget, setConfirmTarget] = useState(null);
   const [confirmTable, setConfirmTable] = useState(null);
 
@@ -826,9 +829,11 @@ export default function MyBookingsModal() {
 
   const handleCancel = async (booking) => {
     try {
-      const res = await cancelBooking({ referenceId: booking.referenceId }).unwrap();
-      showSuccess(res?.message || 'Reservation cancelled.', {
-        title: 'Reservation Cancelled',
+      const res = await cancelBooking({
+        referenceId: booking.referenceId,
+      }).unwrap();
+      showSuccess(res?.message || "Reservation cancelled.", {
+        title: "Reservation Cancelled",
       });
       setConfirmTarget(null);
     } catch (err) {
@@ -836,8 +841,8 @@ export default function MyBookingsModal() {
       // says which, so it is worth showing verbatim rather than replacing
       // with a generic failure.
       showError(
-        err?.data?.message || 'The reservation could not be cancelled.',
-        { title: 'Cancellation Refused' },
+        err?.data?.message || "The reservation could not be cancelled.",
+        { title: "Cancellation Refused" },
       );
       setConfirmTarget(null);
     }
@@ -846,13 +851,15 @@ export default function MyBookingsModal() {
   const handleCancelTable = async (table) => {
     try {
       const res = await cancelTable(table.referenceId).unwrap();
-      showSuccess(res?.message || 'Table cancelled.', { title: 'Table Cancelled' });
+      showSuccess(res?.message || "Table cancelled.", {
+        title: "Table Cancelled",
+      });
       setConfirmTable(null);
     } catch (err) {
       // 409 covers the notice period having passed and a table already
       // seated. The message says which, so show it verbatim.
-      showError(err?.data?.message || 'The table could not be cancelled.', {
-        title: 'Cancellation Refused',
+      showError(err?.data?.message || "The table could not be cancelled.", {
+        title: "Cancellation Refused",
       });
       setConfirmTable(null);
     }
@@ -866,7 +873,7 @@ export default function MyBookingsModal() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           className="relative w-full max-w-3xl bg-surface rounded-xl shadow-2xl overflow-hidden border-2 border-primary flex flex-col max-h-[85vh]"
-          style={{ fontFamily: 'var(--font-body)' }}
+          style={{ fontFamily: "var(--font-body)" }}
         >
           {/* Header */}
           <div className="px-6 py-4 bg-deep-wood text-sand flex items-center justify-between border-b border-primary/30 shrink-0">
@@ -874,7 +881,7 @@ export default function MyBookingsModal() {
               <Sparkles size={18} className="text-secondary" />
               <h2
                 className="text-lg font-bold italic tracking-wide text-sand"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                style={{ fontFamily: "var(--font-heading)" }}
               >
                 My Reservations
               </h2>
@@ -895,10 +902,20 @@ export default function MyBookingsModal() {
               at this resort, and the table bookings had no home at all until
               now - GET /api/dining/reservations/my existed and nothing
               called it. */}
-          <div className="px-6 pt-4 pb-3 bg-surface-container-low border-b border-primary/20 flex items-center gap-2 shrink-0">
+          <div className="px-6 pt-4 pb-3 bg-surface-container-low/50 border-b border-primary/20 flex items-center gap-2 shrink-0">
             {[
-              { id: 'stays', label: 'Villa Stays', icon: BedDouble, count: bookings.length },
-              { id: 'tables', label: 'Dining Tables', icon: UtensilsCrossed, count: tables.length },
+              {
+                id: "stays",
+                label: "Villa Stays",
+                icon: BedDouble,
+                count: bookings.length,
+              },
+              {
+                id: "tables",
+                label: "Dining Tables",
+                icon: UtensilsCrossed,
+                count: tables.length,
+              },
             ].map((t) => {
               const Icon = t.icon;
               return (
@@ -907,11 +924,11 @@ export default function MyBookingsModal() {
                   type="button"
                   onClick={() => setTab(t.id)}
                   className={[
-                    'px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer',
+                    "px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer",
                     tab === t.id
-                      ? 'bg-primary text-white shadow-xs'
-                      : 'text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10',
-                  ].join(' ')}
+                      ? "bg-primary text-white shadow-xs"
+                      : "text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10",
+                  ].join(" ")}
                 >
                   <Icon size={14} />
                   <span>
@@ -924,24 +941,30 @@ export default function MyBookingsModal() {
 
           {/* Body */}
           <div className="p-6 overflow-y-auto flex-1 space-y-4">
-            {tab === 'stays' && isLoading && (
+            {tab === "stays" && isLoading && (
               <div className="text-center py-12">
-                <Loader2 size={30} className="mx-auto animate-spin text-primary/50 mb-3" />
+                <Loader2
+                  size={30}
+                  className="mx-auto animate-spin text-primary/50 mb-3"
+                />
                 <p className="text-xs font-bold uppercase tracking-wider text-deep-wood/50">
                   Loading your reservations
                 </p>
               </div>
             )}
 
-            {tab === 'stays' && isError && !isLoading && (
+            {tab === "stays" && isError && !isLoading && (
               <div className="text-center py-12">
-                <AlertTriangle size={40} className="mx-auto text-amber-500 mb-3" />
+                <AlertTriangle
+                  size={40}
+                  className="mx-auto text-amber-500 mb-3"
+                />
                 <h3 className="text-base font-bold text-deep-wood">
                   Your reservations could not be loaded.
                 </h3>
                 <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-5">
                   {error?.data?.message ||
-                    'The reservation system did not respond. Please try again.'}
+                    "The reservation system did not respond. Please try again."}
                 </p>
                 <button
                   onClick={refetch}
@@ -952,44 +975,50 @@ export default function MyBookingsModal() {
               </div>
             )}
 
-            {tab === 'stays' && !isLoading && !isError && bookings.length === 0 && (
-              <div className="text-center py-12">
-                <Calendar size={48} className="mx-auto text-primary/40 mb-3" />
-                <h3 className="text-base font-bold text-deep-wood">
-                  No Reservations Found
-                </h3>
-                <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-6">
-                  You haven&apos;t reserved any villas yet. Explore our sanctuaries to
-                  book your stay.
-                </p>
-                <button
-                  onClick={() => {
-                    dispatch(closeMyBookings());
-                    dispatch(openCheckout('canopy-villa-01'));
-                  }}
-                  className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-container transition-colors shadow-sm cursor-pointer"
-                >
-                  Book A Villa Now
-                </button>
-              </div>
-            )}
+            {tab === "stays" &&
+              !isLoading &&
+              !isError &&
+              bookings.length === 0 && (
+                <div className="text-center py-12">
+                  <Calendar
+                    size={48}
+                    className="mx-auto text-primary/40 mb-3"
+                  />
+                  <h3 className="text-base font-bold text-deep-wood">
+                    No Reservations Found
+                  </h3>
+                  <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-6">
+                    You haven&apos;t reserved any villas yet. Explore our
+                    sanctuaries to book your stay.
+                  </p>
+                  <button
+                    onClick={() => {
+                      dispatch(closeMyBookings());
+                      dispatch(openCheckout("canopy-villa-01"));
+                    }}
+                    className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-container transition-colors shadow-sm cursor-pointer"
+                  >
+                    Book A Villa Now
+                  </button>
+                </div>
+              )}
 
-            {tab === 'stays' &&
+            {tab === "stays" &&
               !isLoading &&
               !isError &&
               bookings.map((b) => (
                 <div
                   key={b.referenceId}
                   className={[
-                    'p-5 bg-surface-container-lowest border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
-                    b.status === 'Cancelled'
-                      ? 'border-outline-variant/30 opacity-65'
-                      : 'border-primary/30',
-                  ].join(' ')}
+                    "p-5 bg-surface-container-low/50 border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all",
+                    b.status === "Cancelled"
+                      ? "border-outline-variant/30 opacity-65"
+                      : "border-primary/30",
+                  ].join(" ")}
                 >
                   <div className="flex gap-4 items-start">
                     <img
-                      src={b.villaImage}
+                      src={mediaUrl(b.villaImage)}
                       alt={b.villaName}
                       className="w-24 h-20 object-cover rounded-md flex-shrink-0"
                     />
@@ -1000,10 +1029,10 @@ export default function MyBookingsModal() {
                         </span>
                         <span
                           className={[
-                            'px-2 py-0.5 text-[10px] font-bold rounded-md border uppercase tracking-wider',
+                            "px-2 py-0.5 text-[10px] font-bold rounded-md border uppercase tracking-wider",
                             STATUS_STYLES[b.status] ??
-                              'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
-                          ].join(' ')}
+                              "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
+                          ].join(" ")}
                         >
                           {b.status}
                         </span>
@@ -1011,7 +1040,7 @@ export default function MyBookingsModal() {
 
                       <h4
                         className="text-base font-bold text-deep-wood italic"
-                        style={{ fontFamily: 'var(--font-heading)' }}
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {b.villaName}
                       </h4>
@@ -1019,29 +1048,32 @@ export default function MyBookingsModal() {
                       <p className="text-xs text-deep-wood/80 font-medium mt-1 flex items-center gap-1.5">
                         <Calendar size={12} className="text-primary" />
                         {b.checkIn} &rarr; {b.checkOut} ({b.nights} night
-                        {b.nights === 1 ? '' : 's'})
+                        {b.nights === 1 ? "" : "s"})
                       </p>
 
                       <p className="text-[11px] text-deep-wood/60 font-semibold mt-0.5 flex items-center gap-1.5">
                         <Users size={11} />
-                        {b.adults} adult{b.adults === 1 ? '' : 's'}
+                        {b.adults} adult{b.adults === 1 ? "" : "s"}
                         {b.children > 0 &&
-                          `, ${b.children} child${b.children === 1 ? '' : 'ren'}`}
-                        {' · '}
+                          `, ${b.children} child${b.children === 1 ? "" : "ren"}`}
+                        {" · "}
                         {b.ratePlanName}
                         {b.addonCount > 0 &&
-                          ` · ${b.addonCount} extra${b.addonCount === 1 ? '' : 's'}`}
+                          ` · ${b.addonCount} extra${b.addonCount === 1 ? "" : "s"}`}
                       </p>
 
                       {/* The deadline was fixed onto the booking when it was
                           made, so editing the rate plan later does not change
                           what this guest agreed to. */}
-                      {b.status === 'Confirmed' && b.isRefundable && b.cancellationDeadline && (
-                        <p className="text-[11px] text-deep-wood/55 font-medium mt-1 flex items-center gap-1.5">
-                          <Clock size={11} />
-                          Free cancellation until {formatDeadline(b.cancellationDeadline)}
-                        </p>
-                      )}
+                      {b.status === "Confirmed" &&
+                        b.isRefundable &&
+                        b.cancellationDeadline && (
+                          <p className="text-[11px] text-deep-wood/55 font-medium mt-1 flex items-center gap-1.5">
+                            <Clock size={11} />
+                            Free cancellation until{" "}
+                            {formatDeadline(b.cancellationDeadline)}
+                          </p>
+                        )}
                     </div>
                   </div>
 
@@ -1052,7 +1084,7 @@ export default function MyBookingsModal() {
                       </span>
                       <span
                         className="text-xl font-bold text-primary"
-                        style={{ fontFamily: 'var(--font-heading)' }}
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {formatMoney(b.finalTotal)}
                       </span>
@@ -1081,11 +1113,11 @@ export default function MyBookingsModal() {
                         >
                           <Trash2 size={13} /> Cancel Reservation
                         </button>
-                      ) : b.status === 'Cancelled' ? (
+                      ) : b.status === "Cancelled" ? (
                         <span className="text-[11px] text-deep-wood/50 font-semibold flex items-center gap-1 justify-end">
                           <Ban size={12} /> Cancelled
                         </span>
-                      ) : b.status === 'Checked-Out' ? (
+                      ) : b.status === "Checked-Out" ? (
                         <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1 justify-end">
                           <CheckCircle2 size={12} /> Stay completed
                         </span>
@@ -1094,14 +1126,14 @@ export default function MyBookingsModal() {
                           className="text-[11px] text-deep-wood/50 font-semibold flex items-center gap-1 justify-end text-right"
                           title={
                             b.isRefundable
-                              ? 'The free cancellation window has passed'
-                              : 'This rate was booked as non-refundable'
+                              ? "The free cancellation window has passed"
+                              : "This rate was booked as non-refundable"
                           }
                         >
                           <Lock size={12} />
                           {b.isRefundable
-                            ? 'Cancellation window passed'
-                            : 'Non-refundable rate'}
+                            ? "Cancellation window passed"
+                            : "Non-refundable rate"}
                         </span>
                       )}
                     </div>
@@ -1110,59 +1142,74 @@ export default function MyBookingsModal() {
               ))}
 
             {/* ---------------- dining tables ---------------- */}
-            {tab === 'tables' && tablesLoading && (
+            {tab === "tables" && tablesLoading && (
               <div className="text-center py-12">
-                <Loader2 size={30} className="mx-auto animate-spin text-primary/50 mb-3" />
+                <Loader2
+                  size={30}
+                  className="mx-auto animate-spin text-primary/50 mb-3"
+                />
                 <p className="text-xs font-bold uppercase tracking-wider text-deep-wood/50">
                   Loading your tables
                 </p>
               </div>
             )}
 
-            {tab === 'tables' && tablesError && !tablesLoading && (
+            {tab === "tables" && tablesError && !tablesLoading && (
               <div className="text-center py-12">
-                <AlertTriangle size={40} className="mx-auto text-amber-500 mb-3" />
+                <AlertTriangle
+                  size={40}
+                  className="mx-auto text-amber-500 mb-3"
+                />
                 <h3 className="text-base font-bold text-deep-wood">
                   Your tables could not be loaded.
                 </h3>
               </div>
             )}
 
-            {tab === 'tables' && !tablesLoading && !tablesError && tables.length === 0 && (
-              <div className="text-center py-12">
-                <UtensilsCrossed size={48} className="mx-auto text-primary/40 mb-3" />
-                <h3 className="text-base font-bold text-deep-wood">No Tables Booked</h3>
-                <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-6">
-                  Reserve a table at one of our restaurants from the dining page.
-                </p>
-                <button
-                  onClick={() => {
-                    dispatch(closeMyBookings());
-                    navigate('/dining');
-                  }}
-                  className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-container transition-colors shadow-sm cursor-pointer"
-                >
-                  Browse Restaurants
-                </button>
-              </div>
-            )}
+            {tab === "tables" &&
+              !tablesLoading &&
+              !tablesError &&
+              tables.length === 0 && (
+                <div className="text-center py-12">
+                  <UtensilsCrossed
+                    size={48}
+                    className="mx-auto text-primary/40 mb-3"
+                  />
+                  <h3 className="text-base font-bold text-deep-wood">
+                    No Tables Booked
+                  </h3>
+                  <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-6">
+                    Reserve a table at one of our restaurants from the dining
+                    page.
+                  </p>
+                  <button
+                    onClick={() => {
+                      dispatch(closeMyBookings());
+                      navigate("/dining");
+                    }}
+                    className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-container transition-colors shadow-sm cursor-pointer"
+                  >
+                    Browse Restaurants
+                  </button>
+                </div>
+              )}
 
-            {tab === 'tables' &&
+            {tab === "tables" &&
               !tablesLoading &&
               !tablesError &&
               tables.map((t) => (
                 <div
                   key={t.referenceId}
                   className={[
-                    'p-5 bg-surface-container-lowest border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all',
-                    t.status === 'Cancelled'
-                      ? 'border-outline-variant/30 opacity-65'
-                      : 'border-primary/30',
-                  ].join(' ')}
+                    "p-5 bg-surface-container-low/50 border-2 rounded-lg shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-start transition-all",
+                    t.status === "Cancelled"
+                      ? "border-outline-variant/30 opacity-65"
+                      : "border-primary/30",
+                  ].join(" ")}
                 >
                   <div className="flex gap-4 items-start">
                     <img
-                      src={t.venueImage}
+                      src={mediaUrl(t.venueImage)}
                       alt={t.venueName}
                       className="w-24 h-20 object-cover rounded-md flex-shrink-0"
                     />
@@ -1173,10 +1220,10 @@ export default function MyBookingsModal() {
                         </span>
                         <span
                           className={[
-                            'px-2 py-0.5 text-[10px] font-bold rounded-md border uppercase tracking-wider',
+                            "px-2 py-0.5 text-[10px] font-bold rounded-md border uppercase tracking-wider",
                             DINING_STATUS_STYLES[t.status] ??
-                              'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
-                          ].join(' ')}
+                              "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
+                          ].join(" ")}
                         >
                           {t.status}
                         </span>
@@ -1184,7 +1231,7 @@ export default function MyBookingsModal() {
 
                       <h4
                         className="text-base font-bold text-deep-wood italic"
-                        style={{ fontFamily: 'var(--font-heading)' }}
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {t.venueName}
                       </h4>
@@ -1196,7 +1243,7 @@ export default function MyBookingsModal() {
 
                       <p className="text-[11px] text-deep-wood/60 font-semibold mt-0.5 flex items-center gap-1.5">
                         <Users size={11} />
-                        {t.partySize} guest{t.partySize === 1 ? '' : 's'}
+                        {t.partySize} guest{t.partySize === 1 ? "" : "s"}
                         {t.occasion && ` · ${t.occasion}`}
                         {t.dressCode && ` · ${t.dressCode}`}
                       </p>
@@ -1215,7 +1262,8 @@ export default function MyBookingsModal() {
                       {t.canCancel && t.cancellationDeadline && (
                         <p className="text-[11px] text-deep-wood/55 font-medium mt-1 flex items-center gap-1.5">
                           <Clock size={11} />
-                          Free cancellation until {formatDeadlineTime(t.cancellationDeadline)}
+                          Free cancellation until{" "}
+                          {formatDeadlineTime(t.cancellationDeadline)}
                         </p>
                       )}
 
@@ -1234,7 +1282,7 @@ export default function MyBookingsModal() {
                       </span>
                       <span
                         className="text-xl font-bold text-primary"
-                        style={{ fontFamily: 'var(--font-heading)' }}
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {t.time}
                       </span>
@@ -1257,15 +1305,15 @@ export default function MyBookingsModal() {
                         >
                           <Trash2 size={13} /> Cancel Table
                         </button>
-                      ) : t.status === 'Cancelled' ? (
+                      ) : t.status === "Cancelled" ? (
                         <span className="text-[11px] text-deep-wood/50 font-semibold flex items-center gap-1 justify-end">
                           <Ban size={12} /> Cancelled
                         </span>
-                      ) : t.status === 'Completed' ? (
+                      ) : t.status === "Completed" ? (
                         <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1 justify-end">
                           <CheckCircle2 size={12} /> Dined
                         </span>
-                      ) : t.status === 'Seated' ? (
+                      ) : t.status === "Seated" ? (
                         <span className="text-[11px] text-blue-700 font-semibold flex items-center gap-1 justify-end">
                           <CheckCircle2 size={12} /> Seated
                         </span>
@@ -1295,7 +1343,7 @@ export default function MyBookingsModal() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full max-w-md bg-white rounded-2xl shadow-2xl border-2 border-primary overflow-hidden"
-                style={{ fontFamily: 'var(--font-body)' }}
+                style={{ fontFamily: "var(--font-body)" }}
               >
                 <div className="px-6 py-5 bg-deep-wood text-sand flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
@@ -1303,7 +1351,7 @@ export default function MyBookingsModal() {
                   </div>
                   <h3
                     className="text-lg font-bold italic"
-                    style={{ fontFamily: 'var(--font-heading)' }}
+                    style={{ fontFamily: "var(--font-heading)" }}
                   >
                     Cancel {confirmTarget.referenceId}?
                   </h3>
@@ -1311,17 +1359,19 @@ export default function MyBookingsModal() {
 
                 <div className="p-6 text-xs text-deep-wood/75 leading-relaxed space-y-2">
                   <p>
-                    <strong className="text-deep-wood">{confirmTarget.villaName}</strong>,{' '}
-                    {confirmTarget.checkIn} to {confirmTarget.checkOut}.
+                    <strong className="text-deep-wood">
+                      {confirmTarget.villaName}
+                    </strong>
+                    , {confirmTarget.checkIn} to {confirmTarget.checkOut}.
                   </p>
                   <p>
-                    The villa is released back to the calendar immediately and{' '}
-                    {formatMoney(confirmTarget.finalTotal)} is refunded to the original
-                    payment method. This cannot be undone.
+                    The villa is released back to the calendar immediately and{" "}
+                    {formatMoney(confirmTarget.finalTotal)} is refunded to the
+                    original payment method. This cannot be undone.
                   </p>
                 </div>
 
-                <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex gap-2.5">
+                <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex gap-2.5">
                   <button
                     onClick={() => setConfirmTarget(null)}
                     className="flex-1 py-2.5 rounded-xl bg-white border border-outline-variant/50 text-deep-wood text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-colors cursor-pointer"
@@ -1358,7 +1408,7 @@ export default function MyBookingsModal() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full max-w-md bg-white rounded-2xl shadow-2xl border-2 border-primary overflow-hidden"
-                style={{ fontFamily: 'var(--font-body)' }}
+                style={{ fontFamily: "var(--font-body)" }}
               >
                 <div className="px-6 py-5 bg-deep-wood text-sand flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
@@ -1366,7 +1416,7 @@ export default function MyBookingsModal() {
                   </div>
                   <h3
                     className="text-lg font-bold italic"
-                    style={{ fontFamily: 'var(--font-heading)' }}
+                    style={{ fontFamily: "var(--font-heading)" }}
                   >
                     Cancel {confirmTable.referenceId}?
                   </h3>
@@ -1374,23 +1424,25 @@ export default function MyBookingsModal() {
 
                 <div className="p-6 text-xs text-deep-wood/75 leading-relaxed space-y-2">
                   <p>
-                    <strong className="text-deep-wood">{confirmTable.venueName}</strong>,{' '}
-                    {confirmTable.date} at {confirmTable.time}, for{' '}
+                    <strong className="text-deep-wood">
+                      {confirmTable.venueName}
+                    </strong>
+                    , {confirmTable.date} at {confirmTable.time}, for{" "}
                     {confirmTable.partySize} guest
-                    {confirmTable.partySize === 1 ? '' : 's'}.
+                    {confirmTable.partySize === 1 ? "" : "s"}.
                   </p>
                   <p>
-                    The covers are released back to the restaurant immediately. This cannot
-                    be undone — you would need to book again, and the sitting may be full by
-                    then.
+                    The covers are released back to the restaurant immediately.
+                    This cannot be undone — you would need to book again, and
+                    the sitting may be full by then.
                   </p>
                   <p className="text-deep-wood/55">
-                    {confirmTable.venueName} asks for {confirmTable.noticeHours} hours&apos;
-                    notice.
+                    {confirmTable.venueName} asks for {confirmTable.noticeHours}{" "}
+                    hours&apos; notice.
                   </p>
                 </div>
 
-                <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex gap-2.5">
+                <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex gap-2.5">
                   <button
                     onClick={() => setConfirmTable(null)}
                     className="flex-1 py-2.5 rounded-xl bg-white border border-outline-variant/50 text-deep-wood text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-colors cursor-pointer"

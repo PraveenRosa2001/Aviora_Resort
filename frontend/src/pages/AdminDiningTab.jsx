@@ -466,7 +466,7 @@
 //         style={{ fontFamily: 'var(--font-body)' }}
 //       >
 //         {/* ── Top Header & Breadcrumb Strip ── */}
-//         <div className="bg-surface-container-low border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+//         <div className="bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
 //           <div className="space-y-1">
 //             <div className="flex items-center gap-2 text-xs font-semibold text-deep-wood/60">
 //               <button
@@ -562,7 +562,7 @@
 //         )}
 
 //         {/* ── Mode Switcher: Specifications vs Menu ── */}
-//         <div className="flex items-center gap-2 p-1.5 bg-surface-container-low border border-primary/20 rounded-2xl w-fit shadow-xs">
+//         <div className="flex items-center gap-2 p-1.5 bg-surface-container-low/50 border border-primary/20 rounded-2xl w-fit shadow-xs">
 //           {[
 //             { id: 'details', label: 'Venue Specifications', icon: Info },
 //             { id: 'menu', label: 'Curated Menu', icon: ChefHat },
@@ -657,7 +657,7 @@
 //                   >
 //                     <input
 //                       className={`${inputClass} font-mono ${
-//                         !isNew ? 'opacity-70 cursor-not-allowed bg-surface-container-low' : ''
+//                         !isNew ? 'opacity-70 cursor-not-allowed bg-surface-container-low/50' : ''
 //                       }`}
 //                       value={editing.id}
 //                       disabled={!isNew}
@@ -962,7 +962,7 @@
 //                       className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all select-none ${
 //                         editing[field]
 //                           ? 'bg-primary/5 border-primary/40 text-deep-wood shadow-2xs'
-//                           : 'bg-surface-container-low border-primary/20 text-deep-wood/80 hover:bg-primary/5'
+//                           : 'bg-surface-container-low/50 border-primary/20 text-deep-wood/80 hover:bg-primary/5'
 //                       }`}
 //                     >
 //                       <div className="mt-0.5">
@@ -988,7 +988,7 @@
 //               </div>
 
 //               {/* Advisory Card */}
-//               <div className="p-4 rounded-xl bg-surface-container-low border border-primary/20 text-xs text-deep-wood/75 flex items-start gap-3 shadow-xs">
+//               <div className="p-4 rounded-xl bg-surface-container-low/50 border border-primary/20 text-xs text-deep-wood/75 flex items-start gap-3 shadow-xs">
 //                 <Info size={16} className="text-primary shrink-0 mt-0.5" />
 //                 <span className="leading-relaxed">
 //                   <strong>Operational Note:</strong> Retiring a venue hides it from
@@ -1160,7 +1160,7 @@
 //         ) : (
 //           /* ── TAB 2: CURATED MENU BUILDER ── */
 //           <div className="space-y-6">
-//             <div className="p-4 rounded-2xl bg-surface-container-low border border-primary/20 text-xs text-deep-wood/80 flex items-start gap-3 shadow-xs">
+//             <div className="p-4 rounded-2xl bg-surface-container-low/50 border border-primary/20 text-xs text-deep-wood/80 flex items-start gap-3 shadow-xs">
 //               <Info size={16} className="text-primary shrink-0 mt-0.5" />
 //               <span className="leading-relaxed">
 //                 Saving replaces the whole menu. Leave a price blank for a course on
@@ -1276,7 +1276,7 @@
 //                   {sec.items.map((item, ii) => (
 //                     <div
 //                       key={ii}
-//                       className="p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-3 shadow-2xs"
+//                       className="p-4 rounded-xl bg-surface-container-low/50 border border-outline-variant/30 space-y-3 shadow-2xs"
 //                     >
 //                       <div className="flex items-start gap-3">
 //                         <div className="w-6 h-6 rounded-md bg-white border border-primary/20 text-deep-wood/60 font-mono text-[10px] font-bold flex items-center justify-center shrink-0 mt-2">
@@ -1419,7 +1419,7 @@
 //         )}
 
 //         {/* ── Bottom Action Bar ── */}
-//         <div className="p-5 bg-surface-container-low border border-outline-variant/30 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
+//         <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
 //           <button
 //             type="button"
 //             onClick={closeEditor}
@@ -1965,10 +1965,9 @@
 //   );
 // }
 
+import { useMemo, useState } from "react";
 
-import { useMemo, useState } from 'react';
-
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   UtensilsCrossed,
@@ -1995,7 +1994,7 @@ import {
   Sparkles,
   ImagePlus,
   CheckCircle2,
-} from 'lucide-react';
+} from "lucide-react";
 
 import {
   useGetAdminDiningReservationsQuery,
@@ -2004,8 +2003,9 @@ import {
   useSaveDiningVenueMutation,
   useDeleteDiningVenueMutation,
   useSaveDiningMenuMutation,
-} from '../features/rooms/roomsApi';
-import { TableDocuments } from '../components/documents/ReservationDocuments';
+} from "../features/rooms/roomsApi";
+import { TableDocuments } from "../components/documents/ReservationDocuments";
+import { mediaUrl } from '../config/mediaUrl';
 
 /* --------------------------------------------------------------------------
    The dining desk and venue management.
@@ -2018,53 +2018,51 @@ import { TableDocuments } from '../components/documents/ReservationDocuments';
    dbo.DiningMenuSections or dbo.DiningMenuItems, so a chef changing a course
    needed a SQL script.
    -------------------------------------------------------------------------- */
-const VENUE_TYPES = ['restaurant', 'brasserie', 'bar', 'cafe', 'private'];
+const VENUE_TYPES = ["restaurant", "brasserie", "bar", "cafe", "private"];
 
 const STATUS_FLOW = {
-  Confirmed: ['Seated', 'Cancelled', 'No-Show'],
-  Seated: ['Completed', 'No-Show'],
+  Confirmed: ["Seated", "Cancelled", "No-Show"],
+  Seated: ["Completed", "No-Show"],
   Completed: [],
   Cancelled: [],
-  'No-Show': [],
+  "No-Show": [],
 };
 
 const STATUS_STYLES = {
-  Confirmed: 'bg-amber-100 text-amber-900 border-amber-200',
-  Seated: 'bg-blue-100 text-blue-800 border-blue-200',
-  Completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  Cancelled: 'bg-red-100 text-red-800 border-red-200',
-  'No-Show':
-    'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
+  Confirmed: "bg-amber-100 text-amber-900 border-amber-200",
+  Seated: "bg-blue-100 text-blue-800 border-blue-200",
+  Completed: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  Cancelled: "bg-red-100 text-red-800 border-red-200",
+  "No-Show":
+    "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
 };
 
-const toIso = (d) => d.toISOString().split('T')[0];
+const toIso = (d) => d.toISOString().split("T")[0];
 
 const toSlug = (value) =>
   value
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 
 const errorText = (err, fallback) =>
   err?.data?.message || err?.error || fallback;
 
 const inputClass =
-  'w-full px-3.5 py-2.5 text-xs bg-white border border-outline-variant/40 rounded-xl ' +
-  'text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all';
+  "w-full px-3.5 py-2.5 text-xs bg-white border border-outline-variant/40 rounded-xl " +
+  "text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all";
 
 function Field({ label, children, hint, span = 1, required = false }) {
   return (
-    <div className={span === 2 ? 'sm:col-span-2' : ''}>
+    <div className={span === 2 ? "sm:col-span-2" : ""}>
       <label className="block text-[11px] font-bold uppercase tracking-wider text-deep-wood mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {children}
       {hint && (
-        <p className="mt-1 text-[10px] text-deep-wood/60 font-medium">
-          {hint}
-        </p>
+        <p className="mt-1 text-[10px] text-deep-wood/60 font-medium">{hint}</p>
       )}
     </div>
   );
@@ -2073,13 +2071,13 @@ function Field({ label, children, hint, span = 1, required = false }) {
 function CustomCheckbox({
   checked,
   onChange,
-  size = 'md',
+  size = "md",
   id,
   name,
   disabled,
 }) {
-  const isMd = size === 'md';
-  const boxClass = isMd ? 'w-4 h-4' : 'w-3.5 h-3.5';
+  const isMd = size === "md";
+  const boxClass = isMd ? "w-4 h-4" : "w-3.5 h-3.5";
   const iconSize = isMd ? 11 : 9.5;
 
   return (
@@ -2099,10 +2097,10 @@ function CustomCheckbox({
         aria-hidden="true"
         className={`w-full h-full rounded border flex items-center justify-center transition-all duration-150 select-none pointer-events-none ${
           checked
-            ? 'bg-primary border-primary shadow-xs'
-            : 'bg-white border-outline-variant/80 hover:border-primary/50'
+            ? "bg-primary border-primary shadow-xs"
+            : "bg-white border-outline-variant/80 hover:border-primary/50"
         } peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 peer-focus-visible:ring-offset-1 peer-checked:bg-primary peer-checked:border-primary ${
-          disabled ? 'opacity-50' : ''
+          disabled ? "opacity-50" : ""
         }`}
       >
         {checked && (
@@ -2118,19 +2116,19 @@ function CustomCheckbox({
 }
 
 const EMPTY_VENUE = {
-  id: '',
-  name: '',
-  type: 'restaurant',
-  tagline: '',
-  description: '',
-  cuisine: '',
-  dressCode: '',
+  id: "",
+  name: "",
+  type: "restaurant",
+  tagline: "",
+  description: "",
+  cuisine: "",
+  dressCode: "",
   capacity: 30,
   cancellationNoticeHours: 4,
-  openHours: '',
-  chefName: '',
-  chefBio: '',
-  image: '',
+  openHours: "",
+  chefName: "",
+  chefBio: "",
+  image: "",
   reservationRequired: true,
   featured: false,
   displayOrder: 0,
@@ -2140,30 +2138,30 @@ const EMPTY_VENUE = {
 };
 
 const EMPTY_ITEM = {
-  name: '',
-  description: '',
-  price: '',
+  name: "",
+  description: "",
+  price: "",
   isVegetarian: false,
   isVegan: false,
   isSignature: false,
-  allergens: '',
+  allergens: "",
 };
 
 export default function AdminDiningTab() {
-  const [section, setSection] = useState('covers'); // 'covers' | 'venues'
-  const [toast, setToast] = useState('');
+  const [section, setSection] = useState("covers"); // 'covers' | 'venues'
+  const [toast, setToast] = useState("");
 
   const showToast = (message) => {
     setToast(message);
-    setTimeout(() => setToast(''), 4000);
+    setTimeout(() => setToast(""), 4000);
   };
 
   /* ---------------- covers ---------------- */
   const today = toIso(new Date());
   const [from, setFrom] = useState(today);
   const [to, setTo] = useState(today);
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const {
     data: reservations = [],
@@ -2186,26 +2184,24 @@ export default function AdminDiningTab() {
   const { data: venues = [], isLoading: venuesLoading } =
     useGetAdminDiningVenuesQuery();
 
-  const [saveVenue, { isLoading: savingVenue }] =
-    useSaveDiningVenueMutation();
+  const [saveVenue, { isLoading: savingVenue }] = useSaveDiningVenueMutation();
 
   const [deleteVenue] = useDeleteDiningVenueMutation();
 
-  const [saveMenu, { isLoading: savingMenu }] =
-    useSaveDiningMenuMutation();
+  const [saveMenu, { isLoading: savingMenu }] = useSaveDiningMenuMutation();
 
   const [editing, setEditing] = useState(null);
   const [isNew, setIsNew] = useState(false);
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState("");
   const [menuDraft, setMenuDraft] = useState([]);
-  const [editorTab, setEditorTab] = useState('details'); // 'details' | 'menu'
+  const [editorTab, setEditorTab] = useState("details"); // 'details' | 'menu'
 
   /* Expected covers for the window, so the kitchen has a headcount.
      Cancelled and no-show tables are excluded - they are not eating. */
   const expectedCovers = useMemo(
     () =>
       reservations
-        .filter((r) => r.status === 'Confirmed' || r.status === 'Seated')
+        .filter((r) => r.status === "Confirmed" || r.status === "Seated")
         .reduce((sum, r) => sum + r.partySize, 0),
     [reservations],
   );
@@ -2226,7 +2222,7 @@ export default function AdminDiningTab() {
         res?.message || `${reservation.referenceId} moved to ${newStatus}.`,
       );
     } catch (err) {
-      showToast(errorText(err, 'The table could not be updated.'));
+      showToast(errorText(err, "The table could not be updated."));
     }
   };
 
@@ -2236,16 +2232,17 @@ export default function AdminDiningTab() {
         ? {
             ...EMPTY_VENUE,
             ...venue,
-            tagline: venue.tagline ?? '',
-            description: venue.description ?? '',
-            cuisine: venue.cuisine ?? '',
-            dressCode: venue.dressCode ?? '',
+            tagline: venue.tagline ?? "",
+            description: venue.description ?? "",
+            cuisine: venue.cuisine ?? "",
+            dressCode: venue.dressCode ?? "",
             cancellationNoticeHours:
-              venue.cancellationNoticeHours ?? EMPTY_VENUE.cancellationNoticeHours,
-            openHours: venue.openHours ?? '',
-            chefName: venue.chefName ?? '',
-            chefBio: venue.chefBio ?? '',
-            image: venue.image ?? '',
+              venue.cancellationNoticeHours ??
+              EMPTY_VENUE.cancellationNoticeHours,
+            openHours: venue.openHours ?? "",
+            chefName: venue.chefName ?? "",
+            chefBio: venue.chefBio ?? "",
+            image: venue.image ?? "",
             images: venue.images ?? [],
             ingredients: venue.ingredients ?? [],
           }
@@ -2257,58 +2254,58 @@ export default function AdminDiningTab() {
     setMenuDraft(
       (venue?.menu ?? []).map((s) => ({
         title: s.title,
-        subtitle: s.subtitle ?? '',
+        subtitle: s.subtitle ?? "",
         items: (s.items ?? []).map((i) => ({
           name: i.name,
-          description: i.description ?? '',
-          price: i.price ?? '',
+          description: i.description ?? "",
+          price: i.price ?? "",
           isVegetarian: i.isVegetarian,
           isVegan: i.isVegan,
           isSignature: i.isSignature,
-          allergens: i.allergens ?? '',
+          allergens: i.allergens ?? "",
         })),
       })),
     );
 
     setIsNew(!venue);
-    setEditorTab('details');
-    setFormError('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setEditorTab("details");
+    setFormError("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const closeEditor = () => {
     setEditing(null);
-    setFormError('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setFormError("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSaveVenue = async () => {
-    setFormError('');
+    setFormError("");
 
     const v = editing;
 
-    if (!v.name.trim()) return setFormError('The venue needs a name.');
-    if (!v.id.trim()) return setFormError('The venue needs a slug.');
+    if (!v.name.trim()) return setFormError("The venue needs a name.");
+    if (!v.id.trim()) return setFormError("The venue needs a slug.");
 
     if (!/^[a-z0-9-]+$/.test(v.id))
       return setFormError(
-        'The slug may contain lowercase letters, numbers and hyphens only.',
+        "The slug may contain lowercase letters, numbers and hyphens only.",
       );
 
     if (Number(v.capacity) < 1)
-      return setFormError('Capacity must be at least one cover.');
+      return setFormError("Capacity must be at least one cover.");
 
     const gallery = v.images.map((i) => i.trim()).filter(Boolean);
     const hero = v.image.trim();
 
     if (gallery.length > 6)
       return setFormError(
-        'A venue may have at most 6 gallery images, not counting the hero.',
+        "A venue may have at most 6 gallery images, not counting the hero.",
       );
 
     if (gallery.some((i) => i.toLowerCase() === hero.toLowerCase()))
       return setFormError(
-        'The hero image must not also appear in the gallery.',
+        "The hero image must not also appear in the gallery.",
       );
 
     try {
@@ -2335,16 +2332,16 @@ export default function AdminDiningTab() {
         ingredients: v.ingredients.map((i) => i.trim()).filter(Boolean),
       }).unwrap();
 
-      showToast(res?.message || 'Venue saved.');
+      showToast(res?.message || "Venue saved.");
       setEditing(null);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      setFormError(errorText(err, 'The venue could not be saved.'));
+      setFormError(errorText(err, "The venue could not be saved."));
     }
   };
 
   const handleSaveMenu = async () => {
-    setFormError('');
+    setFormError("");
 
     const sections = menuDraft
       .filter((s) => s.title.trim())
@@ -2358,7 +2355,7 @@ export default function AdminDiningTab() {
             description: i.description.trim() || null,
             // Blank means "no separate price" - a course on a fixed tasting
             // menu - which is different from zero.
-            price: i.price === '' ? null : Number(i.price),
+            price: i.price === "" ? null : Number(i.price),
             isVegetarian: i.isVegetarian || i.isVegan,
             isVegan: i.isVegan,
             isSignature: i.isSignature,
@@ -2367,10 +2364,10 @@ export default function AdminDiningTab() {
       }));
 
     if (sections.length === 0)
-      return setFormError('A menu needs at least one section.');
+      return setFormError("A menu needs at least one section.");
 
     if (sections.every((s) => s.items.length === 0))
-      return setFormError('Every section is empty. Add at least one dish.');
+      return setFormError("Every section is empty. Add at least one dish.");
 
     try {
       const res = await saveMenu({
@@ -2378,18 +2375,18 @@ export default function AdminDiningTab() {
         sections,
       }).unwrap();
 
-      showToast(res?.message || 'Menu saved.');
+      showToast(res?.message || "Menu saved.");
     } catch (err) {
-      setFormError(errorText(err, 'The menu could not be saved.'));
+      setFormError(errorText(err, "The menu could not be saved."));
     }
   };
 
   const handleRetire = async (venue) => {
     try {
       const res = await deleteVenue(venue.id).unwrap();
-      showToast(res?.message || 'Venue retired.');
+      showToast(res?.message || "Venue retired.");
     } catch (err) {
-      showToast(errorText(err, 'The venue could not be retired.'));
+      showToast(errorText(err, "The venue could not be retired."));
     }
   };
 
@@ -2432,10 +2429,10 @@ export default function AdminDiningTab() {
     return (
       <div
         className="p-6 md:p-8 space-y-6 text-deep-wood"
-        style={{ fontFamily: 'var(--font-body)' }}
+        style={{ fontFamily: "var(--font-body)" }}
       >
         {/* ── Top Header & Breadcrumb Strip ── */}
-        <div className="bg-surface-container-low border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-semibold text-deep-wood/60">
               <button
@@ -2447,7 +2444,9 @@ export default function AdminDiningTab() {
               </button>
               <span>/</span>
               <span className="text-primary font-bold">
-                {isNew ? 'New Dining Venue' : `Edit: ${editing.name || editing.id}`}
+                {isNew
+                  ? "New Dining Venue"
+                  : `Edit: ${editing.name || editing.id}`}
               </span>
             </div>
 
@@ -2463,13 +2462,13 @@ export default function AdminDiningTab() {
 
               <h2
                 className="text-2xl sm:text-3xl font-bold text-deep-wood italic"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                style={{ fontFamily: "var(--font-heading)" }}
               >
-                {isNew ? 'Create Dining Venue' : editing.name || 'Edit Venue'}
+                {isNew ? "Create Dining Venue" : editing.name || "Edit Venue"}
               </h2>
 
               <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                {editing.type} • {editing.cuisine || 'Cuisine'}
+                {editing.type} • {editing.cuisine || "Cuisine"}
               </span>
 
               {!isNew && (
@@ -2502,7 +2501,7 @@ export default function AdminDiningTab() {
 
             <button
               type="button"
-              onClick={editorTab === 'menu' ? handleSaveMenu : handleSaveVenue}
+              onClick={editorTab === "menu" ? handleSaveMenu : handleSaveVenue}
               disabled={savingVenue || savingMenu}
               className="px-6 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-98 disabled:opacity-50"
             >
@@ -2512,11 +2511,11 @@ export default function AdminDiningTab() {
                 <Save size={14} />
               )}
               <span>
-                {editorTab === 'menu'
-                  ? 'Save Menu'
+                {editorTab === "menu"
+                  ? "Save Menu"
                   : isNew
-                    ? 'Create Venue'
-                    : 'Save Specifications'}
+                    ? "Create Venue"
+                    : "Save Specifications"}
               </span>
             </button>
           </div>
@@ -2531,13 +2530,13 @@ export default function AdminDiningTab() {
         )}
 
         {/* ── Mode Switcher: Specifications vs Menu ── */}
-        <div className="flex items-center gap-2 p-1.5 bg-surface-container-low border border-primary/20 rounded-2xl w-fit shadow-xs">
+        <div className="flex items-center gap-2 p-1.5 bg-surface-container-low/50 border border-primary/20 rounded-2xl w-fit shadow-xs">
           {[
-            { id: 'details', label: 'Venue Specifications', icon: Info },
-            { id: 'menu', label: 'Curated Menu', icon: ChefHat },
+            { id: "details", label: "Venue Specifications", icon: Info },
+            { id: "menu", label: "Curated Menu", icon: ChefHat },
           ].map((t) => {
             const Icon = t.icon;
-            const disabled = t.id === 'menu' && isNew;
+            const disabled = t.id === "menu" && isNew;
 
             return (
               <button
@@ -2546,30 +2545,30 @@ export default function AdminDiningTab() {
                 disabled={disabled}
                 onClick={() => {
                   setEditorTab(t.id);
-                  setFormError('');
+                  setFormError("");
                 }}
                 className={[
-                  'px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 cursor-pointer transition-all',
-                  disabled ? 'opacity-40 cursor-not-allowed' : '',
+                  "px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 cursor-pointer transition-all",
+                  disabled ? "opacity-40 cursor-not-allowed" : "",
                   editorTab === t.id
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10',
-                ].join(' ')}
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10",
+                ].join(" ")}
               >
                 <Icon size={15} />
                 {t.label}
-                {t.id === 'menu' && !isNew && (
+                {t.id === "menu" && !isNew && (
                   <span
                     className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
-                      editorTab === 'menu'
-                        ? 'bg-white/20 text-white'
-                        : 'bg-primary/10 text-primary'
+                      editorTab === "menu"
+                        ? "bg-white/20 text-white"
+                        : "bg-primary/10 text-primary"
                     }`}
                   >
                     {menuDraft.reduce(
                       (acc, s) => acc + (s.items?.length || 0),
                       0,
-                    )}{' '}
+                    )}{" "}
                     items
                   </span>
                 )}
@@ -2579,7 +2578,7 @@ export default function AdminDiningTab() {
         </div>
 
         {/* ── TAB 1: VENUE SPECIFICATIONS (2-Column Grid) ── */}
-        {editorTab === 'details' ? (
+        {editorTab === "details" ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column: Form Sections (8 Cols) */}
             <div className="lg:col-span-8 space-y-6">
@@ -2590,8 +2589,8 @@ export default function AdminDiningTab() {
                   <h3
                     className="text-lg font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Venue Concept &amp; Identity
@@ -2620,13 +2619,15 @@ export default function AdminDiningTab() {
                     required
                     hint={
                       isNew
-                        ? 'Auto-generated from name. Used in public URLs.'
-                        : 'Locked after creation to protect bookmarks and links.'
+                        ? "Auto-generated from name. Used in public URLs."
+                        : "Locked after creation to protect bookmarks and links."
                     }
                   >
                     <input
                       className={`${inputClass} font-mono ${
-                        !isNew ? 'opacity-70 cursor-not-allowed bg-surface-container-low' : ''
+                        !isNew
+                          ? "opacity-70 cursor-not-allowed bg-surface-container-low/50"
+                          : ""
                       }`}
                       value={editing.id}
                       disabled={!isNew}
@@ -2711,8 +2712,8 @@ export default function AdminDiningTab() {
                   <h3
                     className="text-lg font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Atmosphere, Hours &amp; Capacity
@@ -2723,7 +2724,7 @@ export default function AdminDiningTab() {
                   <Field label="Price Tier">
                     <select
                       className={`${inputClass} cursor-pointer`}
-                      value={editing.priceTier || '$$$'}
+                      value={editing.priceTier || "$$$"}
                       onChange={(e) =>
                         setEditing((v) => ({
                           ...v,
@@ -2734,7 +2735,9 @@ export default function AdminDiningTab() {
                       <option value="$">$ (Casual Dining)</option>
                       <option value="$$">$$ (Moderate Fine Casual)</option>
                       <option value="$$$">$$$ (Upscale Signature)</option>
-                      <option value="$$$$">$$$$ (Haute Cuisine / Tasting)</option>
+                      <option value="$$$$">
+                        $$$$ (Haute Cuisine / Tasting)
+                      </option>
                     </select>
                   </Field>
 
@@ -2846,8 +2849,8 @@ export default function AdminDiningTab() {
                   <h3
                     className="text-lg font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Culinary Sourcing &amp; Highlights
@@ -2862,11 +2865,11 @@ export default function AdminDiningTab() {
                   <textarea
                     rows={4}
                     className={`${inputClass} resize-none leading-relaxed`}
-                    value={editing.ingredients.join('\n')}
+                    value={editing.ingredients.join("\n")}
                     onChange={(e) =>
                       setEditing((v) => ({
                         ...v,
-                        ingredients: e.target.value.split('\n'),
+                        ingredients: e.target.value.split("\n"),
                       }))
                     }
                     placeholder="Estate-pressed Ceylon cinnamon&#10;Line-caught yellowfin tuna from Mirissa&#10;Organic heirloom red rice from Kandy"
@@ -2881,8 +2884,8 @@ export default function AdminDiningTab() {
                   <h3
                     className="text-lg font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Publishing &amp; Operational Controls
@@ -2911,27 +2914,27 @@ export default function AdminDiningTab() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                   {[
                     [
-                      'reservationRequired',
-                      'Takes table reservations',
-                      'Enables guest booking flow',
+                      "reservationRequired",
+                      "Takes table reservations",
+                      "Enables guest booking flow",
                     ],
                     [
-                      'featured',
-                      'Feature on dining page',
-                      'Spotlight in hero banners',
+                      "featured",
+                      "Feature on dining page",
+                      "Spotlight in hero banners",
                     ],
                     [
-                      'isActive',
-                      'Live on the guest site',
-                      'Visible to resort visitors',
+                      "isActive",
+                      "Live on the guest site",
+                      "Visible to resort visitors",
                     ],
                   ].map(([field, label, sub]) => (
                     <label
                       key={field}
                       className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all select-none ${
                         editing[field]
-                          ? 'bg-primary/5 border-primary/40 text-deep-wood shadow-2xs'
-                          : 'bg-surface-container-low border-primary/20 text-deep-wood/80 hover:bg-primary/5'
+                          ? "bg-primary/5 border-primary/40 text-deep-wood shadow-2xs"
+                          : "bg-surface-container-low/50 border-primary/20 text-deep-wood/80 hover:bg-primary/5"
                       }`}
                     >
                       <div className="mt-0.5">
@@ -2957,12 +2960,12 @@ export default function AdminDiningTab() {
               </div>
 
               {/* Advisory Card */}
-              <div className="p-4 rounded-xl bg-surface-container-low border border-primary/20 text-xs text-deep-wood/75 flex items-start gap-3 shadow-xs">
+              <div className="p-4 rounded-xl bg-surface-container-low/50 border border-primary/20 text-xs text-deep-wood/75 flex items-start gap-3 shadow-xs">
                 <Info size={16} className="text-primary shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  <strong>Operational Note:</strong> Retiring a venue hides it from
-                  the guest dining page but preserves every past and upcoming table
-                  reservation intact in the database.
+                  <strong>Operational Note:</strong> Retiring a venue hides it
+                  from the guest dining page but preserves every past and
+                  upcoming table reservation intact in the database.
                 </span>
               </div>
             </div>
@@ -2976,8 +2979,8 @@ export default function AdminDiningTab() {
                   <h3
                     className="text-base sm:text-lg font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Visual Assets &amp; Gallery
@@ -3007,7 +3010,7 @@ export default function AdminDiningTab() {
                           alt="Hero preview"
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.style.display = "none";
                           }}
                         />
                       </div>
@@ -3024,11 +3027,11 @@ export default function AdminDiningTab() {
                     <textarea
                       rows={3}
                       className={`${inputClass} font-mono text-xs resize-none`}
-                      value={editing.images.join('\n')}
+                      value={editing.images.join("\n")}
                       onChange={(e) =>
                         setEditing((v) => ({
                           ...v,
-                          images: e.target.value.split('\n'),
+                          images: e.target.value.split("\n"),
                         }))
                       }
                       placeholder="/assets/images/dining/venue-01.jpg&#10;/assets/images/dining/venue-02.jpg"
@@ -3049,7 +3052,7 @@ export default function AdminDiningTab() {
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.style.display = "none";
                                 }}
                               />
                               <span className="absolute bottom-1 right-1 bg-deep-wood/80 text-white text-[9px] px-1 rounded font-mono">
@@ -3077,16 +3080,19 @@ export default function AdminDiningTab() {
                 <div className="rounded-xl overflow-hidden border border-primary/20 bg-white shadow-xs">
                   <div className="relative h-40 bg-surface-container-high overflow-hidden">
                     <img
-                      src={editing.image || '/assets/images/dining/canopy-table.jpg'}
+                      src={
+                        editing.image ||
+                        "/assets/images/dining/canopy-table.jpg"
+                      }
                       alt="Preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.src =
-                          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800';
+                          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800";
                       }}
                     />
                     <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-deep-wood/85 backdrop-blur-md text-amber-300 text-[10px] font-bold uppercase rounded-md tracking-wider">
-                      {editing.type || 'Restaurant'}
+                      {editing.type || "Restaurant"}
                     </div>
                     {editing.cuisine && (
                       <div className="absolute bottom-2.5 left-2.5 px-2 py-0.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-medium rounded-md">
@@ -3098,9 +3104,9 @@ export default function AdminDiningTab() {
                   <div className="p-4 space-y-2">
                     <h4
                       className="text-base font-bold text-deep-wood italic"
-                      style={{ fontFamily: 'var(--font-heading)' }}
+                      style={{ fontFamily: "var(--font-heading)" }}
                     >
-                      {editing.name || 'Venue Sanctuary'}
+                      {editing.name || "Venue Sanctuary"}
                     </h4>
 
                     {editing.tagline && (
@@ -3110,15 +3116,15 @@ export default function AdminDiningTab() {
                     )}
 
                     <div className="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-[11px] text-deep-wood/65">
-                      <span>{editing.openHours || 'Hours not configured'}</span>
-                      <span>{editing.dressCode || 'Dress code'}</span>
+                      <span>{editing.openHours || "Hours not configured"}</span>
+                      <span>{editing.dressCode || "Dress code"}</span>
                     </div>
 
                     <div className="pt-1">
                       <div className="w-full py-2 rounded-lg bg-primary/10 text-primary text-center text-[10px] font-bold uppercase tracking-wider">
                         {editing.reservationRequired
-                          ? 'Reserve a Table'
-                          : 'Walk-ins Welcome'}
+                          ? "Reserve a Table"
+                          : "Walk-ins Welcome"}
                       </div>
                     </div>
                   </div>
@@ -3129,12 +3135,12 @@ export default function AdminDiningTab() {
         ) : (
           /* ── TAB 2: CURATED MENU BUILDER ── */
           <div className="space-y-6">
-            <div className="p-4 rounded-2xl bg-surface-container-low border border-primary/20 text-xs text-deep-wood/80 flex items-start gap-3 shadow-xs">
+            <div className="p-4 rounded-2xl bg-surface-container-low/50 border border-primary/20 text-xs text-deep-wood/80 flex items-start gap-3 shadow-xs">
               <Info size={16} className="text-primary shrink-0 mt-0.5" />
               <span className="leading-relaxed">
-                Saving replaces the whole menu. Leave a price blank for a course on
-                a fixed tasting menu — that is different from zero, and blank shows
-                no price figure to the guest.
+                Saving replaces the whole menu. Leave a price blank for a course
+                on a fixed tasting menu — that is different from zero, and blank
+                shows no price figure to the guest.
               </span>
             </div>
 
@@ -3143,21 +3149,21 @@ export default function AdminDiningTab() {
                 <ChefHat size={36} className="mx-auto text-primary/40" />
                 <h4
                   className="text-base font-bold text-deep-wood"
-                  style={{ fontFamily: 'var(--font-heading)' }}
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
                   No Menu Courses Configured Yet
                 </h4>
                 <p className="text-xs text-deep-wood/60 max-w-md mx-auto">
-                  The guest page displays nothing behind &ldquo;Sample Menu&rdquo;
-                  until you create at least one course section.
+                  The guest page displays nothing behind &ldquo;Sample
+                  Menu&rdquo; until you create at least one course section.
                 </p>
                 <button
                   type="button"
                   onClick={() =>
                     setMenuDraft([
                       {
-                        title: 'First Courses',
-                        subtitle: 'Artisanal starters',
+                        title: "First Courses",
+                        subtitle: "Artisanal starters",
                         items: [{ ...EMPTY_ITEM }],
                       },
                     ])
@@ -3183,15 +3189,15 @@ export default function AdminDiningTab() {
                     <h4
                       className="text-base font-bold text-deep-wood"
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontStyle: 'italic',
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
                       }}
                     >
                       {sec.title || `Course Section ${si + 1}`}
                     </h4>
                     <span className="text-[11px] font-semibold text-deep-wood/50">
-                      ({sec.items.length}{' '}
-                      {sec.items.length === 1 ? 'dish' : 'dishes'})
+                      ({sec.items.length}{" "}
+                      {sec.items.length === 1 ? "dish" : "dishes"})
                     </span>
                   </div>
 
@@ -3245,7 +3251,7 @@ export default function AdminDiningTab() {
                   {sec.items.map((item, ii) => (
                     <div
                       key={ii}
-                      className="p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-3 shadow-2xs"
+                      className="p-4 rounded-xl bg-surface-container-low/50 border border-outline-variant/30 space-y-3 shadow-2xs"
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-6 h-6 rounded-md bg-white border border-primary/20 text-deep-wood/60 font-mono text-[10px] font-bold flex items-center justify-center shrink-0 mt-2">
@@ -3322,9 +3328,9 @@ export default function AdminDiningTab() {
 
                         <div className="flex items-center gap-3">
                           {[
-                            ['isVegetarian', 'Vegetarian'],
-                            ['isVegan', 'Vegan'],
-                            ['isSignature', 'Signature'],
+                            ["isVegetarian", "Vegetarian"],
+                            ["isVegan", "Vegan"],
+                            ["isSignature", "Signature"],
                           ].map(([field, label]) => (
                             <label
                               key={field}
@@ -3362,7 +3368,7 @@ export default function AdminDiningTab() {
                     }
                     className="w-full py-2.5 rounded-xl border border-dashed border-primary/40 text-primary text-xs font-bold uppercase tracking-wider hover:bg-primary/5 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                   >
-                    <Plus size={14} /> Add Dish to {sec.title || 'Course'}
+                    <Plus size={14} /> Add Dish to {sec.title || "Course"}
                   </button>
                 </div>
               </div>
@@ -3374,8 +3380,8 @@ export default function AdminDiningTab() {
                 setMenuDraft((prev) => [
                   ...prev,
                   {
-                    title: '',
-                    subtitle: '',
+                    title: "",
+                    subtitle: "",
                     items: [{ ...EMPTY_ITEM }],
                   },
                 ])
@@ -3388,7 +3394,7 @@ export default function AdminDiningTab() {
         )}
 
         {/* ── Bottom Action Bar ── */}
-        <div className="p-5 bg-surface-container-low border border-outline-variant/30 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
+        <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
           <button
             type="button"
             onClick={closeEditor}
@@ -3399,7 +3405,7 @@ export default function AdminDiningTab() {
 
           <button
             type="button"
-            onClick={editorTab === 'menu' ? handleSaveMenu : handleSaveVenue}
+            onClick={editorTab === "menu" ? handleSaveMenu : handleSaveVenue}
             disabled={savingVenue || savingMenu}
             className="px-6 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-98 disabled:opacity-50"
           >
@@ -3409,11 +3415,11 @@ export default function AdminDiningTab() {
               <Save size={14} />
             )}
             <span>
-              {editorTab === 'menu'
-                ? 'Save Menu'
+              {editorTab === "menu"
+                ? "Save Menu"
                 : isNew
-                  ? 'Create Venue'
-                  : 'Save Specifications'}
+                  ? "Create Venue"
+                  : "Save Specifications"}
             </span>
           </button>
         </div>
@@ -3442,14 +3448,14 @@ export default function AdminDiningTab() {
         <div className="flex items-center gap-1.5 p-1 bg-surface-container-high rounded-xl border border-primary/20">
           {[
             {
-              id: 'covers',
-              label: 'Covers',
+              id: "covers",
+              label: "Covers",
               icon: ClipboardList,
               count: reservations.length,
             },
             {
-              id: 'venues',
-              label: 'Venues',
+              id: "venues",
+              label: "Venues",
               icon: UtensilsCrossed,
               count: venues.length,
             },
@@ -3462,11 +3468,11 @@ export default function AdminDiningTab() {
                 type="button"
                 onClick={() => setSection(tab.id)}
                 className={[
-                  'px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer',
+                  "px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer",
                   section === tab.id
-                    ? 'bg-primary text-white shadow-xs'
-                    : 'text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10',
-                ].join(' ')}
+                    ? "bg-primary text-white shadow-xs"
+                    : "text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10",
+                ].join(" ")}
               >
                 <Icon size={14} />
                 <span>
@@ -3477,7 +3483,7 @@ export default function AdminDiningTab() {
           })}
         </div>
 
-        {section === 'venues' && (
+        {section === "venues" && (
           <button
             type="button"
             onClick={() => openVenue(null)}
@@ -3489,7 +3495,7 @@ export default function AdminDiningTab() {
       </div>
 
       {/* ---------------- covers ---------------- */}
-      {section === 'covers' && (
+      {section === "covers" && (
         <>
           <div className="mb-4 flex flex-wrap items-end gap-3">
             <div>
@@ -3564,8 +3570,8 @@ export default function AdminDiningTab() {
               onClick={() => {
                 setFrom(today);
                 setTo(today);
-                setStatusFilter('all');
-                setSearch('');
+                setStatusFilter("all");
+                setSearch("");
               }}
               className="px-4 py-2.5 rounded-xl bg-white border border-outline-variant/40 text-deep-wood text-[11px] font-bold uppercase tracking-wider hover:bg-surface-container-high cursor-pointer"
             >
@@ -3605,11 +3611,11 @@ export default function AdminDiningTab() {
 
             <div
               className={[
-                'p-4 rounded-2xl border',
+                "p-4 rounded-2xl border",
                 dietaryCount > 0
-                  ? 'bg-amber-50 border-amber-200'
-                  : 'bg-surface border-outline-variant/30',
-              ].join(' ')}
+                  ? "bg-amber-50 border-amber-200"
+                  : "bg-surface border-outline-variant/30",
+              ].join(" ")}
             >
               <span className="text-[10px] font-bold uppercase tracking-wider text-deep-wood/55 block">
                 Dietary Notes
@@ -3620,7 +3626,7 @@ export default function AdminDiningTab() {
               </span>
 
               <span className="text-[10px] text-deep-wood/50 block">
-                {dietaryCount > 0 ? 'brief the kitchen' : 'none today'}
+                {dietaryCount > 0 ? "brief the kitchen" : "none today"}
               </span>
             </div>
           </div>
@@ -3637,10 +3643,7 @@ export default function AdminDiningTab() {
               </p>
 
               <p className="mt-1 text-xs text-deep-wood/60">
-                {errorText(
-                  coversErrObj,
-                  'The resort system did not respond.',
-                )}
+                {errorText(coversErrObj, "The resort system did not respond.")}
               </p>
 
               <button
@@ -3690,7 +3693,7 @@ export default function AdminDiningTab() {
                   {reservations.map((r) => (
                     <tr
                       key={r.referenceId}
-                      className={r.status === 'Cancelled' ? 'opacity-55' : ''}
+                      className={r.status === "Cancelled" ? "opacity-55" : ""}
                     >
                       <td className="px-4 py-3 align-top">
                         <span className="font-mono font-bold text-primary block">
@@ -3762,10 +3765,10 @@ export default function AdminDiningTab() {
                       <td className="px-4 py-3 align-top">
                         <span
                           className={[
-                            'px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider border',
+                            "px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider border",
                             STATUS_STYLES[r.status] ??
-                              'bg-surface-container-high text-deep-wood/70 border-outline-variant/40',
-                          ].join(' ')}
+                              "bg-surface-container-high text-deep-wood/70 border-outline-variant/40",
+                          ].join(" ")}
                         >
                           {r.status}
                         </span>
@@ -3780,11 +3783,11 @@ export default function AdminDiningTab() {
                               onClick={() => handleStatus(r, next)}
                               disabled={statusSaving}
                               className={[
-                                'px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-40',
-                                next === 'Cancelled' || next === 'No-Show'
-                                  ? 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200'
-                                  : 'bg-emerald-600 text-white hover:bg-emerald-700',
-                              ].join(' ')}
+                                "px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-40",
+                                next === "Cancelled" || next === "No-Show"
+                                  ? "bg-red-50 text-red-700 hover:bg-red-100 border border-red-200"
+                                  : "bg-emerald-600 text-white hover:bg-emerald-700",
+                              ].join(" ")}
                             >
                               {next}
                             </button>
@@ -3813,34 +3816,34 @@ export default function AdminDiningTab() {
       )}
 
       {/* ---------------- venues ---------------- */}
-      {section === 'venues' && (
+      {section === "venues" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {venues.map((venue) => (
             <div
               key={venue.id}
               className={[
-                'rounded-2xl border overflow-hidden bg-surface flex flex-col justify-between transition-all',
+                "rounded-2xl border overflow-hidden bg-surface flex flex-col justify-between transition-all",
                 venue.isActive
-                  ? 'border-outline-variant/30 hover:shadow-md'
-                  : 'border-dashed border-amber-500/50 opacity-70',
-              ].join(' ')}
+                  ? "border-outline-variant/30 hover:shadow-md"
+                  : "border-dashed border-amber-500/50 opacity-70",
+              ].join(" ")}
             >
               <div className="relative h-32">
                 <img
-                  src={venue.image}
+                  src={mediaUrl(venue.image)}
                   alt={venue.name}
                   className="w-full h-full object-cover"
                 />
 
                 <span
                   className={[
-                    'absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider shadow-sm',
+                    "absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider shadow-sm",
                     venue.isActive
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-amber-500 text-white',
-                  ].join(' ')}
+                      ? "bg-emerald-600 text-white"
+                      : "bg-amber-500 text-white",
+                  ].join(" ")}
                 >
-                  {venue.isActive ? 'Live' : 'Retired'}
+                  {venue.isActive ? "Live" : "Retired"}
                 </span>
 
                 <span className="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-md bg-deep-wood/80 backdrop-blur-md text-sand text-[10px] font-bold uppercase tracking-wider">
@@ -3849,16 +3852,16 @@ export default function AdminDiningTab() {
 
                 <span
                   className={[
-                    'absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-md',
+                    "absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-md",
                     (venue.menu?.length ?? 0) > 0
-                      ? 'bg-deep-wood/75 text-sand'
-                      : 'bg-amber-500/90 text-white',
-                  ].join(' ')}
+                      ? "bg-deep-wood/75 text-sand"
+                      : "bg-amber-500/90 text-white",
+                  ].join(" ")}
                 >
                   {venue.menu?.reduce(
                     (n, s) => n + (s.items?.length ?? 0),
                     0,
-                  ) ?? 0}{' '}
+                  ) ?? 0}{" "}
                   dishes
                 </span>
               </div>

@@ -1,0 +1,16 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/gallery/7d2de338bab14a578861c2386d945593.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\gallery\7d2de338bab14a578861c2386d945593.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"17772"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Sep 2026 05:01:36 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/gallery/7d2de338bab14a578861c2386d945593.l0e2tcsh5r.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\gallery\7d2de338bab14a578861c2386d945593.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"l0e2tcsh5r"},{"Name":"integrity","Value":"sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="},{"Name":"label","Value":"_content/Aviora Resort/uploads/gallery/7d2de338bab14a578861c2386d945593.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"17772"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Sep 2026 05:01:36 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

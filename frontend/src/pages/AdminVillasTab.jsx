@@ -32,6 +32,8 @@ import {
   useSaveVillaRatePlansMutation,
 } from "../features/rooms/roomsApi";
 import ToastAlert from "../components/common/Toast";
+import ImageUploadField from "../components/common/ImageUploadField";
+import { mediaUrl } from "../config/mediaUrl";
 
 /* --------------------------------------------------------------------------
    Module-level constants.
@@ -136,6 +138,103 @@ function ListEditor({
 }
 
 /** Six fixed gallery slots with thumbnails. */
+// function GallerySlots({ value = [], onChange, heroUrl = "" }) {
+//   const hero = (heroUrl || "").trim().toLowerCase();
+//   const slots = Array.from({ length: GALLERY_SLOTS }, (_, i) => value[i] ?? "");
+
+//   const setSlot = (index, url) => {
+//     const next = [...slots];
+//     next[index] = url;
+//     onChange(
+//       next.filter(
+//         (slot, i) => slot.trim() || next.slice(i + 1).some((v) => v.trim()),
+//       ),
+//     );
+//   };
+
+//   const filled = slots.filter((s) => s.trim()).length;
+//   const heroClash = hero && slots.some((s) => s.trim().toLowerCase() === hero);
+
+//   return (
+//     <div className="space-y-3">
+//       <div className="flex items-center justify-between">
+//         <label className="text-xs font-bold uppercase tracking-wider text-deep-wood">
+//           Gallery Photographs ({filled} of {GALLERY_SLOTS})
+//         </label>
+//         <span className="text-[11px] text-deep-wood/60 font-medium">
+//           6 Secondary Slots
+//         </span>
+//       </div>
+
+//       <div className="space-y-2">
+//         {slots.map((url, index) => {
+//           const clashesWithHero =
+//             url.trim() && url.trim().toLowerCase() === hero;
+
+//           return (
+//             <div key={index} className="flex items-center gap-2.5">
+//               <span className="shrink-0 w-6 text-[11px] font-bold text-deep-wood/50 text-center font-mono">
+//                 {index + 1}
+//               </span>
+
+//               <div className="shrink-0 w-14 h-10 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/40 flex items-center justify-center shadow-xs">
+//                 {url.trim() ? (
+//                   <img
+//                     src={url}
+//                     alt=""
+//                     className="w-full h-full object-cover"
+//                     onError={(e) => {
+//                       e.currentTarget.style.visibility = "hidden";
+//                     }}
+//                     onLoad={(e) => {
+//                       e.currentTarget.style.visibility = "visible";
+//                     }}
+//                   />
+//                 ) : (
+//                   <ImageIcon size={14} className="text-deep-wood/30" />
+//                 )}
+//               </div>
+
+//               <input
+//                 className={`${inputClass} flex-1 text-xs font-mono py-2 ${
+//                   clashesWithHero
+//                     ? "border-amber-500 focus:border-amber-600"
+//                     : ""
+//                 }`}
+//                 value={url}
+//                 onChange={(e) => setSlot(index, e.target.value)}
+//                 placeholder={`/assets/images/villas/gallery-0${index + 1}.jpg`}
+//               />
+
+//               {url.trim() && (
+//                 <button
+//                   type="button"
+//                   onClick={() => setSlot(index, "")}
+//                   className="p-1.5 rounded-lg text-deep-wood/40 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+//                   title="Clear this photograph"
+//                 >
+//                   <X size={14} />
+//                 </button>
+//               )}
+//             </div>
+//           );
+//         })}
+//       </div>
+
+//       {heroClash && (
+//         <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
+//           <AlertTriangle size={14} className="text-amber-600 shrink-0 mt-0.5" />
+//           <p className="leading-relaxed">
+//             One of the gallery slots matches the Hero Image URL. The hero is
+//             shown automatically as slide one, so duplicating it in the gallery
+//             creates a redundant second slide.
+//           </p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+/** Six fixed gallery slots, each with its own upload button. */
 function GallerySlots({ value = [], onChange, heroUrl = "" }) {
   const hero = (heroUrl || "").trim().toLowerCase();
   const slots = Array.from({ length: GALLERY_SLOTS }, (_, i) => value[i] ?? "");
@@ -151,8 +250,7 @@ function GallerySlots({ value = [], onChange, heroUrl = "" }) {
   };
 
   const filled = slots.filter((s) => s.trim()).length;
-  const heroClash =
-    hero && slots.some((s) => s.trim().toLowerCase() === hero);
+  const heroClash = hero && slots.some((s) => s.trim().toLowerCase() === hero);
 
   return (
     <div className="space-y-3">
@@ -166,56 +264,18 @@ function GallerySlots({ value = [], onChange, heroUrl = "" }) {
       </div>
 
       <div className="space-y-2">
-        {slots.map((url, index) => {
-          const clashesWithHero =
-            url.trim() && url.trim().toLowerCase() === hero;
-
-          return (
-            <div key={index} className="flex items-center gap-2.5">
-              <span className="shrink-0 w-6 text-[11px] font-bold text-deep-wood/50 text-center font-mono">
-                {index + 1}
-              </span>
-
-              <div className="shrink-0 w-14 h-10 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/40 flex items-center justify-center shadow-xs">
-                {url.trim() ? (
-                  <img
-                    src={url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.visibility = "hidden";
-                    }}
-                    onLoad={(e) => {
-                      e.currentTarget.style.visibility = "visible";
-                    }}
-                  />
-                ) : (
-                  <ImageIcon size={14} className="text-deep-wood/30" />
-                )}
-              </div>
-
-              <input
-                className={`${inputClass} flex-1 text-xs font-mono py-2 ${
-                  clashesWithHero ? "border-amber-500 focus:border-amber-600" : ""
-                }`}
-                value={url}
-                onChange={(e) => setSlot(index, e.target.value)}
-                placeholder={`/assets/images/villas/gallery-0${index + 1}.jpg`}
-              />
-
-              {url.trim() && (
-                <button
-                  type="button"
-                  onClick={() => setSlot(index, "")}
-                  className="p-1.5 rounded-lg text-deep-wood/40 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                  title="Clear this photograph"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
-          );
-        })}
+        {slots.map((url, index) => (
+          <ImageUploadField
+            key={index}
+            variant="slot"
+            index={index + 1}
+            folder="villas"
+            value={url}
+            onChange={(next) => setSlot(index, next)}
+            warn={Boolean(url.trim() && url.trim().toLowerCase() === hero)}
+            placeholder={`/assets/images/villas/gallery-0${index + 1}.jpg`}
+          />
+        ))}
       </div>
 
       {heroClash && (
@@ -373,7 +433,8 @@ export default function AdminVillasTab() {
             ratePlanId: plan.id,
             isOffered: Boolean(plan.isOffered),
             discountPercentOverride:
-              plan.overridePercent === null || plan.overridePercent === undefined
+              plan.overridePercent === null ||
+              plan.overridePercent === undefined
                 ? null
                 : Number(plan.overridePercent),
           }));
@@ -386,7 +447,9 @@ export default function AdminVillasTab() {
       }
       closeForm();
     } catch (err) {
-      setFormError(errorText(err, "Could not save villa. Please check all fields."));
+      setFormError(
+        errorText(err, "Could not save villa. Please check all fields."),
+      );
     }
   };
 
@@ -410,7 +473,10 @@ export default function AdminVillasTab() {
   const handleRestore = async (villa) => {
     try {
       await restoreVilla(villa.id).unwrap();
-      showToast(`Villa "${villa.name}" restored to active catalogue.`, "success");
+      showToast(
+        `Villa "${villa.name}" restored to active catalogue.`,
+        "success",
+      );
     } catch (err) {
       showToast(errorText(err, "Could not restore villa."), "error");
     }
@@ -427,7 +493,7 @@ export default function AdminVillasTab() {
         style={{ fontFamily: "var(--font-body)" }}
       >
         {/* ── Top Header & Breadcrumb Strip ── */}
-        <div className="bg-surface-container-low border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-semibold text-deep-wood/60">
               <button
@@ -439,7 +505,9 @@ export default function AdminVillasTab() {
               </button>
               <span>/</span>
               <span className="text-primary font-bold">
-                {isNew ? "New Sanctuary" : `Edit: ${editing.name || editing.id}`}
+                {isNew
+                  ? "New Sanctuary"
+                  : `Edit: ${editing.name || editing.id}`}
               </span>
             </div>
 
@@ -457,7 +525,9 @@ export default function AdminVillasTab() {
                 className="text-2xl sm:text-3xl font-bold text-deep-wood italic"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                {isNew ? "Create Villa Sanctuary" : editing.name || "Edit Villa"}
+                {isNew
+                  ? "Create Villa Sanctuary"
+                  : editing.name || "Edit Villa"}
               </h2>
 
               <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
@@ -516,7 +586,10 @@ export default function AdminVillasTab() {
                 <Sparkles size={18} className="text-primary" />
                 <h3
                   className="text-lg font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Villa Identity &amp; Categorization
                 </h3>
@@ -543,7 +616,9 @@ export default function AdminVillasTab() {
                 >
                   <input
                     className={`${inputClass} font-mono ${
-                      !isNew ? "bg-surface-container-high/60 cursor-not-allowed opacity-75" : ""
+                      !isNew
+                        ? "bg-surface-container-high/60 cursor-not-allowed opacity-75"
+                        : ""
                     }`}
                     value={editing.id}
                     disabled={!isNew}
@@ -641,7 +716,10 @@ export default function AdminVillasTab() {
                 <Maximize2 size={18} className="text-primary" />
                 <h3
                   className="text-lg font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Dimensions, Layout &amp; Capacity
                 </h3>
@@ -695,7 +773,9 @@ export default function AdminVillasTab() {
                   <input
                     className={inputClass}
                     value={editing.bedConfiguration}
-                    onChange={(e) => setField("bedConfiguration", e.target.value)}
+                    onChange={(e) =>
+                      setField("bedConfiguration", e.target.value)
+                    }
                     placeholder="e.g. 1 King Bedroom + Daybed"
                   />
                 </Field>
@@ -717,7 +797,10 @@ export default function AdminVillasTab() {
                 <span className="text-base font-bold text-primary">LKR</span>
                 <h3
                   className="text-lg font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Standard Base Nightly Tariff
                 </h3>
@@ -736,11 +819,13 @@ export default function AdminVillasTab() {
                       min={50}
                       className={`${inputClass} pl-10 font-mono`}
                       value={editing.pricePerNight}
-                      onChange={(e) => setField("pricePerNight", e.target.value)}
+                      onChange={(e) =>
+                        setField("pricePerNight", e.target.value)
+                      }
                     />
                     <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-deep-wood/50 pointer-events-none">
-  LKR
-</span>
+                      LKR
+                    </span>
                   </div>
                 </Field>
 
@@ -767,7 +852,10 @@ export default function AdminVillasTab() {
                     <Layers size={18} className="text-primary" />
                     <h3
                       className="text-lg font-bold text-deep-wood"
-                      style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                      style={{
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
+                      }}
                     >
                       Published Rate Plans &amp; Custom Modifiers
                     </h3>
@@ -799,7 +887,7 @@ export default function AdminVillasTab() {
                         className={[
                           "p-4 rounded-xl border transition-all space-y-3",
                           plan.isOffered
-                            ? "bg-surface-container-lowest border-primary/30 shadow-xs"
+                            ? "bg-surface-container-low/50 border-primary/30 shadow-xs"
                             : "bg-surface-container-high/30 border-outline-variant/30 opacity-70",
                         ].join(" ")}
                       >
@@ -822,7 +910,11 @@ export default function AdminVillasTab() {
                                 }`}
                               >
                                 {plan.isOffered && (
-                                  <Check size={12} strokeWidth={3} className="text-white" />
+                                  <Check
+                                    size={12}
+                                    strokeWidth={3}
+                                    className="text-white"
+                                  />
                                 )}
                               </div>
                             </div>
@@ -870,7 +962,11 @@ export default function AdminVillasTab() {
                                   }`}
                                 >
                                   {plan.overridePercent !== null && (
-                                    <Check size={10} strokeWidth={3} className="text-white" />
+                                    <Check
+                                      size={10}
+                                      strokeWidth={3}
+                                      className="text-white"
+                                    />
                                   )}
                                 </div>
                               </div>
@@ -893,7 +989,10 @@ export default function AdminVillasTab() {
                                   className="w-24 px-3 py-1.5 text-xs bg-white border border-outline-variant/40 rounded-lg font-mono focus:border-primary focus:outline-none"
                                 />
                                 <span className="text-[11px] text-deep-wood/60 font-medium">
-                                  % {plan.overridePercent >= 0 ? "discount" : "surcharge"}
+                                  %{" "}
+                                  {plan.overridePercent >= 0
+                                    ? "discount"
+                                    : "surcharge"}
                                 </span>
                               </div>
                             ) : (
@@ -916,7 +1015,10 @@ export default function AdminVillasTab() {
                 <CheckCircle2 size={18} className="text-primary" />
                 <h3
                   className="text-lg font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Curated Amenities &amp; Publishing Options
                 </h3>
@@ -947,7 +1049,7 @@ export default function AdminVillasTab() {
                 </Field>
 
                 <div className="flex items-center">
-                  <label className="flex items-center gap-3 p-3.5 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
+                  <label className="flex items-center gap-3 p-3.5 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
                     <div className="relative flex items-center justify-center">
                       <input
                         type="checkbox"
@@ -963,7 +1065,11 @@ export default function AdminVillasTab() {
                         }`}
                       >
                         {editing.featured && (
-                          <Check size={12} strokeWidth={3} className="text-white" />
+                          <Check
+                            size={12}
+                            strokeWidth={3}
+                            className="text-white"
+                          />
                         )}
                       </div>
                     </div>
@@ -982,7 +1088,10 @@ export default function AdminVillasTab() {
                 <ImagePlus size={18} className="text-primary" />
                 <h3
                   className="text-base sm:text-lg font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Visual Assets &amp; Gallery
                 </h3>
@@ -990,6 +1099,19 @@ export default function AdminVillasTab() {
 
               {/* Hero Image */}
               <Field
+                label="Hero Main Photograph"
+                required
+                hint="Cover photograph for listing cards and header banner. Upload one, or paste a path to reuse an existing image."
+              >
+                <ImageUploadField
+                  variant="hero"
+                  folder="villas"
+                  value={editing.image}
+                  onChange={(url) => setField("image", url)}
+                  placeholder="/assets/images/villas/canopy-villa-01.jpg"
+                />
+              </Field>
+              {/* <Field
                 label="Hero Main Photograph URL"
                 required
                 hint="Cover photograph for listing cards and header banner."
@@ -1014,7 +1136,7 @@ export default function AdminVillasTab() {
                     </div>
                   )}
                 </div>
-              </Field>
+              </Field> */}
 
               {/* 6 Gallery Slots */}
               <GallerySlots
@@ -1033,11 +1155,14 @@ export default function AdminVillasTab() {
               <div className="rounded-xl overflow-hidden border border-primary/20 bg-white shadow-xs">
                 <div className="relative h-36 bg-surface-container-high overflow-hidden">
                   <img
-                    src={editing.image || "/assets/images/villas/canopy-villa-01.jpg"}
+                    src={mediaUrl(editing.image) ||
+                      "/assets/images/villas/canopy-villa-01.jpg"
+                    }
                     alt=""
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.src = "/assets/images/villas/canopy-villa-01.jpg";
+                      e.currentTarget.src =
+                        "/assets/images/villas/canopy-villa-01.jpg";
                     }}
                   />
                   <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-deep-wood/80 backdrop-blur-md text-sand text-[10px] font-bold uppercase rounded-md">
@@ -1059,7 +1184,9 @@ export default function AdminVillasTab() {
                   </div>
 
                   <p className="text-[11px] text-deep-wood/70 line-clamp-2">
-                    {editing.tagline || editing.description || "Villa description preview..."}
+                    {editing.tagline ||
+                      editing.description ||
+                      "Villa description preview..."}
                   </p>
 
                   <div className="pt-2 border-t border-outline-variant/20 flex items-center justify-between text-[10px] font-semibold text-deep-wood/60">
@@ -1072,7 +1199,7 @@ export default function AdminVillasTab() {
             </div>
 
             {/* Bottom Save Action Bar */}
-            {/* <div className="p-4 bg-surface-container-low border border-primary/20 rounded-xl flex items-center gap-3">
+            {/* <div className="p-4 bg-surface-container-low/50 border border-primary/20 rounded-xl flex items-center gap-3">
               <button
                 type="button"
                 onClick={closeForm}
@@ -1111,7 +1238,7 @@ export default function AdminVillasTab() {
       style={{ fontFamily: "var(--font-body)" }}
     >
       {/* ── Redesigned Search, Filters & Add Villa Toolbar ── */}
-      <div className="p-3 sm:p-4 bg-surface-container-low/60 rounded-2xl border border-outline-variant/30 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-xs">
+      <div className="p-3 sm:p-4 bg-surface-container-low/50/60 rounded-2xl border border-outline-variant/30 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-xs">
         {/* Left & Center Controls: Search + Category + Status */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           {/* Search Box */}
@@ -1217,14 +1344,17 @@ export default function AdminVillasTab() {
 
       {/* ── Villa Cards Inventory Grid (Restored Exact Previous Design) ── */}
       {isLoading ? (
-        <div className="p-16 text-center bg-surface-container-lowest border border-outline-variant/30 rounded-2xl">
-          <Loader2 size={32} className="mx-auto animate-spin text-primary mb-3" />
+        <div className="p-16 text-center bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl">
+          <Loader2
+            size={32}
+            className="mx-auto animate-spin text-primary mb-3"
+          />
           <p className="text-xs font-bold uppercase tracking-wider text-deep-wood/60">
             Loading villa catalogue…
           </p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="p-16 text-center bg-surface-container-lowest border border-outline-variant/30 rounded-2xl space-y-3">
+        <div className="p-16 text-center bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl space-y-3">
           <Layers size={36} className="mx-auto text-primary/40" />
           <h3
             className="text-xl font-bold text-deep-wood"
@@ -1233,7 +1363,8 @@ export default function AdminVillasTab() {
             No Villas Match Your Filter
           </h3>
           <p className="text-xs text-deep-wood/60 max-w-sm mx-auto">
-            Try adjusting your search query or status filter to find sanctuaries.
+            Try adjusting your search query or status filter to find
+            sanctuaries.
           </p>
         </div>
       ) : (
@@ -1251,11 +1382,12 @@ export default function AdminVillasTab() {
               {/* Image banner */}
               <div className="relative h-48 bg-surface-container-high overflow-hidden">
                 <img
-                  src={villa.image}
+                   src={mediaUrl(villa.image)}
                   alt={villa.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = "/assets/images/villas/canopy-villa-01.jpg";
+                    e.currentTarget.src =
+                      "/assets/images/villas/canopy-villa-01.jpg";
                   }}
                 />
 
@@ -1390,25 +1522,31 @@ export default function AdminVillasTab() {
               <div className="p-6 space-y-4 bg-surface text-xs leading-relaxed text-deep-wood">
                 <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-1.5">
                   <p className="font-bold text-amber-900 flex items-center gap-1.5">
-                    <EyeOff size={14} className="text-amber-700" /> Option 1: Retire Villa (Recommended)
+                    <EyeOff size={14} className="text-amber-700" /> Option 1:
+                    Retire Villa (Recommended)
                   </p>
                   <p className="text-amber-800/90 font-medium">
-                    Hides the villa from guest discovery while safely preserving all historical reservation records, revenue analytics, and reviews.
+                    Hides the villa from guest discovery while safely preserving
+                    all historical reservation records, revenue analytics, and
+                    reviews.
                   </p>
                 </div>
 
                 <div className="p-4 bg-red-50 border border-red-200 rounded-2xl space-y-1.5">
                   <p className="font-bold text-red-900 flex items-center gap-1.5">
-                    <Trash2 size={14} className="text-red-700" /> Option 2: Delete Permanently
+                    <Trash2 size={14} className="text-red-700" /> Option 2:
+                    Delete Permanently
                   </p>
                   <p className="text-red-800/90 font-medium">
-                    Completely deletes this villa row, its gallery rows, and reviews from the database. Refused once guest bookings exist.
+                    Completely deletes this villa row, its gallery rows, and
+                    reviews from the database. Refused once guest bookings
+                    exist.
                   </p>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex flex-col gap-2.5">
+              <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex flex-col gap-2.5">
                 <button
                   type="button"
                   onClick={() => handleDelete(confirmDelete, false)}

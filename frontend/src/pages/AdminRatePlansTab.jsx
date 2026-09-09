@@ -108,14 +108,26 @@ function Field({ label, children, hint, span = 1, required = false }) {
       </label>
       {children}
       {hint && (
-        <p className="mt-1.5 text-[11px] text-deep-wood/65 font-medium">{hint}</p>
+        <p className="mt-1.5 text-[11px] text-deep-wood/65 font-medium">
+          {hint}
+        </p>
       )}
     </div>
   );
 }
 
 /** Shared shell for the three editor dialogs. */
-function EditorModal({ title, eyebrow, icon, onClose, onSave, isSaving, error, saveLabel, children }) {
+function EditorModal({
+  title,
+  eyebrow,
+  icon,
+  onClose,
+  onSave,
+  isSaving,
+  error,
+  saveLabel,
+  children,
+}) {
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 md:p-8 pt-20 md:pt-8 pb-8 overflow-y-auto bg-black/80 backdrop-blur-md">
       <motion.div
@@ -154,7 +166,9 @@ function EditorModal({ title, eyebrow, icon, onClose, onSave, isSaving, error, s
           </button>
         </div>
 
-        <div className="p-6 md:p-8 bg-surface overflow-y-auto flex-1 space-y-5">{children}</div>
+        <div className="p-6 md:p-8 bg-surface overflow-y-auto flex-1 space-y-5">
+          {children}
+        </div>
 
         {error && (
           <div className="mx-6 sm:mx-8 mb-2 p-3.5 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-center gap-2 shrink-0">
@@ -163,7 +177,7 @@ function EditorModal({ title, eyebrow, icon, onClose, onSave, isSaving, error, s
           </div>
         )}
 
-        <div className="px-6 sm:px-8 py-5 bg-surface-container-low border-t-2 border-primary/20 flex items-center justify-end gap-3 shrink-0">
+        <div className="px-6 sm:px-8 py-5 bg-surface-container-low/50 border-t-2 border-primary/20 flex items-center justify-end gap-3 shrink-0">
           <button
             type="button"
             onClick={onClose}
@@ -177,7 +191,11 @@ function EditorModal({ title, eyebrow, icon, onClose, onSave, isSaving, error, s
             disabled={isSaving}
             className="px-8 py-3.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+            {isSaving ? (
+              <Loader2 size={15} className="animate-spin" />
+            ) : (
+              <Save size={15} />
+            )}
             <span>{saveLabel}</span>
           </button>
         </div>
@@ -203,8 +221,10 @@ export default function AdminRatePlansTab() {
     refetch: refetchPlans,
   } = useGetAdminRatePlansQuery();
 
-  const { data: addons = [], isLoading: addonsLoading } = useGetAdminAddonsQuery();
-  const { data: promos = [], isLoading: promosLoading } = useGetPromoCodesQuery();
+  const { data: addons = [], isLoading: addonsLoading } =
+    useGetAdminAddonsQuery();
+  const { data: promos = [], isLoading: promosLoading } =
+    useGetPromoCodesQuery();
 
   const [savePlan, { isLoading: savingPlan }] = useSaveRatePlanMutation();
   const [deletePlan] = useDeleteRatePlanMutation();
@@ -250,7 +270,9 @@ export default function AdminRatePlansTab() {
     if (!p.name.trim()) return setPlanError("The plan needs a name.");
     if (!p.id.trim()) return setPlanError("The plan needs a code.");
     if (!/^[a-z0-9-]+$/.test(p.id))
-      return setPlanError("The code may contain lowercase letters, numbers and hyphens only.");
+      return setPlanError(
+        "The code may contain lowercase letters, numbers and hyphens only.",
+      );
 
     const features = p.features.map((f) => f.trim()).filter(Boolean);
     if (features.length === 0)
@@ -261,9 +283,13 @@ export default function AdminRatePlansTab() {
     // The API rejects both of these too; checking here saves a round trip and
     // explains the rule where the mistake was made.
     if (p.isRefundable && !Number(p.cancellationHours))
-      return setPlanError("A refundable plan needs a cancellation window in hours.");
+      return setPlanError(
+        "A refundable plan needs a cancellation window in hours.",
+      );
     if (!p.isRefundable && Number(p.cancellationHours) > 0)
-      return setPlanError("A non-refundable plan cannot carry a cancellation window.");
+      return setPlanError(
+        "A non-refundable plan cannot carry a cancellation window.",
+      );
 
     try {
       const res = await savePlan({
@@ -321,8 +347,11 @@ export default function AdminRatePlansTab() {
     if (!a.name.trim()) return setAddonError("The add-on needs a name.");
     if (!a.id.trim()) return setAddonError("The add-on needs a code.");
     if (!/^[a-z0-9-]+$/.test(a.id))
-      return setAddonError("The code may contain lowercase letters, numbers and hyphens only.");
-    if (Number(a.price) < 0) return setAddonError("The price cannot be negative.");
+      return setAddonError(
+        "The code may contain lowercase letters, numbers and hyphens only.",
+      );
+    if (Number(a.price) < 0)
+      return setAddonError("The price cannot be negative.");
 
     try {
       const res = await saveAddon({
@@ -368,7 +397,9 @@ export default function AdminRatePlansTab() {
 
     if (!p.code.trim()) return setPromoError("The code is required.");
     if (Number(p.discountPercent) <= 0 || Number(p.discountPercent) > 100)
-      return setPromoError("The discount must be between 0.01 and 100 percent.");
+      return setPromoError(
+        "The discount must be between 0.01 and 100 percent.",
+      );
     if (p.validFrom && p.validTo && p.validTo < p.validFrom)
       return setPromoError("The end date cannot fall before the start date.");
 
@@ -430,9 +461,19 @@ export default function AdminRatePlansTab() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-1.5 p-1 bg-surface-container-high rounded-xl border border-primary/20">
           {[
-            { id: "plans", label: "Rate Plans", icon: Percent, count: plans.length },
+            {
+              id: "plans",
+              label: "Rate Plans",
+              icon: Percent,
+              count: plans.length,
+            },
             { id: "addons", label: "Add-ons", icon: Tag, count: addons.length },
-            { id: "promos", label: "Promo Codes", icon: Ticket, count: promos.length },
+            {
+              id: "promos",
+              label: "Promo Codes",
+              icon: Ticket,
+              count: promos.length,
+            },
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -468,18 +509,22 @@ export default function AdminRatePlansTab() {
           className="px-4 py-2.5 rounded-lg bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 hover:opacity-90 cursor-pointer"
         >
           <Plus size={15} />
-          {section === "plans" ? "Add Rate Plan" : section === "addons" ? "Add Add-on" : "Add Code"}
+          {section === "plans"
+            ? "Add Rate Plan"
+            : section === "addons"
+              ? "Add Add-on"
+              : "Add Code"}
         </button>
       </div>
 
       {/* Why this page exists */}
-      <div className="mb-5 p-3.5 rounded-xl bg-surface-container-low border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
+      <div className="mb-5 p-3.5 rounded-xl bg-surface-container-low/50 border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
         <Info size={15} className="text-primary shrink-0 mt-0.5" />
         <span className="leading-relaxed">
-          These are resort-wide policy, shared by every villa. A plan's modifier is applied
-          to each villa's own base rate, so changing one figure here moves the price on
-          every villa page. Which plans a particular villa sells is set in the{" "}
-          <strong>Villas</strong> tab.
+          These are resort-wide policy, shared by every villa. A plan's modifier
+          is applied to each villa's own base rate, so changing one figure here
+          moves the price on every villa page. Which plans a particular villa
+          sells is set in the <strong>Villas</strong> tab.
         </span>
       </div>
 
@@ -531,7 +576,9 @@ export default function AdminRatePlansTab() {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-deep-wood text-sm mb-1">{plan.name}</h3>
+                  <h3 className="font-bold text-deep-wood text-sm mb-1">
+                    {plan.name}
+                  </h3>
                   {plan.tagline && (
                     <p className="text-[11px] text-deep-wood/60 leading-relaxed mb-3">
                       {plan.tagline}
@@ -565,7 +612,10 @@ export default function AdminRatePlansTab() {
                         key={i}
                         className="flex items-start gap-1.5 text-[11px] text-deep-wood/70 leading-relaxed"
                       >
-                        <CheckCircle2 size={12} className="text-primary shrink-0 mt-0.5" />
+                        <CheckCircle2
+                          size={12}
+                          className="text-primary shrink-0 mt-0.5"
+                        />
                         <span>{f}</span>
                       </li>
                     ))}
@@ -611,18 +661,22 @@ export default function AdminRatePlansTab() {
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-2xl leading-none">{addon.icon || "✨"}</span>
+                  <span className="text-2xl leading-none">
+                    {addon.icon || "✨"}
+                  </span>
                   <div className="text-right">
                     <span className="text-sm font-bold text-primary font-heading block">
                       Rs.{Number(addon.price).toLocaleString()}
                     </span>
                     <span className="text-[10px] text-deep-wood/55">
-                      {CHARGE_BASES.find((c) => c.value === addon.chargeBasis)?.label ??
-                        addon.chargeBasis}
+                      {CHARGE_BASES.find((c) => c.value === addon.chargeBasis)
+                        ?.label ?? addon.chargeBasis}
                     </span>
                   </div>
                 </div>
-                <h3 className="font-bold text-deep-wood text-sm mb-1">{addon.name}</h3>
+                <h3 className="font-bold text-deep-wood text-sm mb-1">
+                  {addon.name}
+                </h3>
                 <p className="text-[11px] text-deep-wood/60 leading-relaxed line-clamp-3">
                   {addon.description}
                 </p>
@@ -657,9 +711,14 @@ export default function AdminRatePlansTab() {
             </thead>
             <tbody className="divide-y divide-outline-variant/20">
               {promos.map((promo) => (
-                <tr key={promo.code} className={promo.isActive ? "" : "opacity-55"}>
+                <tr
+                  key={promo.code}
+                  className={promo.isActive ? "" : "opacity-55"}
+                >
                   <td className="px-4 py-3">
-                    <span className="font-mono font-bold text-deep-wood">{promo.code}</span>
+                    <span className="font-mono font-bold text-deep-wood">
+                      {promo.code}
+                    </span>
                     {promo.description && (
                       <span className="block text-[11px] text-deep-wood/55 font-medium">
                         {promo.description}
@@ -680,7 +739,9 @@ export default function AdminRatePlansTab() {
                       "Always"
                     )}
                   </td>
-                  <td className="px-4 py-3 text-deep-wood/70">{promo.minNights}</td>
+                  <td className="px-4 py-3 text-deep-wood/70">
+                    {promo.minNights}
+                  </td>
                   <td className="px-4 py-3 text-deep-wood/70">
                     {promo.usedCount}
                     {promo.maxUses ? ` / ${promo.maxUses}` : ""}
@@ -712,9 +773,18 @@ export default function AdminRatePlansTab() {
                         onClick={async () => {
                           try {
                             const res = await deletePromo(promo.code).unwrap();
-                            showToast(res?.message || "Code deactivated.", "success");
+                            showToast(
+                              res?.message || "Code deactivated.",
+                              "success",
+                            );
                           } catch (err) {
-                            showToast(errorText(err, "The code could not be deactivated."), "error");
+                            showToast(
+                              errorText(
+                                err,
+                                "The code could not be deactivated.",
+                              ),
+                              "error",
+                            );
                           }
                         }}
                         disabled={!promo.isActive}
@@ -750,7 +820,10 @@ export default function AdminRatePlansTab() {
                 <Sparkles size={16} className="text-primary" />
                 <h4
                   className="text-base font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Plan Identity
                 </h4>
@@ -775,14 +848,21 @@ export default function AdminRatePlansTab() {
                 <Field
                   label="Plan Code"
                   required
-                  hint={isNewPlan ? "Generated from the name." : "Locked after creation."}
+                  hint={
+                    isNewPlan
+                      ? "Generated from the name."
+                      : "Locked after creation."
+                  }
                 >
                   <input
                     className={`${inputClass} font-mono ${!isNewPlan ? "opacity-70 cursor-not-allowed" : ""}`}
                     value={editingPlan.id}
                     disabled={!isNewPlan}
                     onChange={(e) =>
-                      setEditingPlan((p) => ({ ...p, id: toCode(e.target.value) }))
+                      setEditingPlan((p) => ({
+                        ...p,
+                        id: toCode(e.target.value),
+                      }))
                     }
                   />
                 </Field>
@@ -816,7 +896,10 @@ export default function AdminRatePlansTab() {
                 <ShieldCheck size={16} className="text-primary" />
                 <h4
                   className="text-base font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Pricing &amp; Terms
                 </h4>
@@ -836,7 +919,10 @@ export default function AdminRatePlansTab() {
                     className={`${inputClass} font-mono`}
                     value={editingPlan.discountPercent}
                     onChange={(e) =>
-                      setEditingPlan((p) => ({ ...p, discountPercent: e.target.value }))
+                      setEditingPlan((p) => ({
+                        ...p,
+                        discountPercent: e.target.value,
+                      }))
                     }
                   />
                 </Field>
@@ -847,13 +933,16 @@ export default function AdminRatePlansTab() {
                     className={inputClass}
                     value={editingPlan.displayOrder}
                     onChange={(e) =>
-                      setEditingPlan((p) => ({ ...p, displayOrder: e.target.value }))
+                      setEditingPlan((p) => ({
+                        ...p,
+                        displayOrder: e.target.value,
+                      }))
                     }
                   />
                 </Field>
 
                 <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className="flex items-center gap-3 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer hover:bg-primary/5 transition-colors select-none">
+                  <label className="flex items-center gap-3 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer hover:bg-primary/5 transition-colors select-none">
                     <div className="relative flex items-center justify-center">
                       <input
                         type="checkbox"
@@ -862,7 +951,9 @@ export default function AdminRatePlansTab() {
                           setEditingPlan((p) => ({
                             ...p,
                             isRefundable: e.target.checked,
-                            cancellationHours: e.target.checked ? p.cancellationHours || 48 : "",
+                            cancellationHours: e.target.checked
+                              ? p.cancellationHours || 48
+                              : "",
                           }))
                         }
                         className="sr-only"
@@ -875,20 +966,27 @@ export default function AdminRatePlansTab() {
                         }`}
                       >
                         {editingPlan.isRefundable && (
-                          <Check size={12} strokeWidth={3} className="text-white" />
+                          <Check
+                            size={12}
+                            strokeWidth={3}
+                            className="text-white"
+                          />
                         )}
                       </div>
                     </div>
                     <span>Refundable — free cancellation</span>
                   </label>
 
-                  <label className="flex items-center gap-3 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer hover:bg-primary/5 transition-colors select-none">
+                  <label className="flex items-center gap-3 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer hover:bg-primary/5 transition-colors select-none">
                     <div className="relative flex items-center justify-center">
                       <input
                         type="checkbox"
                         checked={editingPlan.requiresPrepayment}
                         onChange={(e) =>
-                          setEditingPlan((p) => ({ ...p, requiresPrepayment: e.target.checked }))
+                          setEditingPlan((p) => ({
+                            ...p,
+                            requiresPrepayment: e.target.checked,
+                          }))
                         }
                         className="sr-only"
                       />
@@ -900,7 +998,11 @@ export default function AdminRatePlansTab() {
                         }`}
                       >
                         {editingPlan.requiresPrepayment && (
-                          <Check size={12} strokeWidth={3} className="text-white" />
+                          <Check
+                            size={12}
+                            strokeWidth={3}
+                            className="text-white"
+                          />
                         )}
                       </div>
                     </div>
@@ -921,7 +1023,10 @@ export default function AdminRatePlansTab() {
                       className={inputClass}
                       value={editingPlan.cancellationHours}
                       onChange={(e) =>
-                        setEditingPlan((p) => ({ ...p, cancellationHours: e.target.value }))
+                        setEditingPlan((p) => ({
+                          ...p,
+                          cancellationHours: e.target.value,
+                        }))
                       }
                     />
                   </Field>
@@ -934,7 +1039,10 @@ export default function AdminRatePlansTab() {
                 <CheckCircle2 size={16} className="text-primary" />
                 <h4
                   className="text-base font-bold text-deep-wood"
-                  style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   What This Plan Includes
                 </h4>
@@ -964,10 +1072,11 @@ export default function AdminRatePlansTab() {
               <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-2.5">
                 <Info size={14} className="text-amber-700 shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  Rates are quoted before <strong>34.38%</strong> in government taxes and
-                  service charge — 10% service, 1% TDL, 2.5% SSCL and 18% VAT, applied as a
-                  cascade. If an inclusion line says taxes are included, make sure it agrees
-                  with how the folio is presented.
+                  Rates are quoted before <strong>34.38%</strong> in government
+                  taxes and service charge — 10% service, 1% TDL, 2.5% SSCL and
+                  18% VAT, applied as a cascade. If an inclusion line says taxes
+                  are included, make sure it agrees with how the folio is
+                  presented.
                 </span>
               </div>
             </div>
@@ -1004,20 +1113,34 @@ export default function AdminRatePlansTab() {
                 />
               </Field>
 
-              <Field label="Add-on Code" required hint={isNewAddon ? "Generated from the name." : "Locked."}>
+              <Field
+                label="Add-on Code"
+                required
+                hint={isNewAddon ? "Generated from the name." : "Locked."}
+              >
                 <input
                   className={`${inputClass} font-mono ${!isNewAddon ? "opacity-70 cursor-not-allowed" : ""}`}
                   value={editingAddon.id}
                   disabled={!isNewAddon}
-                  onChange={(e) => setEditingAddon((a) => ({ ...a, id: toCode(e.target.value) }))}
+                  onChange={(e) =>
+                    setEditingAddon((a) => ({
+                      ...a,
+                      id: toCode(e.target.value),
+                    }))
+                  }
                 />
               </Field>
 
-              <Field label="Icon" hint="A single emoji, shown on the checkout card.">
+              <Field
+                label="Icon"
+                hint="A single emoji, shown on the checkout card."
+              >
                 <input
                   className={inputClass}
                   value={editingAddon.icon}
-                  onChange={(e) => setEditingAddon((a) => ({ ...a, icon: e.target.value }))}
+                  onChange={(e) =>
+                    setEditingAddon((a) => ({ ...a, icon: e.target.value }))
+                  }
                   placeholder="🚗"
                 />
               </Field>
@@ -1028,7 +1151,10 @@ export default function AdminRatePlansTab() {
                   className={`${inputClass} resize-none leading-relaxed`}
                   value={editingAddon.description}
                   onChange={(e) =>
-                    setEditingAddon((a) => ({ ...a, description: e.target.value }))
+                    setEditingAddon((a) => ({
+                      ...a,
+                      description: e.target.value,
+                    }))
                   }
                 />
               </Field>
@@ -1040,7 +1166,9 @@ export default function AdminRatePlansTab() {
                   step={1000}
                   className={inputClass}
                   value={editingAddon.price}
-                  onChange={(e) => setEditingAddon((a) => ({ ...a, price: e.target.value }))}
+                  onChange={(e) =>
+                    setEditingAddon((a) => ({ ...a, price: e.target.value }))
+                  }
                 />
               </Field>
 
@@ -1052,7 +1180,10 @@ export default function AdminRatePlansTab() {
                   className={`${inputClass} cursor-pointer`}
                   value={editingAddon.chargeBasis}
                   onChange={(e) =>
-                    setEditingAddon((a) => ({ ...a, chargeBasis: e.target.value }))
+                    setEditingAddon((a) => ({
+                      ...a,
+                      chargeBasis: e.target.value,
+                    }))
                   }
                 >
                   {CHARGE_BASES.map((c) => (
@@ -1069,19 +1200,25 @@ export default function AdminRatePlansTab() {
                   className={inputClass}
                   value={editingAddon.displayOrder}
                   onChange={(e) =>
-                    setEditingAddon((a) => ({ ...a, displayOrder: e.target.value }))
+                    setEditingAddon((a) => ({
+                      ...a,
+                      displayOrder: e.target.value,
+                    }))
                   }
                 />
               </Field>
 
               <div className="flex items-end">
-                <label className="flex items-center gap-3 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
+                <label className="flex items-center gap-3 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
                   <div className="relative flex items-center justify-center">
                     <input
                       type="checkbox"
                       checked={editingAddon.isActive}
                       onChange={(e) =>
-                        setEditingAddon((a) => ({ ...a, isActive: e.target.checked }))
+                        setEditingAddon((a) => ({
+                          ...a,
+                          isActive: e.target.checked,
+                        }))
                       }
                       className="sr-only"
                     />
@@ -1093,7 +1230,11 @@ export default function AdminRatePlansTab() {
                       }`}
                     >
                       {editingAddon.isActive && (
-                        <Check size={12} strokeWidth={3} className="text-white" />
+                        <Check
+                          size={12}
+                          strokeWidth={3}
+                          className="text-white"
+                        />
                       )}
                     </div>
                   </div>
@@ -1119,12 +1260,19 @@ export default function AdminRatePlansTab() {
             saveLabel="Save Code"
           >
             <div className="p-5 bg-white border border-primary/20 rounded-2xl shadow-xs grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Code" required hint="Stored and matched in upper case.">
+              <Field
+                label="Code"
+                required
+                hint="Stored and matched in upper case."
+              >
                 <input
                   className={`${inputClass} font-mono uppercase`}
                   value={editingPromo.code}
                   onChange={(e) =>
-                    setEditingPromo((p) => ({ ...p, code: e.target.value.toUpperCase() }))
+                    setEditingPromo((p) => ({
+                      ...p,
+                      code: e.target.value.toUpperCase(),
+                    }))
                   }
                   placeholder="AVIORA10"
                 />
@@ -1139,7 +1287,10 @@ export default function AdminRatePlansTab() {
                   className={inputClass}
                   value={editingPromo.discountPercent}
                   onChange={(e) =>
-                    setEditingPromo((p) => ({ ...p, discountPercent: e.target.value }))
+                    setEditingPromo((p) => ({
+                      ...p,
+                      discountPercent: e.target.value,
+                    }))
                   }
                 />
               </Field>
@@ -1149,7 +1300,10 @@ export default function AdminRatePlansTab() {
                   className={inputClass}
                   value={editingPromo.description}
                   onChange={(e) =>
-                    setEditingPromo((p) => ({ ...p, description: e.target.value }))
+                    setEditingPromo((p) => ({
+                      ...p,
+                      description: e.target.value,
+                    }))
                   }
                   placeholder="2026 season opening offer"
                 />
@@ -1161,7 +1315,10 @@ export default function AdminRatePlansTab() {
                   className={inputClass}
                   value={editingPromo.validFrom}
                   onChange={(e) =>
-                    setEditingPromo((p) => ({ ...p, validFrom: e.target.value }))
+                    setEditingPromo((p) => ({
+                      ...p,
+                      validFrom: e.target.value,
+                    }))
                   }
                 />
               </Field>
@@ -1171,7 +1328,9 @@ export default function AdminRatePlansTab() {
                   type="date"
                   className={inputClass}
                   value={editingPromo.validTo}
-                  onChange={(e) => setEditingPromo((p) => ({ ...p, validTo: e.target.value }))}
+                  onChange={(e) =>
+                    setEditingPromo((p) => ({ ...p, validTo: e.target.value }))
+                  }
                 />
               </Field>
 
@@ -1181,12 +1340,17 @@ export default function AdminRatePlansTab() {
                   min={1}
                   className={inputClass}
                   value={editingPromo.maxUses}
-                  onChange={(e) => setEditingPromo((p) => ({ ...p, maxUses: e.target.value }))}
+                  onChange={(e) =>
+                    setEditingPromo((p) => ({ ...p, maxUses: e.target.value }))
+                  }
                   placeholder="Unlimited"
                 />
               </Field>
 
-              <Field label="Minimum Nights" hint="The stay must be at least this long.">
+              <Field
+                label="Minimum Nights"
+                hint="The stay must be at least this long."
+              >
                 <input
                   type="number"
                   min={1}
@@ -1194,19 +1358,25 @@ export default function AdminRatePlansTab() {
                   className={inputClass}
                   value={editingPromo.minNights}
                   onChange={(e) =>
-                    setEditingPromo((p) => ({ ...p, minNights: e.target.value }))
+                    setEditingPromo((p) => ({
+                      ...p,
+                      minNights: e.target.value,
+                    }))
                   }
                 />
               </Field>
 
               <div className="sm:col-span-2 flex items-center">
-                <label className="flex items-center gap-3 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
+                <label className="flex items-center gap-3 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-bold text-deep-wood cursor-pointer w-full hover:bg-primary/5 transition-colors select-none">
                   <div className="relative flex items-center justify-center">
                     <input
                       type="checkbox"
                       checked={editingPromo.isActive}
                       onChange={(e) =>
-                        setEditingPromo((p) => ({ ...p, isActive: e.target.checked }))
+                        setEditingPromo((p) => ({
+                          ...p,
+                          isActive: e.target.checked,
+                        }))
                       }
                       className="sr-only"
                     />
@@ -1218,7 +1388,11 @@ export default function AdminRatePlansTab() {
                       }`}
                     >
                       {editingPromo.isActive && (
-                        <Check size={12} strokeWidth={3} className="text-white" />
+                        <Check
+                          size={12}
+                          strokeWidth={3}
+                          className="text-white"
+                        />
                       )}
                     </div>
                   </div>

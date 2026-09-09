@@ -557,7 +557,7 @@
 //         {/* Villa image grid — Top Rated & Discounted Showcase */}
 //         <FadeSection className="container-resort mb-16" delay={0.15}>
 //           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-2">
-            
+
 //             {/* 1. Large Left Card (Tall Featured) */}
 //             <div className="relative overflow-hidden aspect-[4/3] lg:aspect-auto lg:min-h-[580px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
 //               <img
@@ -626,7 +626,7 @@
 
 //             {/* Right Column — 2 Stacked Cards */}
 //             <div className="grid grid-rows-2 gap-2 md:gap-2">
-              
+
 //               {/* 2. Top-Right Card */}
 //               <div className="relative overflow-hidden aspect-[16/9] lg:aspect-auto lg:min-h-[275px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
 //                 <img
@@ -1066,7 +1066,7 @@
 //                           <div className="mb-4">
 //                             <Link
 //                               to={`/rooms-villas/${r.villaSlug}?tab=reviews`}
-//                               className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low/80 hover:bg-primary/10 border border-primary/20 text-deep-wood hover:text-primary rounded-full text-xs font-semibold transition-colors"
+//                               className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low/50/80 hover:bg-primary/10 border border-primary/20 text-deep-wood hover:text-primary rounded-full text-xs font-semibold transition-colors"
 //                             >
 //                               <Trees size={12} className="text-primary" />
 //                               <span>{r.villaName}</span>
@@ -1166,7 +1166,6 @@
 //   );
 // }
 
-
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -1207,6 +1206,7 @@ import { VILLAS_DATA } from "../features/booking/villasData";
 import Button from "../components/common/Button";
 import testimonials from "../services/mockData/testimonials.json";
 import HomeGallery from "../components/home/HomeGallery";
+import { mediaUrl } from "../config/mediaUrl";
 
 /* ─── Animated section wrapper ─── */
 function FadeSection({ children, className = "", delay = 0 }) {
@@ -1220,6 +1220,87 @@ function FadeSection({ children, className = "", delay = 0 }) {
     >
       {children}
     </motion.div>
+  );
+}
+
+/* ─── Creative Full-Width Below-Hero Architectural Sketch Background ─── */
+function BelowHeroSketchBackground({ isDayMode }) {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none"
+      style={{
+        backgroundColor: isDayMode ? "#F4F1EA" : "#141210",
+      }}
+    >
+      {/* 1. Atmospheric Ambient Lighting & Paper Texture */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: isDayMode
+            ? "radial-gradient(ellipse 85% 45% at 85% 15%, rgba(212, 175, 55, 0.08) 0%, transparent 70%), radial-gradient(ellipse 75% 45% at 15% 50%, rgba(102, 141, 135, 0.08) 0%, transparent 70%), radial-gradient(ellipse 85% 45% at 85% 85%, rgba(212, 175, 55, 0.06) 0%, transparent 70%), linear-gradient(180deg, rgba(244, 241, 234, 0.95) 0%, rgba(244, 241, 234, 0.85) 25%, rgba(246, 244, 239, 0.85) 75%, rgba(244, 241, 234, 0.95) 100%)"
+            : "radial-gradient(ellipse 85% 45% at 85% 15%, rgba(212, 175, 55, 0.04) 0%, transparent 70%), radial-gradient(ellipse 75% 45% at 15% 50%, rgba(102, 141, 135, 0.05) 0%, transparent 70%), linear-gradient(180deg, #141210 0%, #1a1714 50%, #141210 100%)",
+        }}
+      />
+
+      {/* 2. Upper Architectural Folio Plate (Flowing through Sanctuary & into Gallery) */}
+      {/* Spans 100% full width, covers top half, feathered transition at bottom */}
+      <div
+        className="absolute top-0 left-0 w-full h-[55%] pointer-events-none"
+        style={{
+          backgroundImage: "url('/assets/images/loading-sketch.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top center",
+          backgroundSize: "cover",
+          filter: isDayMode
+            ? "contrast(1.06) brightness(0.97)"
+            : "invert(0.9) hue-rotate(180deg) brightness(0.8) contrast(1.2)",
+          opacity: isDayMode ? 0.22 : 0.12,
+          mixBlendMode: isDayMode ? "multiply" : "screen",
+          maskImage:
+            "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
+        }}
+      />
+
+      {/* 3. Lower Architectural Folio Plate (Flowing through Curated Experiences & into Memoirs) */}
+      {/* Spans 100% full width, covers lower half, feathered transition at top and bottom */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-[55%] pointer-events-none"
+        style={{
+          backgroundImage: "url('/assets/images/loading-sketch.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "bottom center",
+          backgroundSize: "cover",
+          filter: isDayMode
+            ? "contrast(1.06) brightness(0.97)"
+            : "invert(0.9) hue-rotate(180deg) brightness(0.8) contrast(1.2)",
+          opacity: isDayMode ? 0.2 : 0.11,
+          mixBlendMode: isDayMode ? "multiply" : "screen",
+          maskImage:
+            "linear-gradient(to top, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to top, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
+        }}
+      />
+
+      {/* 4. Luxury Architectural Elevation & Coordinates Accents
+      <div className="absolute top-8 left-8 hidden xl:flex flex-col gap-1 text-[9px] uppercase tracking-[0.25em] text-primary/30 font-semibold font-mono pointer-events-none">
+        <span>Aviora Estate · Master Architectural Folio</span>
+        <span>Elevation 42m · Primary Rainforest Sanctuary</span>
+      </div>
+
+      <div className="absolute top-1/2 right-8 -translate-y-1/2 hidden xl:flex items-center gap-3 text-[9px] uppercase tracking-[0.25em] text-secondary/35 font-semibold font-mono pointer-events-none">
+        <span className="w-8 h-px bg-secondary/30" />
+        <span>6°02′N 80°13′E · Tropical Sanctuary Series</span>
+      </div>
+
+      <div className="absolute bottom-8 left-8 hidden xl:flex items-center gap-3 text-[9px] uppercase tracking-[0.25em] text-primary/30 font-semibold font-mono pointer-events-none">
+        <span className="w-8 h-px bg-primary/30" />
+        <span>Hand-Drawn Architectural Masterplan · Edition 01</span>
+      </div> */}
+    </div>
   );
 }
 
@@ -1468,14 +1549,14 @@ export default function Home() {
   const heroNight = "/assets/images/hero-night.jpg";
 
   return (
-    <>
+    <div className="relative isolate min-h-screen">
       {/* ═══════════════════════════════════════════
           SECTION 1 — HERO
           ═══════════════════════════════════════════ */}
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+        className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden"
         aria-label="Hero — Aviora Resort"
       >
         {/* Parallax background */}
@@ -1664,681 +1745,717 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 2 — YOUR PRIVATE SANCTUARY
+          BELOW-HERO SECTIONS WRAPPER
+          Full-width responsive architectural sketch canvas that starts
+          below Hero and moves naturally as the guest scrolls.
           ═══════════════════════════════════════════ */}
-      <section
-        id="sanctuary"
-        aria-label="Your Private Sanctuary in Paradise"
-        className="py-20 md:py-2 relative"
-        style={{ backgroundColor: "var(--color-surface)" }}
-      >
-        {/* ── Decorative Background Sketch ── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 0,
-            backgroundImage: "url('/assets/images/loading-sketch.png')",
-            backgroundSize: "100% 100%",
-            backgroundPosition: "top center",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.2,
-          }}
-        />
-        {/* Section heading */}
-        <FadeSection className="container-resort text-center mb-14">
-          <h2
-            className="mb-4"
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontStyle: "italic",
-              maxWidth: "32ch",
-              margin: "0 auto",
-            }}
-          >
-            Your Private Sanctuary in Paradise
-          </h2>
-          {/* Decorative underline */}
-          <div
-            className="w-16 h-px bg-outline-variant mx-auto mb-6"
-            aria-hidden="true"
-          />
-          <p
-            className="mx-auto text-center"
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "1rem",
-              lineHeight: "1.75",
-              maxWidth: "60ch",
-              color: "var(--color-text-secondary)",
-            }}
-          >
-            Immerse yourself in our exquisitely designed living spaces that
-            bridge the gap between quiet luxury and the untouched beauty of the
-            tropical landscape.
-          </p>
-        </FadeSection>
+      <div className="relative w-full overflow-hidden bg-[#F4F1EA]">
+        {/* ── Flowing Full-Width Architectural Sketch Canvas ── */}
+        <BelowHeroSketchBackground isDayMode={isDayMode} />
 
-        {/* Villa image grid — Top Rated & Discounted Showcase */}
-        <FadeSection className="container-resort mb-16" delay={0.15}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-2">
-            
-            {/* 1. Large Left Card (Tall Featured) */}
-            <div className="relative overflow-hidden aspect-[4/3] lg:aspect-auto lg:min-h-[580px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
-              <img
-                src={villaLeft.image || "/assets/images/villas/canopy-villa-01.jpg"}
-                alt={villaLeft.name}
-                loading="lazy"
-                className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
+        {/* ═══════════════════════════════════════════
+            SECTION 2 — YOUR PRIVATE SANCTUARY
+            ═══════════════════════════════════════════ */}
+        <section
+          id="sanctuary"
+          aria-label="Your Private Sanctuary in Paradise"
+          className="py-20 md:py-28 relative z-10 bg-transparent"
+        >
+          {/* Section heading */}
+          <FadeSection className="container-resort text-center mb-14">
+            <h2
+              className="mb-4"
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontStyle: "italic",
+                maxWidth: "32ch",
+                margin: "0 auto",
+              }}
+            >
+              Your Private Sanctuary in Paradise
+            </h2>
+            {/* Decorative underline */}
+            <div
+              className="w-16 h-px bg-outline-variant mx-auto mb-6"
+              aria-hidden="true"
+            />
+            <p
+              className="mx-auto text-center"
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                lineHeight: "1.75",
+                maxWidth: "60ch",
+                color: "var(--color-text-secondary)",
+              }}
+            >
+              Immerse yourself in our exquisitely designed living spaces that
+              bridge the gap between quiet luxury and the untouched beauty of
+              the tropical landscape.
+            </p>
+          </FadeSection>
 
-              {/* Top Badges */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-3 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1.5">
-                    <Star size={12} fill="currentColor" className="text-amber-400" />
-                    {Number(villaLeft.rating || 4.98).toFixed(2)} Top Rated
-                  </span>
-                  <span className="px-3 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
-                    <Leaf size={11} className="text-secondary" />
-                    {villaLeft.category || "Canopy"}
+          {/* Villa image grid — Top Rated & Discounted Showcase */}
+          <FadeSection className="container-resort mb-16" delay={0.15}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-2">
+              {/* 1. Large Left Card (Tall Featured) */}
+              <div className="relative overflow-hidden aspect-[4/3] lg:aspect-auto lg:min-h-[580px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
+                <img
+                  src={mediaUrl(
+                    villaLeft.image ||
+                      "/assets/images/villas/canopy-villa-01.jpg",
+                  )}
+                  alt={villaLeft.name}
+                  loading="lazy"
+                  className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
+
+                {/* Top Badges */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-3 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1.5">
+                      <Star
+                        size={12}
+                        fill="currentColor"
+                        className="text-amber-400"
+                      />
+                      {Number(villaLeft.rating || 4.98).toFixed(2)} Top Rated
+                    </span>
+                    <span className="px-3 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
+                      <Leaf size={11} className="text-secondary" />
+                      {villaLeft.category || "Canopy"}
+                    </span>
+                  </div>
+                  <span className="px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
+                    <Sparkles size={12} /> 15% OFF
                   </span>
                 </div>
-                <span className="px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
-                  <Sparkles size={12} /> 15% OFF
-                </span>
+
+                {/* Bottom Glassmorphic Card with Direct Navigation Button */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 z-10">
+                  <div className="glass-dark p-4 sm:p-5 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1 min-w-0">
+                      <h3
+                        className="text-white text-lg sm:text-xl font-bold italic truncate"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
+                        {villaLeft.name}
+                      </h3>
+                      <p className="text-white/75 text-xs font-medium truncate max-w-sm">
+                        {villaLeft.tagline ||
+                          `${villaLeft.size || 280} sqm • ${villaLeft.bedConfiguration || "1 King Bedroom"}`}
+                      </p>
+                      <div className="flex items-center gap-2 pt-1 flex-wrap">
+                        <span className="text-white/50 line-through text-xs font-semibold">
+                          Rs.
+                          {Math.round(
+                            Number(villaLeft.pricePerNight || 1850) * 1.18,
+                          ).toLocaleString()}
+                        </span>
+                        <span className="text-amber-300 font-bold text-sm sm:text-base">
+                          Rs.
+                          {Number(
+                            villaLeft.pricePerNight || 1850,
+                          ).toLocaleString()}
+                        </span>
+                        <span className="text-white/70 text-xs font-normal">
+                          / night
+                        </span>
+                        <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
+                          (Save 15%)
+                        </span>
+                      </div>
+                    </div>
+
+                    <Link
+                      to={`/rooms-villas/${villaLeft.slug || villaLeft.id || "canopy-forest-villa"}`}
+                      id="home-villa-btn-left"
+                      className="px-5 py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0 cursor-pointer active:scale-95 group/btn"
+                    >
+                      <span>Explore Villa</span>
+                      <ArrowRight
+                        size={14}
+                        className="group-hover/btn:translate-x-1 transition-transform"
+                      />
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              {/* Bottom Glassmorphic Card with Direct Navigation Button */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 z-10">
-                <div className="glass-dark p-4 sm:p-5 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="space-y-1 min-w-0">
+              {/* Right Column — 2 Stacked Cards */}
+              <div className="grid grid-rows-2 gap-2 md:gap-2">
+                {/* 2. Top-Right Card */}
+                <div className="relative overflow-hidden aspect-[16/9] lg:aspect-auto lg:min-h-[275px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
+                  <img
+                    src={mediaUrl(
+                      villaTopRight.image ||
+                        "/assets/images/villas/lagoon-suite-01.jpg",
+                    )}
+                    alt={villaTopRight.name}
+                    loading="lazy"
+                    className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1">
+                        <Star
+                          size={11}
+                          fill="currentColor"
+                          className="text-amber-400"
+                        />
+                        {Number(villaTopRight.rating || 4.96).toFixed(2)} Top
+                        Rated
+                      </span>
+                      <span className="px-2.5 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
+                        <Leaf size={10} className="text-secondary" />
+                        {villaTopRight.category || "Lagoon"}
+                      </span>
+                    </div>
+                    <span className="px-2.5 py-1 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
+                      <Sparkles size={11} /> 15% OFF
+                    </span>
+                  </div>
+
+                  {/* Bottom Glassmorphic Card with Direct Navigation Button */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                    <div className="glass-dark p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-0.5 min-w-0">
+                        <h3
+                          className="text-white text-base sm:text-lg font-bold italic truncate"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {villaTopRight.name}
+                        </h3>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-white/50 line-through text-[11px] font-semibold">
+                            Rs.
+                            {Math.round(
+                              Number(villaTopRight.pricePerNight || 2400) *
+                                1.18,
+                            ).toLocaleString()}
+                          </span>
+                          <span className="text-amber-300 font-bold text-sm">
+                            Rs.
+                            {Number(
+                              villaTopRight.pricePerNight || 2400,
+                            ).toLocaleString()}
+                          </span>
+                          <span className="text-white/70 text-xs font-normal">
+                            / night
+                          </span>
+                          <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
+                            (Save 15%)
+                          </span>
+                        </div>
+                      </div>
+
+                      <Link
+                        to={`/rooms-villas/${villaTopRight.slug || villaTopRight.id || "lagoon-water-suite"}`}
+                        id="home-villa-btn-topright"
+                        className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 shrink-0 cursor-pointer active:scale-95 group/btn"
+                      >
+                        <span>Explore Villa</span>
+                        <ArrowRight
+                          size={13}
+                          className="group-hover/btn:translate-x-1 transition-transform"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Bottom-Right Card */}
+                <div className="relative overflow-hidden aspect-[16/9] lg:aspect-auto lg:min-h-[275px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
+                  <img
+                    src={mediaUrl(
+                      villaBottomRight.image ||
+                        "/assets/images/villas/treetop-suite-01.jpg",
+                    )}
+                    alt={villaBottomRight.name}
+                    loading="lazy"
+                    className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1">
+                        <Star
+                          size={11}
+                          fill="currentColor"
+                          className="text-amber-400"
+                        />
+                        {Number(villaBottomRight.rating || 4.92).toFixed(2)} Top
+                        Rated
+                      </span>
+                      <span className="px-2.5 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
+                        <Leaf size={10} className="text-secondary" />
+                        {villaBottomRight.category || "Treetop"}
+                      </span>
+                    </div>
+                    <span className="px-2.5 py-1 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
+                      <Sparkles size={11} /> 15% OFF
+                    </span>
+                  </div>
+
+                  {/* Bottom Glassmorphic Card with Direct Navigation Button */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                    <div className="glass-dark p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-0.5 min-w-0">
+                        <h3
+                          className="text-white text-base sm:text-lg font-bold italic truncate"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {villaBottomRight.name}
+                        </h3>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-white/50 line-through text-[11px] font-semibold">
+                            Rs.
+                            {Math.round(
+                              Number(villaBottomRight.pricePerNight || 2100) *
+                                1.18,
+                            ).toLocaleString()}
+                          </span>
+                          <span className="text-amber-300 font-bold text-sm">
+                            Rs.
+                            {Number(
+                              villaBottomRight.pricePerNight || 2100,
+                            ).toLocaleString()}
+                          </span>
+                          <span className="text-white/70 text-xs font-normal">
+                            / night
+                          </span>
+                          <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
+                            (Save 15%)
+                          </span>
+                        </div>
+                      </div>
+
+                      <Link
+                        to={`/rooms-villas/${villaBottomRight.slug || villaBottomRight.id || "treetop-heritage-suite"}`}
+                        id="home-villa-btn-bottomright"
+                        className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 shrink-0 cursor-pointer active:scale-95 group/btn"
+                      >
+                        <span>Explore Villa</span>
+                        <ArrowRight
+                          size={13}
+                          className="group-hover/btn:translate-x-1 transition-transform"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FadeSection>
+
+          {/* Amenity feature cards */}
+          <FadeSection className="container-resort" delay={0.25}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {amenities.map((amenity, i) => {
+                const Icon = amenity.icon;
+                return (
+                  <FadeSection
+                    key={amenity.title}
+                    delay={i * 0.1}
+                    className="text-center"
+                  >
+                    <div
+                      className="w-14 h-14 mx-auto mb-5 flex items-center justify-center rounded-full"
+                      style={{ backgroundColor: "var(--color-warm-sand)" }}
+                    >
+                      <Icon
+                        size={24}
+                        strokeWidth={1.5}
+                        style={{ color: "var(--color-primary)" }}
+                      />
+                    </div>
                     <h3
-                      className="text-white text-lg sm:text-xl font-bold italic truncate"
-                      style={{ fontFamily: "var(--font-heading)" }}
+                      className="mb-3"
+                      style={{
+                        fontFamily: "var(--font-heading)",
+                        fontSize: "1.25rem",
+                        fontWeight: 600,
+                        color: "var(--color-text-primary)",
+                      }}
                     >
-                      {villaLeft.name}
+                      {amenity.title}
                     </h3>
-                    <p className="text-white/75 text-xs font-medium truncate max-w-sm">
-                      {villaLeft.tagline || `${villaLeft.size || 280} sqm • ${villaLeft.bedConfiguration || '1 King Bedroom'}`}
+                    <p
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.9rem",
+                        lineHeight: "1.7",
+                        color: "var(--color-text-secondary)",
+                        maxWidth: "36ch",
+                        margin: "0 auto",
+                      }}
+                    >
+                      {amenity.description}
                     </p>
-                    <div className="flex items-center gap-2 pt-1 flex-wrap">
-                      <span className="text-white/50 line-through text-xs font-semibold">
-                        Rs.{Math.round(Number(villaLeft.pricePerNight || 1850) * 1.18).toLocaleString()}
-                      </span>
-                      <span className="text-amber-300 font-bold text-sm sm:text-base">
-                        Rs.{Number(villaLeft.pricePerNight || 1850).toLocaleString()}
-                      </span>
-                      <span className="text-white/70 text-xs font-normal">/ night</span>
-                      <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
-                        (Save 15%)
-                      </span>
-                    </div>
-                  </div>
-
-                  <Link
-                    to={`/rooms-villas/${villaLeft.slug || villaLeft.id || 'canopy-forest-villa'}`}
-                    id="home-villa-btn-left"
-                    className="px-5 py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0 cursor-pointer active:scale-95 group/btn"
-                  >
-                    <span>Explore Villa</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
+                  </FadeSection>
+                );
+              })}
             </div>
+          </FadeSection>
+        </section>
 
-            {/* Right Column — 2 Stacked Cards */}
-            <div className="grid grid-rows-2 gap-2 md:gap-2">
-              
-              {/* 2. Top-Right Card */}
-              <div className="relative overflow-hidden aspect-[16/9] lg:aspect-auto lg:min-h-[275px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
-                <img
-                  src={villaTopRight.image || "/assets/images/villas/lagoon-suite-01.jpg"}
-                  alt={villaTopRight.name}
-                  loading="lazy"
-                  className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
-
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1">
-                      <Star size={11} fill="currentColor" className="text-amber-400" />
-                      {Number(villaTopRight.rating || 4.96).toFixed(2)} Top Rated
-                    </span>
-                    <span className="px-2.5 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
-                      <Leaf size={10} className="text-secondary" />
-                      {villaTopRight.category || "Lagoon"}
-                    </span>
-                  </div>
-                  <span className="px-2.5 py-1 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
-                    <Sparkles size={11} /> 15% OFF
-                  </span>
-                </div>
-
-                {/* Bottom Glassmorphic Card with Direct Navigation Button */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                  <div className="glass-dark p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="space-y-0.5 min-w-0">
-                      <h3
-                        className="text-white text-base sm:text-lg font-bold italic truncate"
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
-                        {villaTopRight.name}
-                      </h3>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-white/50 line-through text-[11px] font-semibold">
-                          Rs.{Math.round(Number(villaTopRight.pricePerNight || 2400) * 1.18).toLocaleString()}
-                        </span>
-                        <span className="text-amber-300 font-bold text-sm">
-                          Rs.{Number(villaTopRight.pricePerNight || 2400).toLocaleString()}
-                        </span>
-                        <span className="text-white/70 text-xs font-normal">/ night</span>
-                        <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
-                          (Save 15%)
-                        </span>
-                      </div>
-                    </div>
-
-                    <Link
-                      to={`/rooms-villas/${villaTopRight.slug || villaTopRight.id || 'lagoon-water-suite'}`}
-                      id="home-villa-btn-topright"
-                      className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 shrink-0 cursor-pointer active:scale-95 group/btn"
-                    >
-                      <span>Explore Villa</span>
-                      <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* 3. Bottom-Right Card */}
-              <div className="relative overflow-hidden aspect-[16/9] lg:aspect-auto lg:min-h-[275px] rounded-2xl md:rounded-3xl border-2 border-primary/25 shadow-xl group transition-all duration-500 hover:border-primary/50">
-                <img
-                  src={villaBottomRight.image || "/assets/images/villas/treetop-suite-01.jpg"}
-                  alt={villaBottomRight.name}
-                  loading="lazy"
-                  className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/90 via-deep-wood/25 to-transparent pointer-events-none" />
-
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-1 bg-deep-wood/90 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-primary/40 shadow-sm flex items-center gap-1">
-                      <Star size={11} fill="currentColor" className="text-amber-400" />
-                      {Number(villaBottomRight.rating || 4.92).toFixed(2)} Top Rated
-                    </span>
-                    <span className="px-2.5 py-1 bg-deep-wood/80 backdrop-blur-md text-sand text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20 shadow-sm flex items-center gap-1">
-                      <Leaf size={10} className="text-secondary" />
-                      {villaBottomRight.category || "Treetop"}
-                    </span>
-                  </div>
-                  <span className="px-2.5 py-1 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-lg shadow-md flex items-center gap-1">
-                    <Sparkles size={11} /> 15% OFF
-                  </span>
-                </div>
-
-                {/* Bottom Glassmorphic Card with Direct Navigation Button */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                  <div className="glass-dark p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="space-y-0.5 min-w-0">
-                      <h3
-                        className="text-white text-base sm:text-lg font-bold italic truncate"
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
-                        {villaBottomRight.name}
-                      </h3>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-white/50 line-through text-[11px] font-semibold">
-                          Rs.{Math.round(Number(villaBottomRight.pricePerNight || 2100) * 1.18).toLocaleString()}
-                        </span>
-                        <span className="text-amber-300 font-bold text-sm">
-                          Rs.{Number(villaBottomRight.pricePerNight || 2100).toLocaleString()}
-                        </span>
-                        <span className="text-white/70 text-xs font-normal">/ night</span>
-                        <span className="text-emerald-400 font-bold text-[10px] uppercase tracking-wider ml-1">
-                          (Save 15%)
-                        </span>
-                      </div>
-                    </div>
-
-                    <Link
-                      to={`/rooms-villas/${villaBottomRight.slug || villaBottomRight.id || 'treetop-heritage-suite'}`}
-                      id="home-villa-btn-bottomright"
-                      className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 shrink-0 cursor-pointer active:scale-95 group/btn"
-                    >
-                      <span>Explore Villa</span>
-                      <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </FadeSection>
-
-        {/* Amenity feature cards */}
-        <FadeSection className="container-resort" delay={0.25}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {amenities.map((amenity, i) => {
-              const Icon = amenity.icon;
-              return (
-                <FadeSection
-                  key={amenity.title}
-                  delay={i * 0.1}
-                  className="text-center"
-                >
-                  <div
-                    className="w-14 h-14 mx-auto mb-5 flex items-center justify-center rounded-full"
-                    style={{ backgroundColor: "var(--color-warm-sand)" }}
-                  >
-                    <Icon
-                      size={24}
-                      strokeWidth={1.5}
-                      style={{ color: "var(--color-primary)" }}
-                    />
-                  </div>
-                  <h3
-                    className="mb-3"
-                    style={{
-                      fontFamily: "var(--font-heading)",
-                      fontSize: "1.25rem",
-                      fontWeight: 600,
-                      color: "var(--color-text-primary)",
-                    }}
-                  >
-                    {amenity.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.9rem",
-                      lineHeight: "1.7",
-                      color: "var(--color-text-secondary)",
-                      maxWidth: "36ch",
-                      margin: "0 auto",
-                    }}
-                  >
-                    {amenity.description}
-                  </p>
-                </FadeSection>
-              );
-            })}
-          </div>
-        </FadeSection>
-      </section>
-
-      {/* ═══════════════════════════════════════════
+        {/* ═══════════════════════════════════════════
           SECTION 2b — THE ESTATE IN FRAMES
           Bento grid, fed by GET /api/gallery. The Manage Gallery button
           inside it renders only for an admin session.
           ═══════════════════════════════════════════ */}
-      <HomeGallery />
+        <div className="relative z-10 mt-[-100px]">
+          <HomeGallery />
+        </div>
 
-      {/* ═══════════════════════════════════════════
+        {/* ═══════════════════════════════════════════
           SECTION 3 — CURATED EXPERIENCES
           ═══════════════════════════════════════════ */}
-      <section
-        id="curated-experiences"
-        aria-label="Curated Experiences"
-        className="py-20 md:py-28"
-        style={{
-          backgroundColor: "var(--color-surface-container-low, #f3f4f3)",
-        }}
-      >
-        <FadeSection className="container-resort text-center mb-14">
-          <h2
-            className="mb-4"
-            style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
-          >
-            Curated Experiences
-          </h2>
-          <p
-            className="mx-auto text-center"
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "1rem",
-              lineHeight: "1.75",
-              maxWidth: "55ch",
-              color: "var(--color-text-secondary)",
-            }}
-          >
-            Step beyond the villa. Discover a world of unforgettable luxury and
-            curated moments.
-          </p>
-        </FadeSection>
-
-        <div className="container-resort">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {curatedExperiences.map((exp, i) => (
-              <FadeSection key={exp.id} delay={i * 0.12}>
-                <Link
-                  to="/destination"
-                  id={`experience-card-${exp.id}`}
-                  className="group relative block overflow-hidden aspect-[3/4]"
-                  style={{ borderRadius: "var(--radius-sm)" }}
-                >
-                  <img
-                    src={exp.image}
-                    alt={exp.title}
-                    loading="lazy"
-                    className="img-cover transition-transform duration-700 group-hover:scale-[1.06]"
-                  />
-                  {/* Gradient overlay */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(27,24,21,0.75) 0%, rgba(27,24,21,0.05) 55%)",
-                    }}
-                  />
-                  {/* Text overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3
-                      className="text-resort-white mb-2"
-                      style={{
-                        fontFamily: "var(--font-heading)",
-                        fontSize: "1.35rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {exp.title}
-                    </h3>
-                    <p
-                      className="text-resort-white/70 text-sm leading-relaxed"
-                      style={{
-                        fontFamily: "var(--font-body)",
-                        maxWidth: "32ch",
-                      }}
-                    >
-                      {exp.description}
-                    </p>
-                  </div>
-                </Link>
-              </FadeSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          SECTION 4 — GUEST EXPERIENCES (REAL VILLA REVIEWS)
-          ═══════════════════════════════════════════ */}
-      <section
-        id="guest-experiences"
-        aria-label="Guest Experiences"
-        className="py-16 md:py-20 relative overflow-hidden"
-        style={{ backgroundColor: "var(--color-surface)" }}
-      >
-        {/* ── Decorative Background Sketch & Gradient ── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0"
-          style={{
-            backgroundImage: "url('/assets/images/loading-sketch.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.15,
-          }}
-        />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container-resort relative z-10">
-          {/* Section Header */}
-          <FadeSection className="text-center mb-10 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary-container/40 border border-secondary/30 text-deep-wood text-xs font-bold uppercase tracking-widest mb-4 shadow-xs">
-              <Sparkles size={14} className="text-secondary" />
-              <span>Verified Guest Memoirs &amp; Reviews</span>
-            </div>
-
+        <section
+          id="curated-experiences"
+          aria-label="Curated Experiences"
+          className="py-20 md:py-1 relative z-10 bg-transparent"
+        >
+          <FadeSection className="container-resort text-center mb-14">
             <h2
-              className="mb-4 text-3xl sm:text-4xl md:text-5xl font-bold text-deep-wood"
+              className="mb-4"
               style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
             >
-              Guest Experiences in the Sanctuary
+              Curated Experiences
             </h2>
-
             <p
-              className="mx-auto text-center text-deep-wood/75 text-sm sm:text-base leading-relaxed mb-6"
-              style={{ fontFamily: "var(--font-body)" }}
+              className="mx-auto text-center"
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                lineHeight: "1.75",
+                maxWidth: "55ch",
+                color: "var(--color-text-secondary)",
+              }}
             >
-              Unfiltered reflections from guests who stayed in our canopy,
-              lagoon, and beachfront sanctuaries.
+              Step beyond the villa. Discover a world of unforgettable luxury
+              and curated moments.
             </p>
-
-            {/* Overall Rating Pill */}
-            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white border border-primary/20 shadow-sm">
-              <div className="flex gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={15} fill="#D4AF37" stroke="#D4AF37" />
-                ))}
-              </div>
-              <span className="text-xs font-bold text-deep-wood">
-                5.0 / 5.0 · Top Rated Sanctuary Experience
-              </span>
-            </div>
           </FadeSection>
 
-          {/* Category Filter Pills */}
-    <FadeSection
-  delay={0.1}
-  className="flex flex-wrap items-center justify-center gap-2 mb-10"
->
-  {[
-    { id: "all", label: "All Reviews" },
-    { id: "canopy", label: "Canopy Forest" },
-    { id: "lagoon", label: "Lagoon Suites" },
-    { id: "beachfront", label: "Beachfront" },
-    { id: "treetop", label: "Treetop Heritage" },
-  ].map((cat) => (
-    <button
-      key={cat.id}
-      type="button"
-      onClick={() => {
-        setActiveCategory(cat.id);
-        setTestimonialStart(0);
-      }}
-      className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-        activeCategory === cat.id
-          ? "bg-primary text-white shadow-md scale-105"
-          : "bg-white/80 text-primary border border-primary/30 hover:bg-primary-container hover:text-white hover:border-primary-container"
-      }`}
-    >
-      {cat.label}
-    </button>
-  ))}
-</FadeSection>
-
-          {/* Testimonial Carousel Grid */}
-          <div className="relative group">
-            {/* Left Arrow */}
-            {testimonialStart > 0 && (
-              <button
-                type="button"
-                onClick={() =>
-                  setTestimonialStart((prev) => Math.max(0, prev - 2))
-                }
-                aria-label="Previous reviews"
-                className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 bg-white border border-outline-variant/40 rounded-full shadow-lg flex items-center justify-center text-deep-wood hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-pointer"
-              >
-                <ChevronLeft size={22} />
-              </button>
-            )}
-
-            {/* Reviews Grid (2 items per slide) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              {displayReviews
-                .slice(testimonialStart, testimonialStart + 2)
-                .map((r, i) => (
-                  <FadeSection key={r.id || i} delay={i * 0.15}>
-                    <div className="p-7 sm:p-9 h-full bg-white/85 backdrop-blur-md border border-primary/20 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group/card relative overflow-hidden">
-                      {/* Top Accent Gold Glow */}
-                      <div className="absolute -top-12 -right-12 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none" />
-
-                      <div>
-                        {/* Header: Guest Info & Rating */}
-                        <div className="flex items-start justify-between gap-3 mb-5 pb-4 border-b border-outline-variant/20">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-surface-container-high border-2 border-primary/30 flex items-center justify-center font-bold text-sm text-primary shadow-xs shrink-0 font-heading">
-                              {r.guestName
-                                ? r.guestName
-                                    .split(" ")
-                                    .map((n) => n[0])
-                                    .join("")
-                                    .slice(0, 2)
-                                    .toUpperCase()
-                                : "AV"}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <h4 className="font-bold text-sm sm:text-base text-deep-wood">
-                                  {r.guestName}
-                                </h4>
-                                {r.isVerified && (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold rounded-full">
-                                    <CheckCircle2
-                                      size={11}
-                                      className="text-emerald-600"
-                                    />
-                                    Verified Stay
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-xs text-deep-wood/60 font-medium">
-                                {r.guestOrigin}{" "}
-                                {r.stayDate ? `• ${r.stayDate}` : ""}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Star Rating */}
-                          <div className="flex items-center gap-0.5 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60 shrink-0">
-                            {Array.from({ length: r.rating || 5 }).map(
-                              (_, starIdx) => (
-                                <Star
-                                  key={starIdx}
-                                  size={12}
-                                  fill="#D4AF37"
-                                  stroke="#D4AF37"
-                                />
-                              ),
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Villa Link Badge */}
-                        {r.villaName && (
-                          <div className="mb-4">
-                            <Link
-                              to={`/rooms-villas/${r.villaSlug}?tab=reviews`}
-                              className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low/80 hover:bg-primary/10 border border-primary/20 text-deep-wood hover:text-primary rounded-full text-xs font-semibold transition-colors"
-                            >
-                              <Trees size={12} className="text-primary" />
-                              <span>{r.villaName}</span>
-                              <ArrowRight size={11} className="opacity-60" />
-                            </Link>
-                          </div>
-                        )}
-
-                        {/* Headline */}
-                        {r.headline && (
-                          <h5
-                            className="text-base sm:text-lg font-bold text-deep-wood mb-3 italic"
-                            style={{ fontFamily: "var(--font-heading)" }}
-                          >
-                            "{r.headline}"
-                          </h5>
-                        )}
-
-                        {/* Quote Body */}
-                        <blockquote
-                          className="text-deep-wood/80 text-xs sm:text-sm leading-relaxed mb-6 italic"
-                          style={{ fontFamily: "var(--font-body)" }}
-                        >
-                          "{r.quote}"
-                        </blockquote>
-                      </div>
-
-                      {/* Footer Badge */}
-                      <div className="pt-3 border-t border-outline-variant/15 flex items-center justify-between text-[11px] font-semibold text-deep-wood/55">
-                        <span className="flex items-center gap-1">
-                          <ShieldCheck size={13} className="text-primary" />
-                          Authentic Resident Memoir
-                        </span>
-                        <Link
-                          to={`/rooms-villas/${r.villaSlug}?tab=reviews`}
-                          className="text-primary hover:underline font-bold"
-                        >
-                          View Villa Details →
-                        </Link>
-                      </div>
+          <div className="container-resort">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {curatedExperiences.map((exp, i) => (
+                <FadeSection key={exp.id} delay={i * 0.12}>
+                  <Link
+                    to="/destination"
+                    id={`experience-card-${exp.id}`}
+                    className="group relative block overflow-hidden aspect-[3/4]"
+                    style={{ borderRadius: "var(--radius-sm)" }}
+                  >
+                    <img
+                      src={exp.image}
+                      alt={exp.title}
+                      loading="lazy"
+                      className="img-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                    />
+                    {/* Gradient overlay */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(27,24,21,0.75) 0%, rgba(27,24,21,0.05) 55%)",
+                      }}
+                    />
+                    {/* Text overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3
+                        className="text-resort-white mb-2"
+                        style={{
+                          fontFamily: "var(--font-heading)",
+                          fontSize: "1.35rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {exp.title}
+                      </h3>
+                      <p
+                        className="text-resort-white/70 text-sm leading-relaxed"
+                        style={{
+                          fontFamily: "var(--font-body)",
+                          maxWidth: "32ch",
+                        }}
+                      >
+                        {exp.description}
+                      </p>
                     </div>
-                  </FadeSection>
-                ))}
-            </div>
-
-            {/* Right Arrow */}
-            {testimonialStart + 2 < displayReviews.length && (
-              <button
-                type="button"
-                onClick={() =>
-                  setTestimonialStart((prev) =>
-                    Math.min(displayReviews.length - 2, prev + 2),
-                  )
-                }
-                aria-label="Next reviews"
-                className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 bg-white border border-outline-variant/40 rounded-full shadow-lg flex items-center justify-center text-deep-wood hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-pointer"
-              >
-                <ChevronRight size={22} />
-              </button>
-            )}
-          </div>
-
-          {/* Dots Indicator & Navigation Footer */}
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-outline-variant/20">
-            {/* Pagination dots */}
-            <div className="flex items-center gap-2">
-              {Array.from({
-                length: Math.ceil(displayReviews.length / 2),
-              }).map((_, pageIdx) => (
-                <button
-                  key={pageIdx}
-                  type="button"
-                  onClick={() => setTestimonialStart(pageIdx * 2)}
-                  aria-label={`Go to page ${pageIdx + 1}`}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    Math.floor(testimonialStart / 2) === pageIdx
-                      ? "w-8 bg-primary"
-                      : "w-2.5 bg-outline-variant/40 hover:bg-primary/40"
-                  }`}
-                />
+                  </Link>
+                </FadeSection>
               ))}
             </div>
-
-            {/* View all villas & reviews CTA */}
-            <Link
-              to="/rooms-villas"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-deep-wood hover:bg-primary text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-98"
-            >
-              <MessageSquare size={14} />
-              <span>Explore All Sanctuaries &amp; Reviews</span>
-              <ArrowRight size={14} />
-            </Link>
           </div>
-        </div>
-      </section>
-    </>
+        </section>
+
+        {/* ═══════════════════════════════════════════
+          SECTION 4 — GUEST EXPERIENCES (REAL VILLA REVIEWS)
+          ═══════════════════════════════════════════ */}
+        <section
+          id="guest-experiences"
+          aria-label="Guest Experiences"
+          className="py-16 md:py-20 relative z-10 overflow-hidden bg-transparent"
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="container-resort relative z-10">
+            {/* Section Header */}
+            <FadeSection className="text-center mb-10 max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary-container/40 border border-secondary/30 text-deep-wood text-xs font-bold uppercase tracking-widest mb-4 shadow-xs">
+                <Sparkles size={14} className="text-secondary" />
+                <span>Verified Guest Memoirs &amp; Reviews</span>
+              </div>
+
+              <h2
+                className="mb-4 text-3xl sm:text-4xl md:text-5xl font-bold text-deep-wood"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontStyle: "italic",
+                }}
+              >
+                Guest Experiences in the Sanctuary
+              </h2>
+
+              <p
+                className="mx-auto text-center text-deep-wood/75 text-sm sm:text-base leading-relaxed mb-6"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                Unfiltered reflections from guests who stayed in our canopy,
+                lagoon, and beachfront sanctuaries.
+              </p>
+
+              {/* Overall Rating Pill */}
+              <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white border border-primary/20 shadow-sm">
+                <div className="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={15} fill="#D4AF37" stroke="#D4AF37" />
+                  ))}
+                </div>
+                <span className="text-xs font-bold text-deep-wood">
+                  5.0 / 5.0 · Top Rated Sanctuary Experience
+                </span>
+              </div>
+            </FadeSection>
+
+            {/* Category Filter Pills */}
+            <FadeSection
+              delay={0.1}
+              className="flex flex-wrap items-center justify-center gap-2 mb-10"
+            >
+              {[
+                { id: "all", label: "All Reviews" },
+                { id: "canopy", label: "Canopy Forest" },
+                { id: "lagoon", label: "Lagoon Suites" },
+                { id: "beachfront", label: "Beachfront" },
+                { id: "treetop", label: "Treetop Heritage" },
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveCategory(cat.id);
+                    setTestimonialStart(0);
+                  }}
+                  className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                    activeCategory === cat.id
+                      ? "bg-primary text-white shadow-md scale-105"
+                      : "bg-white/80 text-primary border border-primary/30 hover:bg-primary-container hover:text-white hover:border-primary-container"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </FadeSection>
+
+            {/* Testimonial Carousel Grid */}
+            <div className="relative group">
+              {/* Left Arrow */}
+              {testimonialStart > 0 && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTestimonialStart((prev) => Math.max(0, prev - 2))
+                  }
+                  aria-label="Previous reviews"
+                  className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 bg-white border border-outline-variant/40 rounded-full shadow-lg flex items-center justify-center text-deep-wood hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-pointer"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+              )}
+
+              {/* Reviews Grid (2 items per slide) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                {displayReviews
+                  .slice(testimonialStart, testimonialStart + 2)
+                  .map((r, i) => (
+                    <FadeSection key={r.id || i} delay={i * 0.15}>
+                      <div className="p-7 sm:p-9 h-full bg-white/85 backdrop-blur-md border border-primary/20 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group/card relative overflow-hidden">
+                        {/* Top Accent Gold Glow */}
+                        <div className="absolute -top-12 -right-12 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none" />
+
+                        <div>
+                          {/* Header: Guest Info & Rating */}
+                          <div className="flex items-start justify-between gap-3 mb-5 pb-4 border-b border-outline-variant/20">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-full bg-surface-container-high border-2 border-primary/30 flex items-center justify-center font-bold text-sm text-primary shadow-xs shrink-0 font-heading">
+                                {r.guestName
+                                  ? r.guestName
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")
+                                      .slice(0, 2)
+                                      .toUpperCase()
+                                  : "AV"}
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-bold text-sm sm:text-base text-deep-wood">
+                                    {r.guestName}
+                                  </h4>
+                                  {r.isVerified && (
+                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold rounded-full">
+                                      <CheckCircle2
+                                        size={11}
+                                        className="text-emerald-600"
+                                      />
+                                      Verified Stay
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-deep-wood/60 font-medium">
+                                  {r.guestOrigin}{" "}
+                                  {r.stayDate ? `• ${r.stayDate}` : ""}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Star Rating */}
+                            <div className="flex items-center gap-0.5 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60 shrink-0">
+                              {Array.from({ length: r.rating || 5 }).map(
+                                (_, starIdx) => (
+                                  <Star
+                                    key={starIdx}
+                                    size={12}
+                                    fill="#D4AF37"
+                                    stroke="#D4AF37"
+                                  />
+                                ),
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Villa Link Badge */}
+                          {r.villaName && (
+                            <div className="mb-4">
+                              <Link
+                                to={`/rooms-villas/${r.villaSlug}?tab=reviews`}
+                                className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low/50/80 hover:bg-primary/10 border border-primary/20 text-deep-wood hover:text-primary rounded-full text-xs font-semibold transition-colors"
+                              >
+                                <Trees size={12} className="text-primary" />
+                                <span>{r.villaName}</span>
+                                <ArrowRight size={11} className="opacity-60" />
+                              </Link>
+                            </div>
+                          )}
+
+                          {/* Headline */}
+                          {r.headline && (
+                            <h5
+                              className="text-base sm:text-lg font-bold text-deep-wood mb-3 italic"
+                              style={{ fontFamily: "var(--font-heading)" }}
+                            >
+                              "{r.headline}"
+                            </h5>
+                          )}
+
+                          {/* Quote Body */}
+                          <blockquote
+                            className="text-deep-wood/80 text-xs sm:text-sm leading-relaxed mb-6 italic"
+                            style={{ fontFamily: "var(--font-body)" }}
+                          >
+                            "{r.quote}"
+                          </blockquote>
+                        </div>
+
+                        {/* Footer Badge */}
+                        <div className="pt-3 border-t border-outline-variant/15 flex items-center justify-between text-[11px] font-semibold text-deep-wood/55">
+                          <span className="flex items-center gap-1">
+                            <ShieldCheck size={13} className="text-primary" />
+                            Authentic Resident Memoir
+                          </span>
+                          <Link
+                            to={`/rooms-villas/${r.villaSlug}?tab=reviews`}
+                            className="text-primary hover:underline font-bold"
+                          >
+                            View Villa Details →
+                          </Link>
+                        </div>
+                      </div>
+                    </FadeSection>
+                  ))}
+              </div>
+
+              {/* Right Arrow */}
+              {testimonialStart + 2 < displayReviews.length && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTestimonialStart((prev) =>
+                      Math.min(displayReviews.length - 2, prev + 2),
+                    )
+                  }
+                  aria-label="Next reviews"
+                  className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 bg-white border border-outline-variant/40 rounded-full shadow-lg flex items-center justify-center text-deep-wood hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-pointer"
+                >
+                  <ChevronRight size={22} />
+                </button>
+              )}
+            </div>
+
+            {/* Dots Indicator & Navigation Footer */}
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-outline-variant/20">
+              {/* Pagination dots */}
+              <div className="flex items-center gap-2">
+                {Array.from({
+                  length: Math.ceil(displayReviews.length / 2),
+                }).map((_, pageIdx) => (
+                  <button
+                    key={pageIdx}
+                    type="button"
+                    onClick={() => setTestimonialStart(pageIdx * 2)}
+                    aria-label={`Go to page ${pageIdx + 1}`}
+                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                      Math.floor(testimonialStart / 2) === pageIdx
+                        ? "w-8 bg-primary"
+                        : "w-2.5 bg-outline-variant/40 hover:bg-primary/40"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* View all villas & reviews CTA */}
+              <Link
+                to="/rooms-villas"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-deep-wood hover:bg-primary text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-98"
+              >
+                <MessageSquare size={14} />
+                <span>Explore All Sanctuaries &amp; Reviews</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

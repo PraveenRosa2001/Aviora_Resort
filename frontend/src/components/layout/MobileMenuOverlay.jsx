@@ -11,7 +11,7 @@ const menuLinks = [
   { label: 'Villas',       to: '/rooms-villas' },
   { label: 'Wellness',     to: '/wellness' },
   { label: 'Dining',       to: '/dining' },
-  { label: 'Experiences',  to: '/sustainability' },
+  // { label: 'Experiences',  to: '/sustainability' },
   // { label: 'Gallery',      to: '/gallery' },
   { label: 'Contact',      to: '/contact' },
 ];

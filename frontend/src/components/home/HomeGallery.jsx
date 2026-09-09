@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Camera,
   Plus,
@@ -20,7 +20,7 @@ import {
   ChevronRight,
   Play,
   Pause,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   useGetGalleryImagesQuery,
   useGetAdminGalleryQuery,
@@ -28,8 +28,9 @@ import {
   useSaveGalleryImageMutation,
   useDeleteGalleryImageMutation,
   useReorderGalleryMutation,
-} from '../../features/rooms/roomsApi';
-import { selectCurrentUser } from '../../features/auth/authSlice';
+} from "../../features/rooms/roomsApi";
+import { selectCurrentUser } from "../../features/auth/authSlice";
+import { mediaUrl } from "../../config/mediaUrl";
 
 /* --------------------------------------------------------------------------
    The bento grid on the home page.
@@ -43,98 +44,119 @@ import { selectCurrentUser } from '../../features/auth/authSlice';
    Default effect: High-contrast monochrome black & white photograph.
    Hover effect: Smoothly transitions into full vibrant natural color with
    gentle scale and revealed story caption.
+
+   Every image source goes through mediaUrl(). Two kinds of path live side by
+   side in dbo.GalleryImages: /assets/... shipped with the frontend, and
+   /uploads/... written to the API's wwwroot. Both are root-relative, so the
+   browser resolves both against the page origin - which is right for the
+   first and 404s for the second.
    -------------------------------------------------------------------------- */
 
-const CATEGORIES = ['resort', 'villas', 'dining', 'wellness', 'experiences', 'nature'];
+const CATEGORIES = [
+  "resort",
+  "villas",
+  "dining",
+  "wellness",
+  "experiences",
+  "nature",
+];
 
 const DEFAULT_GALLERY_IMAGES = [
   {
-    id: 'g01',
-    url: '/assets/images/gallery/gallery-01.jpg',
-    title: 'Canopy Villa at Twilight',
-    caption: 'Golden hour reflection over the private plunge pool and misty forest canopy.',
-    category: 'villas',
+    id: "g01",
+    url: "/assets/images/gallery/gallery-01.jpg",
+    title: "Canopy Villa at Twilight",
+    caption:
+      "Golden hour reflection over the private plunge pool and misty forest canopy.",
+    category: "villas",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g02',
-    url: '/assets/images/gallery/gallery-02.jpg',
-    title: 'Aerial Rainforest Sanctuary',
-    caption: 'Ninety acres of untouched botanical reserve and ancient primary rainforest.',
-    category: 'resort',
+    id: "g02",
+    url: "/assets/images/gallery/gallery-02.jpg",
+    title: "Aerial Rainforest Sanctuary",
+    caption:
+      "Ninety acres of untouched botanical reserve and ancient primary rainforest.",
+    category: "resort",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g03',
-    url: '/assets/images/gallery/gallery-03.jpg',
-    title: 'Wildlife Passage at Dawn',
-    caption: 'Protected elephant family grazing peacefully through the morning mist.',
-    category: 'nature',
+    id: "g03",
+    url: "/assets/images/gallery/gallery-03.jpg",
+    title: "Wildlife Passage at Dawn",
+    caption:
+      "Protected elephant family grazing peacefully through the morning mist.",
+    category: "nature",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g04',
-    url: '/assets/images/gallery/gallery-04.jpg',
-    title: 'The Canopy Table',
-    caption: 'Sensory fine dining elevated into the jungle tree canopy with warm ambient candlelight.',
-    category: 'dining',
+    id: "g04",
+    url: "/assets/images/gallery/gallery-04.jpg",
+    title: "The Canopy Table",
+    caption:
+      "Sensory fine dining elevated into the jungle tree canopy with warm ambient candlelight.",
+    category: "dining",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g05',
-    url: '/assets/images/gallery/gallery-05.jpg',
-    title: 'Forest Pavilion Spa',
-    caption: 'Holistic Ayurvedic rituals surrounded by natural springs and bamboo groves.',
-    category: 'wellness',
+    id: "g05",
+    url: "/assets/images/gallery/gallery-05.jpg",
+    title: "Forest Pavilion Spa",
+    caption:
+      "Holistic Ayurvedic rituals surrounded by natural springs and bamboo groves.",
+    category: "wellness",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g06',
-    url: '/assets/images/gallery/gallery-06.jpg',
-    title: 'Lagoon Water Suite',
-    caption: 'Over-water timber deck facing the tranquil lagoon at twilight.',
-    category: 'villas',
+    id: "g06",
+    url: "/assets/images/gallery/gallery-06.jpg",
+    title: "Lagoon Water Suite",
+    caption: "Over-water timber deck facing the tranquil lagoon at twilight.",
+    category: "villas",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g07',
-    url: '/assets/images/gallery/gallery-07.jpg',
-    title: 'Jungle Waterfall Trek',
-    caption: 'Private guided expedition along ancient trails to hidden cascading waterfalls.',
-    category: 'experiences',
+    id: "g07",
+    url: "/assets/images/gallery/gallery-07.jpg",
+    title: "Jungle Waterfall Trek",
+    caption:
+      "Private guided expedition along ancient trails to hidden cascading waterfalls.",
+    category: "experiences",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g08',
-    url: '/assets/images/gallery/gallery-08.jpg',
-    title: 'Ocean Sunset Catamaran',
-    caption: 'Private luxury catamaran cruise along the secluded coastline.',
-    category: 'experiences',
+    id: "g08",
+    url: "/assets/images/gallery/gallery-08.jpg",
+    title: "Ocean Sunset Catamaran",
+    caption: "Private luxury catamaran cruise along the secluded coastline.",
+    category: "experiences",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g09',
-    url: '/assets/images/gallery/gallery-09.jpg',
-    title: 'Morning Mist Infinity Pool',
-    caption: 'Quiet dawn reflections over the main resort infinity pool as the canopy awakens.',
-    category: 'resort',
+    id: "g09",
+    url: "/assets/images/gallery/gallery-09.jpg",
+    title: "Morning Mist Infinity Pool",
+    caption:
+      "Quiet dawn reflections over the main resort infinity pool as the canopy awakens.",
+    category: "resort",
     showOnHome: true,
     isActive: true,
   },
   {
-    id: 'g10',
-    url: '/assets/images/gallery/gallery-10.jpg',
-    title: 'Sky Villa Penthouse',
-    caption: 'Starlit panoramic terrace with heated plunge pool overlooking the reserve.',
-    category: 'villas',
+    id: "g10",
+    url: "/assets/images/gallery/gallery-10.jpg",
+    title: "Sky Villa Penthouse",
+    caption:
+      "Starlit panoramic terrace with heated plunge pool overlooking the reserve.",
+    category: "villas",
     showOnHome: true,
     isActive: true,
   },
@@ -145,25 +167,26 @@ const tileSpan = (index) => {
   const row = Math.floor(index / 2);
   const isFirstInRow = index % 2 === 0;
   const wideFirst = row % 2 === 0;
-  return (wideFirst ? isFirstInRow : !isFirstInRow) ? 'wide' : 'narrow';
+  return (wideFirst ? isFirstInRow : !isFirstInRow) ? "wide" : "narrow";
 };
 
 const EMPTY_IMAGE = {
   id: null,
-  url: '',
-  title: '',
-  caption: '',
-  category: 'resort',
+  url: "",
+  title: "",
+  caption: "",
+  category: "resort",
   showOnHome: true,
   isActive: true,
   storedFileName: null,
 };
 
-const errorText = (err, fallback) => err?.data?.message || err?.error || fallback;
+const errorText = (err, fallback) =>
+  err?.data?.message || err?.error || fallback;
 
 const inputClass =
-  'w-full px-3.5 py-2.5 text-xs bg-white border border-outline-variant/40 rounded-xl ' +
-  'text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all';
+  "w-full px-3.5 py-2.5 text-xs bg-white border border-outline-variant/40 rounded-xl " +
+  "text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all";
 
 function GalleryTile({ image, index, onOpen }) {
   const span = tileSpan(index);
@@ -174,20 +197,20 @@ function GalleryTile({ image, index, onOpen }) {
       onClick={() => onOpen(image)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.55, delay: (index % 6) * 0.05 }}
       className={[
-        'group relative overflow-hidden rounded-xl sm:rounded-2xl cursor-pointer text-left',
-        'border border-primary/20 hover:border-primary/60 shadow-xs hover:shadow-2xl transition-all duration-500',
-        'h-52 sm:h-64 md:h-72',
-        span === 'wide' ? 'sm:col-span-3' : 'sm:col-span-2',
-      ].join(' ')}
+        "group relative overflow-hidden rounded-xl sm:rounded-2xl cursor-pointer text-left",
+        "border border-primary/20 hover:border-primary/60 shadow-xs hover:shadow-2xl transition-all duration-500",
+        "h-52 sm:h-64 md:h-72",
+        span === "wide" ? "sm:col-span-3" : "sm:col-span-2",
+      ].join(" ")}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.img
           key={image.id || image.url}
-          src={image.url}
-          alt={image.title || 'Aviora Resort'}
+          src={mediaUrl(image.url)}
+          alt={image.title || "Aviora Resort"}
           loading="lazy"
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -216,7 +239,7 @@ function GalleryTile({ image, index, onOpen }) {
           {image.title && (
             <span
               className="block text-sm sm:text-base font-bold text-white drop-shadow-md italic leading-snug"
-              style={{ fontFamily: 'var(--font-heading)' }}
+              style={{ fontFamily: "var(--font-heading)" }}
             >
               {image.title}
             </span>
@@ -237,7 +260,7 @@ export default function HomeGallery() {
 
   /* The button is hidden here, but that is presentation only - every write
      goes to AdminGalleryController behind [Authorize(Roles = "admin")]. */
-  const isAdmin = currentUser?.role === 'admin';
+  const isAdmin = currentUser?.role === "admin";
 
   const {
     data: images = [],
@@ -294,23 +317,27 @@ export default function HomeGallery() {
         <div className="container-resort text-center">
           <AlertTriangle size={30} className="mx-auto text-amber-500 mb-3" />
           <p className="text-sm font-bold text-deep-wood">
-            {isError ? 'The gallery could not be loaded.' : 'The gallery is empty.'}
+            {isError
+              ? "The gallery could not be loaded."
+              : "The gallery is empty."}
           </p>
           <p className="mt-1 text-xs text-deep-wood/60">
             {isError
-              ? errorText(error, 'The resort system did not respond.')
-              : 'Guests see nothing here until a photograph is added.'}
+              ? errorText(error, "The resort system did not respond.")
+              : "Guests see nothing here until a photograph is added."}
           </p>
           <button
             onClick={() => (isError ? refetch() : setManagerOpen(true))}
             className="mt-5 px-6 py-2.5 rounded-xl bg-primary text-white text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
-            {isError ? 'Retry' : 'Add Photographs'}
+            {isError ? "Retry" : "Add Photographs"}
           </button>
         </div>
 
         <AnimatePresence>
-          {managerOpen && <GalleryManager onClose={() => setManagerOpen(false)} />}
+          {managerOpen && (
+            <GalleryManager onClose={() => setManagerOpen(false)} />
+          )}
         </AnimatePresence>
       </section>
     );
@@ -320,15 +347,14 @@ export default function HomeGallery() {
     <section
       id="resort-gallery"
       aria-label="Resort Gallery"
-      className="py-20 md:py-28"
-      style={{ backgroundColor: 'var(--color-surface, #f9f9f8)' }}
+      className="py-20 md:py-28 bg-transparent"
     >
       <div className="container-resort">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7 }}
           className="max-w-3xl mx-auto text-center mb-10 md:mb-12"
         >
@@ -338,14 +364,15 @@ export default function HomeGallery() {
 
           <h2
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-deep-wood mb-4"
-            style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
+            style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
           >
             Light, Water &amp; Canopy
           </h2>
 
           <p className="text-sm md:text-base text-deep-wood/70 leading-relaxed font-medium">
-            Ninety acres of rainforest, lagoon and shoreline, photographed across a
-            single season. Rest on any frame to see it in full living colour.
+            Ninety acres of rainforest, lagoon and shoreline, photographed
+            across a single season. Rest on any frame to see it in full living
+            colour.
           </p>
         </motion.div>
 
@@ -374,14 +401,14 @@ export default function HomeGallery() {
                 type="button"
                 onClick={() => setIsPaused((p) => !p)}
                 className="px-3 py-1.5 rounded-full bg-white border border-outline-variant/40 hover:bg-surface-container-high text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs text-deep-wood"
-                aria-label={isPaused ? 'Resume rotation' : 'Pause rotation'}
+                aria-label={isPaused ? "Resume rotation" : "Pause rotation"}
               >
                 {isPaused ? (
                   <Play size={11} className="text-primary fill-primary" />
                 ) : (
                   <Pause size={11} className="text-primary fill-primary" />
                 )}
-                <span>{isPaused ? 'Resume Slideshow' : 'Auto Rotating'}</span>
+                <span>{isPaused ? "Resume Slideshow" : "Auto Rotating"}</span>
               </button>
               <span className="hidden sm:inline-block text-[11px] text-deep-wood/50 font-medium">
                 · Hover any frame to reveal full colour &amp; story
@@ -392,7 +419,9 @@ export default function HomeGallery() {
               <button
                 type="button"
                 onClick={() =>
-                  setActiveOffset((prev) => (prev - 1 + allImages.length) % allImages.length)
+                  setActiveOffset(
+                    (prev) => (prev - 1 + allImages.length) % allImages.length,
+                  )
                 }
                 className="w-8 h-8 rounded-full bg-white border border-outline-variant/40 hover:bg-surface-container-high flex items-center justify-center text-deep-wood transition-colors cursor-pointer shadow-2xs active:scale-95"
                 aria-label="Previous frames"
@@ -408,8 +437,8 @@ export default function HomeGallery() {
                     onClick={() => setActiveOffset(idx)}
                     className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                       activeOffset === idx
-                        ? 'w-5 bg-primary'
-                        : 'w-1.5 bg-outline-variant/60 hover:bg-primary/50'
+                        ? "w-5 bg-primary"
+                        : "w-1.5 bg-outline-variant/60 hover:bg-primary/50"
                     }`}
                     aria-label={`Go to frame ${idx + 1}`}
                   />
@@ -464,8 +493,8 @@ export default function HomeGallery() {
               className="relative max-w-5xl w-full"
             >
               <img
-                src={lightbox.url}
-                alt={lightbox.title || ''}
+                src={mediaUrl(lightbox.url)}
+                alt={lightbox.title || ""}
                 className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
               />
 
@@ -474,7 +503,7 @@ export default function HomeGallery() {
                   {lightbox.title && (
                     <h3
                       className="text-xl font-bold text-sand italic"
-                      style={{ fontFamily: 'var(--font-heading)' }}
+                      style={{ fontFamily: "var(--font-heading)" }}
                     >
                       {lightbox.title}
                     </h3>
@@ -501,7 +530,9 @@ export default function HomeGallery() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {managerOpen && <GalleryManager onClose={() => setManagerOpen(false)} />}
+        {managerOpen && (
+          <GalleryManager onClose={() => setManagerOpen(false)} />
+        )}
       </AnimatePresence>
     </section>
   );
@@ -513,19 +544,21 @@ export default function HomeGallery() {
 function GalleryManager({ onClose }) {
   const { data: images = [], isLoading } = useGetAdminGalleryQuery();
 
-  const [uploadImage, { isLoading: uploading }] = useUploadGalleryImageMutation();
+  const [uploadImage, { isLoading: uploading }] =
+    useUploadGalleryImageMutation();
   const [saveImage, { isLoading: saving }] = useSaveGalleryImageMutation();
   const [deleteImage] = useDeleteGalleryImageMutation();
-  const [reorderGallery, { isLoading: reordering }] = useReorderGalleryMutation();
+  const [reorderGallery, { isLoading: reordering }] =
+    useReorderGalleryMutation();
 
   const [editing, setEditing] = useState(null);
-  const [formError, setFormError] = useState('');
-  const [notice, setNotice] = useState('');
+  const [formError, setFormError] = useState("");
+  const [notice, setNotice] = useState("");
   const fileInput = useRef(null);
 
   useEffect(() => {
     if (!notice) return;
-    const t = setTimeout(() => setNotice(''), 3500);
+    const t = setTimeout(() => setNotice(""), 3500);
     return () => clearTimeout(t);
   }, [notice]);
 
@@ -533,11 +566,11 @@ function GalleryManager({ onClose }) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setFormError('');
+    setFormError("");
 
     try {
       const form = new FormData();
-      form.append('file', file);
+      form.append("file", file);
 
       const result = await uploadImage(form).unwrap();
 
@@ -547,20 +580,20 @@ function GalleryManager({ onClose }) {
         ...EMPTY_IMAGE,
         url: result.url,
         storedFileName: result.storedFileName,
-        title: file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
+        title: file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
       });
     } catch (err) {
-      setFormError(errorText(err, 'The image could not be uploaded.'));
+      setFormError(errorText(err, "The image could not be uploaded."));
     } finally {
       // Reset so choosing the same file twice still fires onChange.
-      if (fileInput.current) fileInput.current.value = '';
+      if (fileInput.current) fileInput.current.value = "";
     }
   };
 
   const handleSave = async () => {
-    setFormError('');
+    setFormError("");
 
-    if (!editing.url.trim()) return setFormError('An image is required.');
+    if (!editing.url.trim()) return setFormError("An image is required.");
 
     try {
       const res = await saveImage({
@@ -574,19 +607,19 @@ function GalleryManager({ onClose }) {
         storedFileName: editing.storedFileName,
       }).unwrap();
 
-      setNotice(res?.message || 'Saved.');
+      setNotice(res?.message || "Saved.");
       setEditing(null);
     } catch (err) {
-      setFormError(errorText(err, 'The photograph could not be saved.'));
+      setFormError(errorText(err, "The photograph could not be saved."));
     }
   };
 
   const handleDelete = async (image) => {
     try {
       const res = await deleteImage(image.id).unwrap();
-      setNotice(res?.message || 'Removed.');
+      setNotice(res?.message || "Removed.");
     } catch (err) {
-      setNotice(errorText(err, 'The photograph could not be removed.'));
+      setNotice(errorText(err, "The photograph could not be removed."));
     }
   };
 
@@ -600,7 +633,7 @@ function GalleryManager({ onClose }) {
     try {
       await reorderGallery({ orderedIds: next.map((i) => i.id) }).unwrap();
     } catch (err) {
-      setNotice(errorText(err, 'The order could not be saved.'));
+      setNotice(errorText(err, "The order could not be saved."));
     }
   };
 
@@ -615,7 +648,7 @@ function GalleryManager({ onClose }) {
         transition={{ duration: 0.25 }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border-2 border-primary my-auto text-deep-wood"
-        style={{ fontFamily: 'var(--font-body)' }}
+        style={{ fontFamily: "var(--font-body)" }}
       >
         <div className="px-6 sm:px-8 py-6 bg-deep-wood text-resort-white flex items-center justify-between border-b border-primary/30 shrink-0">
           <div className="flex items-center gap-3.5">
@@ -628,7 +661,7 @@ function GalleryManager({ onClose }) {
               </span>
               <h3
                 className="text-xl sm:text-2xl font-bold text-sand italic leading-tight"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                style={{ fontFamily: "var(--font-heading)" }}
               >
                 The Estate in Frames
               </h3>
@@ -644,7 +677,7 @@ function GalleryManager({ onClose }) {
           </button>
         </div>
 
-        <div className="px-6 sm:px-8 py-3 bg-surface-container-low border-b border-primary/20 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="px-6 sm:px-8 py-3 bg-surface-container-low/50 border-b border-primary/20 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <span className="text-[11px] font-semibold text-deep-wood/70">
             {homeCount} on the home page · {images.length} in the library
           </span>
@@ -681,18 +714,21 @@ function GalleryManager({ onClose }) {
         </div>
 
         <div className="p-6 md:p-8 bg-surface overflow-y-auto flex-1 space-y-3">
-          <div className="p-3.5 rounded-xl bg-surface-container-low border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
+          <div className="p-3.5 rounded-xl bg-surface-container-low/50 border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
             <Info size={14} className="text-primary shrink-0 mt-0.5" />
             <span className="leading-relaxed">
-              The grid alternates wide and narrow tiles by position, so the order
-              below is the layout. Photographs work best around 1600 px wide and
-              under 6 MB — JPEG, PNG, WebP or AVIF.
+              The grid alternates wide and narrow tiles by position, so the
+              order below is the layout. Photographs work best around 1600 px
+              wide and under 6 MB — JPEG, PNG, WebP or AVIF.
             </span>
           </div>
 
           {isLoading && (
             <div className="py-12 text-center">
-              <Loader2 size={26} className="mx-auto animate-spin text-primary/50" />
+              <Loader2
+                size={26}
+                className="mx-auto animate-spin text-primary/50"
+              />
             </div>
           )}
 
@@ -709,11 +745,11 @@ function GalleryManager({ onClose }) {
             <div
               key={image.id}
               className={[
-                'p-3 rounded-2xl border bg-white flex items-center gap-3 transition-colors',
+                "p-3 rounded-2xl border bg-white flex items-center gap-3 transition-colors",
                 image.isActive
-                  ? 'border-outline-variant/30'
-                  : 'border-dashed border-amber-500/50 opacity-70',
-              ].join(' ')}
+                  ? "border-outline-variant/30"
+                  : "border-dashed border-amber-500/50 opacity-70",
+              ].join(" ")}
             >
               <div className="flex flex-col gap-0.5 shrink-0">
                 <button
@@ -737,13 +773,17 @@ function GalleryManager({ onClose }) {
               </div>
 
               <div className="w-24 h-16 rounded-xl overflow-hidden bg-surface-container-high shrink-0 border border-outline-variant/30">
-                <img src={image.url} alt="" className="w-full h-full object-cover" />
+                <img
+                  src={mediaUrl(image.url)}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
                   <span className="text-xs font-bold text-deep-wood truncate">
-                    {image.title || 'Untitled'}
+                    {image.title || "Untitled"}
                   </span>
                   <span className="px-1.5 py-0.5 rounded bg-surface-container-high text-[9px] font-bold uppercase tracking-wider text-deep-wood/60">
                     {image.category}
@@ -770,8 +810,8 @@ function GalleryManager({ onClose }) {
                     setEditing({
                       ...EMPTY_IMAGE,
                       ...image,
-                      title: image.title ?? '',
-                      caption: image.caption ?? '',
+                      title: image.title ?? "",
+                      caption: image.caption ?? "",
                     })
                   }
                   className="p-2 rounded-lg text-deep-wood/50 hover:text-primary hover:bg-primary/10 cursor-pointer"
@@ -795,18 +835,18 @@ function GalleryManager({ onClose }) {
         {(formError || notice) && (
           <div
             className={[
-              'mx-6 sm:mx-8 mb-2 p-3.5 rounded-xl text-xs font-bold flex items-start gap-2 shrink-0 border',
+              "mx-6 sm:mx-8 mb-2 p-3.5 rounded-xl text-xs font-bold flex items-start gap-2 shrink-0 border",
               formError
-                ? 'bg-red-100 border-red-300 text-red-900'
-                : 'bg-emerald-50 border-emerald-200 text-emerald-900',
-            ].join(' ')}
+                ? "bg-red-100 border-red-300 text-red-900"
+                : "bg-emerald-50 border-emerald-200 text-emerald-900",
+            ].join(" ")}
           >
             <AlertTriangle size={15} className="shrink-0 mt-0.5" />
             <span>{formError || notice}</span>
           </div>
         )}
 
-        <div className="px-6 sm:px-8 py-4 bg-surface-container-low border-t-2 border-primary/20 flex justify-end shrink-0">
+        <div className="px-6 sm:px-8 py-4 bg-surface-container-low/50 border-t-2 border-primary/20 flex justify-end shrink-0">
           <button
             type="button"
             onClick={onClose}
@@ -827,22 +867,26 @@ function GalleryManager({ onClose }) {
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border-2 border-primary overflow-hidden"
-              style={{ fontFamily: 'var(--font-body)' }}
+              style={{ fontFamily: "var(--font-body)" }}
             >
               <div className="px-6 py-5 bg-deep-wood text-sand flex items-center gap-3">
                 <ImageIcon size={20} className="text-amber-300" />
                 <h4
                   className="text-lg font-bold italic"
-                  style={{ fontFamily: 'var(--font-heading)' }}
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  {editing.id ? 'Edit Photograph' : 'New Photograph'}
+                  {editing.id ? "Edit Photograph" : "New Photograph"}
                 </h4>
               </div>
 
               <div className="p-6 bg-surface space-y-4">
                 {editing.url && (
                   <div className="h-40 rounded-xl overflow-hidden border border-outline-variant/30 bg-surface-container-high">
-                    <img src={editing.url} alt="" className="w-full h-full object-cover" />
+                    <img
+                      src={mediaUrl(editing.url)}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
 
@@ -853,7 +897,9 @@ function GalleryManager({ onClose }) {
                   <input
                     className={`${inputClass} font-mono`}
                     value={editing.url}
-                    onChange={(e) => setEditing((v) => ({ ...v, url: e.target.value }))}
+                    onChange={(e) =>
+                      setEditing((v) => ({ ...v, url: e.target.value }))
+                    }
                     placeholder="/assets/images/villas/canopy-villa-01.jpg"
                   />
                 </div>
@@ -865,7 +911,9 @@ function GalleryManager({ onClose }) {
                   <input
                     className={inputClass}
                     value={editing.title}
-                    onChange={(e) => setEditing((v) => ({ ...v, title: e.target.value }))}
+                    onChange={(e) =>
+                      setEditing((v) => ({ ...v, title: e.target.value }))
+                    }
                     placeholder="Canopy Living"
                   />
                 </div>
@@ -878,7 +926,9 @@ function GalleryManager({ onClose }) {
                     rows={2}
                     className={`${inputClass} resize-none leading-relaxed`}
                     value={editing.caption}
-                    onChange={(e) => setEditing((v) => ({ ...v, caption: e.target.value }))}
+                    onChange={(e) =>
+                      setEditing((v) => ({ ...v, caption: e.target.value }))
+                    }
                     placeholder="Shown when a guest rests on the tile."
                   />
                 </div>
@@ -909,7 +959,10 @@ function GalleryManager({ onClose }) {
                         type="checkbox"
                         checked={editing.showOnHome}
                         onChange={(e) =>
-                          setEditing((v) => ({ ...v, showOnHome: e.target.checked }))
+                          setEditing((v) => ({
+                            ...v,
+                            showOnHome: e.target.checked,
+                          }))
                         }
                         className="accent-primary w-4 h-4 cursor-pointer"
                       />
@@ -920,7 +973,10 @@ function GalleryManager({ onClose }) {
                         type="checkbox"
                         checked={editing.isActive}
                         onChange={(e) =>
-                          setEditing((v) => ({ ...v, isActive: e.target.checked }))
+                          setEditing((v) => ({
+                            ...v,
+                            isActive: e.target.checked,
+                          }))
                         }
                         className="accent-primary w-4 h-4 cursor-pointer"
                       />
@@ -936,7 +992,7 @@ function GalleryManager({ onClose }) {
                 </div>
               )}
 
-              <div className="px-6 py-4 bg-surface-container-low border-t border-primary/20 flex gap-2.5">
+              <div className="px-6 py-4 bg-surface-container-low/50 border-t border-primary/20 flex gap-2.5">
                 <button
                   type="button"
                   onClick={() => setEditing(null)}
@@ -950,7 +1006,11 @@ function GalleryManager({ onClose }) {
                   disabled={saving}
                   className="flex-1 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  {saving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+                  {saving ? (
+                    <Loader2 size={13} className="animate-spin" />
+                  ) : (
+                    <Save size={13} />
+                  )}
                   Save
                 </button>
               </div>

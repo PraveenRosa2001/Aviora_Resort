@@ -21,7 +21,7 @@ const mainNavigation = [
   { label: 'Villas & Suites', to: '/rooms-villas' },
   { label: 'Wellness & Spa', to: '/wellness' },
   { label: 'Dining & Wine', to: '/dining' },
-  { label: 'Experiences', to: '/sustainability' },
+  // { label: 'Experiences', to: '/sustainability' },
   { label: 'Contact & Concierge', to: '/contact' },
 ];
 
@@ -111,7 +111,7 @@ export default function Footer() {
     <footer
       id="site-footer"
       role="contentinfo"
-      className="relative overflow-hidden text-white bg-deep-wood border-t border-white/10"
+      className="relative overflow-hidden text-white bg-deep-wood"
     >
       {/* ── Background Subtle Watermark & Glowing Accents ── */}
       <div

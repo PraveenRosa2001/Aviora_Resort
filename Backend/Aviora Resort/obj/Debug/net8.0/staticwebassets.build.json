@@ -1,12 +1,125 @@
 {
   "Version": 1,
-  "Hash": "8qNu0/pfgHPoEhUJUBa+0kANlFqRndYk1XJ5Z7abmgA=",
+  "Hash": "sqFPkTwT8IW04HPNQjKQkTzRkBmtepyxK4tQiQasO6I=",
   "Source": "Aviora Resort",
   "BasePath": "_content/Aviora Resort",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Aviora Resort\\wwwroot",
+      "Source": "Aviora Resort",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/gallery/7d2de338bab14a578861c2386d945593#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "l0e2tcsh5r",
+      "Integrity": "daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "uploads/gallery/7d2de338bab14a578861c2386d945593.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "17772"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Sep 2026 05:01:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/gallery/7d2de338bab14a578861c2386d945593.l0e2tcsh5r.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "17772"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Sep 2026 05:01:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "l0e2tcsh5r"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/gallery/7d2de338bab14a578861c2386d945593.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="
+        }
+      ]
+    }
+  ]
 }

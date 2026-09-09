@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChefHat,
   Clock,
@@ -24,15 +24,21 @@ import {
   AlertCircle,
   UserCheck,
   Send,
-  GlassWater
-} from 'lucide-react';
+  GlassWater,
+  Search,
+} from "lucide-react";
 import {
   useGetDiningVenuesQuery,
   useCheckDiningAvailabilityQuery,
   useCreateDiningReservationMutation,
-} from '../features/rooms/roomsApi';
-import { selectIsAuthenticated, selectCurrentUser } from '../features/auth/authSlice';
-import Button from '../components/common/Button';
+} from "../features/rooms/roomsApi";
+import {
+  selectIsAuthenticated,
+  selectCurrentUser,
+} from "../features/auth/authSlice";
+import Button from "../components/common/Button";
+import PageSketchBackground from "../components/common/PageSketchBackground";
+import { mediaUrl } from "../config/mediaUrl";
 
 /* Venues come from GET /api/dining/venues rather than diningVenues.json.
    Three things the file could not do: an administrator could not change
@@ -44,16 +50,24 @@ const money = (value) => `Rs.${Number(value ?? 0).toLocaleString()}`;
 /* Sittings offered in the booking form. A venue's real hours are prose in
    OpeningHours, so this is a sensible common set rather than derived text. */
 const SITTINGS = [
-  '12:00', '12:30', '13:00', '13:30',
-  '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
+  "12:00",
+  "12:30",
+  "13:00",
+  "13:30",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
+  "20:30",
+  "21:00",
 ];
 
-function FadeSection({ children, className = '', delay = 0 }) {
+function FadeSection({ children, className = "", delay = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={className}
     >
@@ -67,47 +81,51 @@ const CULINARY_PILLARS = [
   {
     icon: Leaf,
     title: "Farm-to-Forest Pantry",
-    desc: "Organic botanicals and indigenous herbs harvested daily from our 12-acre rainforest grove and partner bio-farms."
+    desc: "Organic botanicals and indigenous herbs harvested daily from our 12-acre rainforest grove and partner bio-farms.",
   },
   {
     icon: Wine,
     title: "400+ Cellar Selections",
-    desc: "Curated natural, biodynamic, and single-estate vintages from small producers across the Southern Hemisphere."
+    desc: "Curated natural, biodynamic, and single-estate vintages from small producers across the Southern Hemisphere.",
   },
   {
     icon: GlassWater,
     title: "Botanical Spirits",
-    desc: "Bespoke cocktails featuring 50-year barrel-aged Ceylon arrack, hand-pressed sugarcane, and jungle infusions."
+    desc: "Bespoke cocktails featuring 50-year barrel-aged Ceylon arrack, hand-pressed sugarcane, and jungle infusions.",
   },
   {
     icon: Flame,
     title: "Private Jungle Chef",
-    desc: "Exclusive treetop platform dining, starlit beach barbecues, and custom in-villa multi-course tasting menus."
-  }
+    desc: "Exclusive treetop platform dining, starlit beach barbecues, and custom in-villa multi-course tasting menus.",
+  },
 ];
-
 
 /* --------------------------------------------------------------------------
    Full-Page Guest Table Reservation Workspace View
    -------------------------------------------------------------------------- */
-function DiningReservationView({ venue, onClose, isAuthenticated, currentUser }) {
-  const today = new Date().toISOString().split('T')[0];
+function DiningReservationView({
+  venue,
+  onClose,
+  isAuthenticated,
+  currentUser,
+}) {
+  const today = new Date().toISOString().split("T")[0];
 
   const [form, setForm] = useState(() => ({
     date: today,
-    time: '19:30',
+    time: "19:30",
     partySize: 2,
     guestName:
-      `${currentUser?.firstName ?? ''} ${currentUser?.lastName ?? ''}`.trim(),
-    email: currentUser?.email ?? '',
-    phone: currentUser?.phone ?? '',
-    occasion: 'Casual Dining',
-    dietaryNotes: '',
-    specialRequests: '',
-    stayReference: '',
+      `${currentUser?.firstName ?? ""} ${currentUser?.lastName ?? ""}`.trim(),
+    email: currentUser?.email ?? "",
+    phone: currentUser?.phone ?? "",
+    occasion: "Casual Dining",
+    dietaryNotes: "",
+    specialRequests: "",
+    stayReference: "",
   }));
 
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState("");
   const [confirmation, setConfirmation] = useState(null);
 
   const [createReservation, { isLoading: booking }] =
@@ -128,11 +146,14 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
 
   const handleSubmit = async (e) => {
     e?.preventDefault?.();
-    setFormError('');
+    setFormError("");
 
-    if (!form.guestName.trim()) return setFormError('Please provide your name for the table booking.');
-    if (!form.email.trim()) return setFormError('A valid email address is required.');
-    if (Number(form.partySize) < 1) return setFormError('Party size must be at least 1 guest.');
+    if (!form.guestName.trim())
+      return setFormError("Please provide your name for the table booking.");
+    if (!form.email.trim())
+      return setFormError("A valid email address is required.");
+    if (Number(form.partySize) < 1)
+      return setFormError("Party size must be at least 1 guest.");
 
     try {
       const result = await createReservation({
@@ -150,45 +171,35 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
       }).unwrap();
 
       setConfirmation(result);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      setFormError(err?.data?.message || 'Your table could not be reserved. The sitting may be at full capacity.');
+      setFormError(
+        err?.data?.message ||
+          "Your table could not be reserved. The sitting may be at full capacity.",
+      );
     }
   };
 
   const inputClass =
-    'w-full px-4 py-3 text-xs sm:text-sm bg-white border border-outline-variant/40 rounded-xl ' +
-    'text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all';
+    "w-full px-4 py-3 text-xs sm:text-sm bg-white border border-outline-variant/40 rounded-xl " +
+    "text-deep-wood font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-xs transition-all";
 
   return (
     <div
       className="pb-28 relative min-h-screen"
-      style={{ backgroundColor: 'var(--color-surface, #f9f9f8)' }}
+      style={{ backgroundColor: "var(--color-surface, #f9f9f8)" }}
     >
       {/* ── Decorative Background Sketch ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          backgroundImage: "url('/assets/images/loading-sketch.png')",
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.18,
-        }}
+      <PageSketchBackground
+        subtitle="Culinary Table Reservation Folio"
+        showAccents={false}
       />
 
       <div className="relative z-10">
         {/* ── HERO BANNER & BREADCRUMB ── */}
         <section className="relative w-full h-[45vh] min-h-[420px] flex items-end overflow-hidden mb-10 pt-20 pb-10">
           <img
-            src={venue.image || '/assets/images/dining/canopy-table-02.jpg'}
+            src={venue.image || "/assets/images/dining/canopy-table-02.jpg"}
             alt={venue.name}
             className="img-cover absolute inset-0 w-full h-full object-cover"
           />
@@ -238,7 +249,7 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
 
                 <h1
                   className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-md italic"
-                  style={{ fontFamily: 'var(--font-heading)' }}
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
                   Reserve a Table at {venue.name}
                 </h1>
@@ -253,11 +264,13 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
               {/* Quick Meta Pills */}
               <div className="flex flex-wrap items-center gap-3 text-xs text-white/90 bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-xl self-start md:self-auto">
                 <span className="flex items-center gap-1.5">
-                  <Clock size={14} className="text-amber-400" /> {venue.openHours}
+                  <Clock size={14} className="text-amber-400" />{" "}
+                  {venue.openHours}
                 </span>
                 <span className="text-white/30">•</span>
                 <span className="flex items-center gap-1.5">
-                  <Award size={14} className="text-amber-400" /> {venue.dressCode || 'Resort Casual'}
+                  <Award size={14} className="text-amber-400" />{" "}
+                  {venue.dressCode || "Resort Casual"}
                 </span>
               </div>
             </div>
@@ -278,13 +291,18 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                 </span>
                 <h3
                   className="text-2xl sm:text-3xl font-bold text-deep-wood"
-                  style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Sign in to reserve your table
                 </h3>
               </div>
               <p className="text-xs sm:text-sm text-deep-wood/75 max-w-md mx-auto leading-relaxed">
-                Table reservations are synchronized with your Aviora profile, allowing you to review seating details, dietary requests, and cancellations seamlessly from your itinerary desk.
+                Table reservations are synchronized with your Aviora profile,
+                allowing you to review seating details, dietary requests, and
+                cancellations seamlessly from your itinerary desk.
               </p>
               <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
                 <Link
@@ -315,13 +333,16 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                 </span>
                 <h2
                   className="text-3xl sm:text-4xl font-bold text-deep-wood"
-                  style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
                 >
                   Your table at {venue.name} is reserved
                 </h2>
               </div>
 
-              <div className="p-6 bg-surface-container-low border border-primary/20 rounded-2xl max-w-xl mx-auto text-left space-y-4 shadow-xs">
+              <div className="p-6 bg-surface-container-low/50 border border-primary/20 rounded-2xl max-w-xl mx-auto text-left space-y-4 shadow-xs">
                 <div className="flex items-center justify-between pb-3 border-b border-outline-variant/20">
                   <span className="text-xs font-semibold text-deep-wood/60">
                     Reservation Reference Code
@@ -333,33 +354,56 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-deep-wood/60 block text-[11px] font-semibold">Date &amp; Sitting Time</span>
-                    <span className="font-bold text-deep-wood text-sm">{form.date} at {form.time}</span>
+                    <span className="text-deep-wood/60 block text-[11px] font-semibold">
+                      Date &amp; Sitting Time
+                    </span>
+                    <span className="font-bold text-deep-wood text-sm">
+                      {form.date} at {form.time}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-deep-wood/60 block text-[11px] font-semibold">Party Headcount</span>
-                    <span className="font-bold text-deep-wood text-sm">{form.partySize} Guest{Number(form.partySize) === 1 ? '' : 's'}</span>
+                    <span className="text-deep-wood/60 block text-[11px] font-semibold">
+                      Party Headcount
+                    </span>
+                    <span className="font-bold text-deep-wood text-sm">
+                      {form.partySize} Guest
+                      {Number(form.partySize) === 1 ? "" : "s"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-deep-wood/60 block text-[11px] font-semibold">Primary Guest</span>
-                    <span className="font-bold text-deep-wood text-sm">{form.guestName}</span>
+                    <span className="text-deep-wood/60 block text-[11px] font-semibold">
+                      Primary Guest
+                    </span>
+                    <span className="font-bold text-deep-wood text-sm">
+                      {form.guestName}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-deep-wood/60 block text-[11px] font-semibold">Venue Dress Code</span>
-                    <span className="font-bold text-deep-wood text-sm">{venue.dressCode || 'Resort Casual'}</span>
+                    <span className="text-deep-wood/60 block text-[11px] font-semibold">
+                      Venue Dress Code
+                    </span>
+                    <span className="font-bold text-deep-wood text-sm">
+                      {venue.dressCode || "Resort Casual"}
+                    </span>
                   </div>
                 </div>
 
                 {form.dietaryNotes && (
                   <div className="pt-2 border-t border-outline-variant/20 text-xs">
-                    <span className="text-deep-wood/60 block text-[11px] font-semibold">Dietary &amp; Sourcing Notes</span>
-                    <span className="font-medium text-amber-900 bg-amber-50 px-2 py-1 rounded inline-block mt-0.5">{form.dietaryNotes}</span>
+                    <span className="text-deep-wood/60 block text-[11px] font-semibold">
+                      Dietary &amp; Sourcing Notes
+                    </span>
+                    <span className="font-medium text-amber-900 bg-amber-50 px-2 py-1 rounded inline-block mt-0.5">
+                      {form.dietaryNotes}
+                    </span>
                   </div>
                 )}
               </div>
 
               <p className="text-xs text-deep-wood/70 max-w-md mx-auto leading-relaxed">
-                A confirmation has been linked to your guest account. For any modifications, please contact the dining desk at least {venue.cancellationNoticeHours || 4} hours before your sitting.
+                A confirmation has been linked to your guest account. For any
+                modifications, please contact the dining desk at least{" "}
+                {venue.cancellationNoticeHours || 4} hours before your sitting.
               </p>
 
               <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
@@ -384,8 +428,8 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                     <h3
                       className="text-lg font-bold text-deep-wood"
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontStyle: 'italic',
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
                       }}
                     >
                       Date &amp; Sitting Selection
@@ -402,19 +446,25 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                         min={today}
                         className={inputClass}
                         value={form.date}
-                        onChange={(e) => set('date', e.target.value)}
+                        onChange={(e) => set("date", e.target.value)}
                         required
                       />
                     </div>
 
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-deep-wood mb-1.5">
-                        Party Size (Guests) <span className="text-red-500">*</span>
+                        Party Size (Guests){" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => set('partySize', Math.max(1, Number(form.partySize) - 1))}
+                          onClick={() =>
+                            set(
+                              "partySize",
+                              Math.max(1, Number(form.partySize) - 1),
+                            )
+                          }
                           className="w-11 h-11 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-deep-wood font-bold text-base flex items-center justify-center transition-colors cursor-pointer shrink-0 border border-outline-variant/30"
                         >
                           -
@@ -425,12 +475,22 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                           max={40}
                           className={`${inputClass} text-center font-bold text-base`}
                           value={form.partySize}
-                          onChange={(e) => set('partySize', Math.max(1, Number(e.target.value)))}
+                          onChange={(e) =>
+                            set(
+                              "partySize",
+                              Math.max(1, Number(e.target.value)),
+                            )
+                          }
                           required
                         />
                         <button
                           type="button"
-                          onClick={() => set('partySize', Math.min(40, Number(form.partySize) + 1))}
+                          onClick={() =>
+                            set(
+                              "partySize",
+                              Math.min(40, Number(form.partySize) + 1),
+                            )
+                          }
                           className="w-11 h-11 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-deep-wood font-bold text-base flex items-center justify-center transition-colors cursor-pointer shrink-0 border border-outline-variant/30"
                         >
                           +
@@ -455,11 +515,11 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                             <button
                               key={t}
                               type="button"
-                              onClick={() => set('time', t)}
+                              onClick={() => set("time", t)}
                               className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer border flex items-center justify-center gap-1.5 ${
                                 form.time === t
-                                  ? 'bg-primary text-white border-primary shadow-xs'
-                                  : 'bg-surface-container-low border-outline-variant/40 text-deep-wood hover:border-primary/40'
+                                  ? "bg-primary text-white border-primary shadow-xs"
+                                  : "bg-surface-container-low/50 border-outline-variant/40 text-deep-wood hover:border-primary/40"
                               }`}
                             >
                               <Clock size={13} /> {t}
@@ -477,11 +537,11 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                             <button
                               key={t}
                               type="button"
-                              onClick={() => set('time', t)}
+                              onClick={() => set("time", t)}
                               className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer border flex items-center justify-center gap-1.5 ${
                                 form.time === t
-                                  ? 'bg-primary text-white border-primary shadow-xs'
-                                  : 'bg-surface-container-low border-outline-variant/40 text-deep-wood hover:border-primary/40'
+                                  ? "bg-primary text-white border-primary shadow-xs"
+                                  : "bg-surface-container-low/50 border-outline-variant/40 text-deep-wood hover:border-primary/40"
                               }`}
                             >
                               <Clock size={13} /> {t}
@@ -494,9 +554,13 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
 
                   {/* Live Covers Check Banner */}
                   {checking && (
-                    <p className="text-xs text-deep-wood/60 font-semibold flex items-center gap-2 p-3 bg-surface-container-low rounded-xl">
-                      <Loader2 size={14} className="animate-spin text-primary" />
-                      Verifying live table availability for {form.partySize} guests at {form.time}…
+                    <p className="text-xs text-deep-wood/60 font-semibold flex items-center gap-2 p-3 bg-surface-container-low/50 rounded-xl">
+                      <Loader2
+                        size={14}
+                        className="animate-spin text-primary"
+                      />
+                      Verifying live table availability for {form.partySize}{" "}
+                      guests at {form.time}…
                     </p>
                   )}
 
@@ -504,16 +568,24 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                     <div
                       className={`p-3.5 rounded-xl text-xs font-semibold flex items-start gap-2.5 border shadow-2xs ${
                         availability.available
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
-                          : 'bg-amber-50 border-amber-300 text-amber-900'
+                          ? "bg-emerald-50 border-emerald-300 text-emerald-900"
+                          : "bg-amber-50 border-amber-300 text-amber-900"
                       }`}
                     >
                       {availability.available ? (
-                        <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-emerald-700" />
+                        <CheckCircle2
+                          size={16}
+                          className="shrink-0 mt-0.5 text-emerald-700"
+                        />
                       ) : (
-                        <AlertCircle size={16} className="shrink-0 mt-0.5 text-amber-700" />
+                        <AlertCircle
+                          size={16}
+                          className="shrink-0 mt-0.5 text-amber-700"
+                        />
                       )}
-                      <span className="leading-relaxed">{availability.message}</span>
+                      <span className="leading-relaxed">
+                        {availability.message}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -525,8 +597,8 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                     <h3
                       className="text-lg font-bold text-deep-wood"
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontStyle: 'italic',
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
                       }}
                     >
                       Guest &amp; Occasion Details
@@ -536,12 +608,13 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-deep-wood mb-1.5">
-                        Primary Guest Name <span className="text-red-500">*</span>
+                        Primary Guest Name{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <input
                         className={inputClass}
                         value={form.guestName}
-                        onChange={(e) => set('guestName', e.target.value)}
+                        onChange={(e) => set("guestName", e.target.value)}
                         placeholder="e.g. Praveen Dilshan"
                         required
                       />
@@ -555,7 +628,7 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                         type="email"
                         className={inputClass}
                         value={form.email}
-                        onChange={(e) => set('email', e.target.value)}
+                        onChange={(e) => set("email", e.target.value)}
                         placeholder="e.g. guest@aviora.com"
                         required
                       />
@@ -568,7 +641,7 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                       <input
                         className={inputClass}
                         value={form.phone}
-                        onChange={(e) => set('phone', e.target.value)}
+                        onChange={(e) => set("phone", e.target.value)}
                         placeholder="e.g. +94 77 123 4567"
                       />
                     </div>
@@ -580,14 +653,18 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                       <select
                         className={`${inputClass} cursor-pointer`}
                         value={form.occasion}
-                        onChange={(e) => set('occasion', e.target.value)}
+                        onChange={(e) => set("occasion", e.target.value)}
                       >
                         <option value="Casual Dining">Casual Dining</option>
                         <option value="Romantic Dinner">Romantic Dinner</option>
-                        <option value="Anniversary">Anniversary Celebration</option>
+                        <option value="Anniversary">
+                          Anniversary Celebration
+                        </option>
                         <option value="Birthday">Birthday Gathering</option>
                         <option value="Honeymoon">Honeymoon Special</option>
-                        <option value="Business Entertaining">Business Entertaining</option>
+                        <option value="Business Entertaining">
+                          Business Entertaining
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -600,8 +677,8 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                     <h3
                       className="text-lg font-bold text-deep-wood"
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontStyle: 'italic',
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
                       }}
                     >
                       Dietary Notes &amp; Villa Stay Linking
@@ -617,10 +694,11 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                         className={inputClass}
                         placeholder="e.g. Shellfish allergy, vegetarian, gluten-free, low sodium…"
                         value={form.dietaryNotes}
-                        onChange={(e) => set('dietaryNotes', e.target.value)}
+                        onChange={(e) => set("dietaryNotes", e.target.value)}
                       />
                       <p className="mt-1 text-[11px] text-deep-wood/60 font-medium">
-                        Directly briefed to Head Chef {venue.chefName || ''} and the kitchen brigade prior to your sitting.
+                        Directly briefed to Head Chef {venue.chefName || ""} and
+                        the kitchen brigade prior to your sitting.
                       </p>
                     </div>
 
@@ -633,7 +711,7 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                         className={`${inputClass} resize-none leading-relaxed`}
                         placeholder="e.g. Preferred corner table, quiet atmosphere, high chair required…"
                         value={form.specialRequests}
-                        onChange={(e) => set('specialRequests', e.target.value)}
+                        onChange={(e) => set("specialRequests", e.target.value)}
                       />
                     </div>
 
@@ -645,10 +723,14 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                         className={`${inputClass} font-mono uppercase`}
                         placeholder="e.g. AVR-100001"
                         value={form.stayReference}
-                        onChange={(e) => set('stayReference', e.target.value.toUpperCase())}
+                        onChange={(e) =>
+                          set("stayReference", e.target.value.toUpperCase())
+                        }
                       />
                       <p className="mt-1 text-[11px] text-deep-wood/60 font-medium">
-                        Optional. Links your dining reservation to your sanctuary booking for consolidated billing and room charges.
+                        Optional. Links your dining reservation to your
+                        sanctuary booking for consolidated billing and room
+                        charges.
                       </p>
                     </div>
                   </div>
@@ -657,15 +739,20 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                 {/* Form Error Banner */}
                 {formError && (
                   <div className="p-4 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-start gap-2.5 shadow-sm">
-                    <AlertTriangle size={18} className="text-red-600 shrink-0 mt-0.5" />
+                    <AlertTriangle
+                      size={18}
+                      className="text-red-600 shrink-0 mt-0.5"
+                    />
                     <span>{formError}</span>
                   </div>
                 )}
 
                 {/* Action Bar */}
-                <div className="p-5 bg-surface-container-low border border-outline-variant/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+                <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
                   <span className="text-xs text-deep-wood/65 font-medium">
-                    {venue.dressCode ? `Attire: ${venue.dressCode}` : 'Attire: Resort Casual'}
+                    {venue.dressCode
+                      ? `Attire: ${venue.dressCode}`
+                      : "Attire: Resort Casual"}
                   </span>
 
                   <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -679,7 +766,9 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
 
                     <button
                       type="submit"
-                      disabled={booking || checking || availability?.available === false}
+                      disabled={
+                        booking || checking || availability?.available === false
+                      }
                       className="flex-1 sm:flex-none px-8 py-3.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {booking ? (
@@ -704,7 +793,10 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                   <div className="rounded-xl overflow-hidden border border-primary/20 bg-white shadow-xs">
                     <div className="relative h-36 bg-surface-container-high overflow-hidden">
                       <img
-                        src={venue.image || '/assets/images/dining/canopy-table-02.jpg'}
+                        src={
+                          venue.image ||
+                          "/assets/images/dining/canopy-table-02.jpg"
+                        }
                         alt={venue.name}
                         className="w-full h-full object-cover"
                       />
@@ -721,43 +813,61 @@ function DiningReservationView({ venue, onClose, isAuthenticated, currentUser })
                     <div className="p-4 space-y-3">
                       <h4
                         className="text-lg font-bold text-deep-wood italic"
-                        style={{ fontFamily: 'var(--font-heading)' }}
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {venue.name}
                       </h4>
 
                       <div className="space-y-2 text-xs border-t border-outline-variant/20 pt-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-deep-wood/60">Selected Date:</span>
-                          <span className="font-bold text-deep-wood">{form.date}</span>
+                          <span className="text-deep-wood/60">
+                            Selected Date:
+                          </span>
+                          <span className="font-bold text-deep-wood">
+                            {form.date}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-deep-wood/60">Sitting Time:</span>
-                          <span className="font-bold text-primary font-mono">{form.time}</span>
+                          <span className="text-deep-wood/60">
+                            Sitting Time:
+                          </span>
+                          <span className="font-bold text-primary font-mono">
+                            {form.time}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-deep-wood/60">Party Size:</span>
-                          <span className="font-bold text-deep-wood">{form.partySize} Guest{Number(form.partySize) === 1 ? '' : 's'}</span>
+                          <span className="font-bold text-deep-wood">
+                            {form.partySize} Guest
+                            {Number(form.partySize) === 1 ? "" : "s"}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-deep-wood/60">Occasion:</span>
-                          <span className="font-semibold text-deep-wood">{form.occasion}</span>
+                          <span className="font-semibold text-deep-wood">
+                            {form.occasion}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-deep-wood/60">Dress Code:</span>
-                          <span className="font-semibold text-deep-wood">{venue.dressCode || 'Resort Casual'}</span>
+                          <span className="font-semibold text-deep-wood">
+                            {venue.dressCode || "Resort Casual"}
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Policy Callout */}
-                  <div className="p-3.5 rounded-xl bg-surface-container-low border border-primary/15 text-[11px] text-deep-wood/70 space-y-1">
+                  <div className="p-3.5 rounded-xl bg-surface-container-low/50 border border-primary/15 text-[11px] text-deep-wood/70 space-y-1">
                     <p className="font-bold text-deep-wood">
                       Dining Reservation Policy
                     </p>
                     <p className="leading-relaxed">
-                      Complimentary cancellation up to {venue.cancellationNoticeHours || 4} hours prior to sitting. Tables are held for 15 minutes past reservation time.
+                      Complimentary cancellation up to{" "}
+                      {venue.cancellationNoticeHours || 4} hours prior to
+                      sitting. Tables are held for 15 minutes past reservation
+                      time.
                     </p>
                   </div>
                 </div>
@@ -795,32 +905,16 @@ function DiningDetailView({ venue, onClose, onReserve }) {
   return (
     <div
       className="pb-28 relative min-h-screen"
-      style={{ backgroundColor: 'var(--color-surface, #f9f9f8)' }}
+      style={{ backgroundColor: "#F4F1EA" }}
     >
       {/* ── Decorative Background Sketch ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          backgroundImage: "url('/assets/images/loading-sketch.png')",
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.18,
-        }}
-      />
+      <PageSketchBackground subtitle="Epicurean Venue Details Folio" />
 
       <div className="relative z-10">
         {/* ── HERO BANNER & BREADCRUMB ── */}
-        <section className="relative w-full h-[50vh] min-h-[460px] flex items-end overflow-hidden mb-12 pt-20 pb-12">
+        <section className="relative w-full h-[50vh] min-h-[460px] flex items-end overflow-hidden mb-0 pt-20 pb-12">
           <img
-            src={venue.image || '/assets/images/dining/canopy-table-02.jpg'}
+            src={venue.image || "/assets/images/dining/canopy-table-02.jpg"}
             alt={venue.name}
             className="img-cover absolute inset-0 w-full h-full object-cover"
           />
@@ -868,8 +962,8 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                 <h1
                   className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-sm"
                   style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontStyle: 'italic',
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
                   }}
                 >
                   {venue.name}
@@ -896,7 +990,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
         </section>
 
         {/* ── 12-COLUMN MAIN CONTENT WORKSPACE ── */}
-        <div className="container-resort max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="container-resort max-w-6xl mx-auto px-4 sm:px-6 pt-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column (8 Cols): Narrative, Ingredients, Sample Menu */}
             <div className="lg:col-span-8 space-y-8">
@@ -907,8 +1001,8 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                   <h2
                     className="text-xl font-bold text-deep-wood"
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontStyle: 'italic',
+                      fontFamily: "var(--font-heading)",
+                      fontStyle: "italic",
                     }}
                   >
                     Culinary Concept &amp; Sanctuary
@@ -934,9 +1028,12 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                     {venue.ingredients.map((ing, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-low border border-primary/15 text-xs text-deep-wood font-medium"
+                        className="flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-low/50 border border-primary/15 text-xs text-deep-wood font-medium"
                       >
-                        <CheckCircle2 size={16} className="text-primary shrink-0" />
+                        <CheckCircle2
+                          size={16}
+                          className="text-primary shrink-0"
+                        />
                         <span>{ing}</span>
                       </div>
                     ))}
@@ -965,7 +1062,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                         <div className="pb-2 border-b border-primary/20">
                           <h4
                             className="text-xl font-bold text-deep-wood italic"
-                            style={{ fontFamily: 'var(--font-heading)' }}
+                            style={{ fontFamily: "var(--font-heading)" }}
                           >
                             {section.title}
                           </h4>
@@ -980,7 +1077,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                           {section.items?.map((item, iIdx) => (
                             <div
                               key={item.name || iIdx}
-                              className="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-colors"
+                              className="p-4 rounded-xl bg-surface-container-low/50 border border-outline-variant/30 hover:border-primary/40 transition-colors"
                             >
                               <div className="flex items-start justify-between gap-4 mb-1">
                                 <div className="flex flex-wrap items-center gap-2">
@@ -1018,7 +1115,8 @@ function DiningDetailView({ venue, onClose, onReserve }) {
 
                               {item.allergens && (
                                 <p className="text-[11px] text-amber-800 font-semibold mt-1.5 flex items-center gap-1">
-                                  <span className="font-bold">Contains:</span> {item.allergens}
+                                  <span className="font-bold">Contains:</span>{" "}
+                                  {item.allergens}
                                 </p>
                               )}
                             </div>
@@ -1029,19 +1127,21 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                   </div>
 
                   <p className="pt-4 border-t border-outline-variant/20 text-xs text-deep-wood/60 font-medium">
-                    Prices exclude 34.38% government taxes and service charge. The menu changes with the season&apos;s harvest.
+                    Prices exclude 34.38% government taxes and service charge.
+                    The menu changes with the season&apos;s harvest.
                   </p>
                 </div>
               )}
 
               {/* Bottom Action Row */}
-              <div className="p-5 bg-surface-container-low border border-outline-variant/30 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+              <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex flex-wrap items-center justify-between gap-4">
                 <button
                   type="button"
                   onClick={onClose}
                   className="px-6 py-3 rounded-xl bg-white border border-outline-variant/50 text-deep-wood text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-colors cursor-pointer shadow-xs"
                 >
-                  <ArrowLeft size={14} className="inline mr-1.5" /> Back to Dining Directory
+                  <ArrowLeft size={14} className="inline mr-1.5" /> Back to
+                  Dining Directory
                 </button>
 
                 <button
@@ -1063,40 +1163,45 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                 </span>
 
                 <div className="space-y-3.5 text-xs text-deep-wood">
-                  <div className="p-3 bg-surface-container-low rounded-xl border border-primary/10">
+                  <div className="p-3 bg-surface-container-low/50 rounded-xl border border-primary/10">
                     <span className="text-deep-wood/60 block text-[11px] font-semibold mb-0.5">
                       Service Hours:
                     </span>
                     <span className="text-deep-wood font-bold text-sm flex items-center gap-1.5">
-                      <Clock size={14} className="text-primary" /> {venue.openHours}
+                      <Clock size={14} className="text-primary" />{" "}
+                      {venue.openHours}
                     </span>
                   </div>
 
-                  <div className="p-3 bg-surface-container-low rounded-xl border border-primary/10">
+                  <div className="p-3 bg-surface-container-low/50 rounded-xl border border-primary/10">
                     <span className="text-deep-wood/60 block text-[11px] font-semibold mb-0.5">
                       Seating Capacity:
                     </span>
                     <span className="text-deep-wood font-bold text-sm flex items-center gap-1.5">
-                      <Users size={14} className="text-primary" /> {venue.capacity} Guests
+                      <Users size={14} className="text-primary" />{" "}
+                      {venue.capacity} Guests
                     </span>
                   </div>
 
-                  <div className="p-3 bg-surface-container-low rounded-xl border border-primary/10">
+                  <div className="p-3 bg-surface-container-low/50 rounded-xl border border-primary/10">
                     <span className="text-deep-wood/60 block text-[11px] font-semibold mb-0.5">
                       Recommended Attire:
                     </span>
                     <span className="text-deep-wood font-bold text-sm flex items-center gap-1.5">
-                      <Award size={14} className="text-primary" /> {venue.dressCode}
+                      <Award size={14} className="text-primary" />{" "}
+                      {venue.dressCode}
                     </span>
                   </div>
 
-                  <div className="p-3 bg-surface-container-low rounded-xl border border-primary/10">
+                  <div className="p-3 bg-surface-container-low/50 rounded-xl border border-primary/10">
                     <span className="text-deep-wood/60 block text-[11px] font-semibold mb-0.5">
                       Reservation Policy:
                     </span>
                     <span className="text-deep-wood font-bold text-sm flex items-center gap-1.5">
                       <ShieldCheck size={14} className="text-primary" />
-                      {venue.reservationRequired ? "Required" : "Optional (Walk-ins Welcome)"}
+                      {venue.reservationRequired
+                        ? "Required"
+                        : "Optional (Walk-ins Welcome)"}
                     </span>
                   </div>
                 </div>
@@ -1145,10 +1250,11 @@ function DiningDetailView({ venue, onClose, onReserve }) {
 export default function Dining() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const reserveSlug = searchParams.get('reserve');
-  const menuSlug = searchParams.get('menu');
+  const reserveSlug = searchParams.get("reserve");
+  const menuSlug = searchParams.get("menu");
 
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedMenuVenue, setSelectedMenuVenue] = useState(null);
   const [reserveVenue, setReserveVenue] = useState(null);
 
@@ -1165,45 +1271,54 @@ export default function Dining() {
 
   const handleStartReservation = (venue) => {
     if (!isAuthenticated) {
-      navigate(`/login?redirect=${encodeURIComponent(`/dining?reserve=${venue.slug}`)}`, {
-        state: {
-          from: `/dining?reserve=${venue.slug}`,
-          venueName: venue.name,
-          venueCuisine: venue.cuisine,
-          venueImage: venue.image,
-          reason: 'dining_reservation',
-          title: `Sign in to reserve a table at ${venue.name}`,
-          message: `Table reservations are held against your account, so you can see and cancel them from anywhere.`,
+      navigate(
+        `/login?redirect=${encodeURIComponent(`/dining?reserve=${venue.slug}`)}`,
+        {
+          state: {
+            from: `/dining?reserve=${venue.slug}`,
+            venueName: venue.name,
+            venueCuisine: venue.cuisine,
+            venueImage: venue.image,
+            reason: "dining_reservation",
+            title: `Sign in to reserve a table at ${venue.name}`,
+            message: `Table reservations are held against your account, so you can see and cancel them from anywhere.`,
+          },
         },
-      });
+      );
       return;
     }
     setReserveVenue(venue);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
     if (reserveSlug && venues.length > 0) {
       const match = venues.find(
-        (v) => v.slug === reserveSlug || v.id === reserveSlug || String(v.id) === String(reserveSlug)
+        (v) =>
+          v.slug === reserveSlug ||
+          v.id === reserveSlug ||
+          String(v.id) === String(reserveSlug),
       );
       if (match) {
         if (!isAuthenticated) {
-          navigate(`/login?redirect=${encodeURIComponent(`/dining?reserve=${match.slug}`)}`, {
-            replace: true,
-            state: {
-              from: `/dining?reserve=${match.slug}`,
-              venueName: match.name,
-              venueCuisine: match.cuisine,
-              venueImage: match.image,
-              reason: 'dining_reservation',
-              title: `Sign in to reserve a table at ${match.name}`,
-              message: `Table reservations are held against your account, so you can see and cancel them from anywhere.`,
+          navigate(
+            `/login?redirect=${encodeURIComponent(`/dining?reserve=${match.slug}`)}`,
+            {
+              replace: true,
+              state: {
+                from: `/dining?reserve=${match.slug}`,
+                venueName: match.name,
+                venueCuisine: match.cuisine,
+                venueImage: match.image,
+                reason: "dining_reservation",
+                title: `Sign in to reserve a table at ${match.name}`,
+                message: `Table reservations are held against your account, so you can see and cancel them from anywhere.`,
+              },
             },
-          });
+          );
         } else {
           setReserveVenue(match);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }
     }
@@ -1212,29 +1327,52 @@ export default function Dining() {
   useEffect(() => {
     if (menuSlug && venues.length > 0 && !selectedMenuVenue && !reserveVenue) {
       const match = venues.find(
-        (v) => v.slug === menuSlug || v.id === menuSlug || String(v.id) === String(menuSlug)
+        (v) =>
+          v.slug === menuSlug ||
+          v.id === menuSlug ||
+          String(v.id) === String(menuSlug),
       );
       if (match) {
         setSelectedMenuVenue(match);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
   }, [menuSlug, venues, selectedMenuVenue, reserveVenue]);
 
-  /* Filtering stays client-side: three venues is not worth a round trip, and
-     the "private" pill is a cross-cut of `featured` rather than a type the
-     API knows about. */
-  const filteredVenues =
-    activeFilter === 'all'
-      ? venues
-      : venues.filter(
-          (v) => v.type === activeFilter || (activeFilter === 'private' && v.featured),
-        );
+  /* Filtering stays client-side: combines category pill and real-time search */
+  const filteredVenues = venues.filter((v) => {
+    const matchesCategory =
+      activeFilter === "all" ||
+      v.type === activeFilter ||
+      (activeFilter === "private" && v.featured);
+
+    if (!matchesCategory) return false;
+
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase().trim();
+    return (
+      v.name?.toLowerCase().includes(q) ||
+      v.cuisine?.toLowerCase().includes(q) ||
+      v.tagline?.toLowerCase().includes(q) ||
+      v.description?.toLowerCase().includes(q) ||
+      v.type?.toLowerCase().includes(q) ||
+      (Array.isArray(v.signatureDishes) &&
+        v.signatureDishes.some(
+          (d) =>
+            (typeof d === "string" && d.toLowerCase().includes(q)) ||
+            d.name?.toLowerCase().includes(q) ||
+            d.description?.toLowerCase().includes(q),
+        ))
+    );
+  });
 
   if (isLoading) {
     return (
       <div className="py-40 text-center">
-        <Loader2 size={30} className="mx-auto animate-spin text-primary/50 mb-3" />
+        <Loader2
+          size={30}
+          className="mx-auto animate-spin text-primary/50 mb-3"
+        />
         <p className="text-xs font-bold uppercase tracking-wider text-deep-wood/50">
           Loading the restaurants
         </p>
@@ -1250,7 +1388,7 @@ export default function Dining() {
           The restaurants could not be loaded.
         </h2>
         <p className="mt-1 text-xs text-deep-wood/60">
-          {error?.data?.message || 'The resort system did not respond.'}
+          {error?.data?.message || "The resort system did not respond."}
         </p>
         <button
           onClick={refetch}
@@ -1268,10 +1406,10 @@ export default function Dining() {
         venue={selectedMenuVenue}
         onClose={() => {
           setSelectedMenuVenue(null);
-          if (searchParams.get('menu')) {
+          if (searchParams.get("menu")) {
             setSearchParams({}, { replace: true });
           }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
         onReserve={(venue) => {
           setSelectedMenuVenue(null);
@@ -1287,10 +1425,10 @@ export default function Dining() {
         venue={reserveVenue}
         onClose={() => {
           setReserveVenue(null);
-          if (searchParams.get('reserve')) {
+          if (searchParams.get("reserve")) {
             setSearchParams({}, { replace: true });
           }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
         isAuthenticated={isAuthenticated}
         currentUser={currentUser}
@@ -1299,429 +1437,545 @@ export default function Dining() {
   }
 
   return (
-    <div
-      className="pb-24 relative"
-      style={{ backgroundColor: 'var(--color-surface, #f9f9f8)' }}
-    >
-      {/* ── Decorative Background Sketch ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 0,
-          backgroundImage: "url('/assets/images/loading-sketch.png')",
-          backgroundSize: "100% 100%",
-          backgroundPosition: "top center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.2,
-        }}
-      />
+    <div className="relative min-h-screen">
+      {/* ── FULL-WIDTH HERO HEADER BANNER ── */}
+      <section className="relative z-10 w-full h-[55vh] min-h-[640px] flex items-center justify-center overflow-hidden mb-0 pt-20">
+        <img
+          src="/assets/images/dining/canopy-table-02.jpg"
+          alt="A Cuisine of the Jungle & Ocean"
+          className="img-cover absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/95 via-deep-wood/50 to-deep-wood/30" />
 
-      <div className="relative" style={{ zIndex: 1 }}>
-        {/* ── FULL-WIDTH HERO HEADER BANNER ── */}
-        <section className="relative w-full h-[55vh] min-h-[640px] flex items-center justify-center overflow-hidden mb-16 pt-20">
-          <img
-            src="/assets/images/dining/canopy-table-02.jpg"
-            alt="A Cuisine of the Jungle & Ocean"
-            className="img-cover absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/95 via-deep-wood/50 to-deep-wood/30" />
+        <div className="relative z-10 container-resort text-center text-white max-w-4xl mx-auto px-6">
+          <FadeSection>
+            <span className="eyebrow-label text-amber-300 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full inline-flex items-center gap-2 mb-4 tracking-widest text-xs font-bold uppercase shadow-sm">
+              <UtensilsCrossed size={14} className="text-amber-300" /> EPICUREAN
+              EXPERIENCES AT AVIORA
+            </span>
+            <h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-white drop-shadow-md"
+              style={{ fontFamily: "var(--font-heading)", fontStyle: "italic" }}
+            >
+              A Cuisine of the Jungle &amp; Ocean
+            </h1>
+            <p
+              className="text-sm md:text-base text-white/85 leading-relaxed max-w-2xl mx-auto mb-8 font-medium"
+              style={{ fontFamily: "var(--font-body)" }}
+            >
+              Three distinct culinary sanctuaries perched 15 metres above the
+              forest floor. Where ancient Sri Lankan spice routes harmonize with
+              contemporary gastronomy, organic harvests, and wild botanical
+              mixology.
+            </p>
 
-          <div className="relative z-10 container-resort text-center text-white max-w-4xl mx-auto px-6">
-            <FadeSection>
-              <span className="eyebrow-label text-amber-300 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full inline-flex items-center gap-2 mb-4 tracking-widest text-xs font-bold uppercase shadow-sm">
-                <UtensilsCrossed size={14} className="text-amber-300" /> EPICUREAN EXPERIENCES AT AVIORA
+            {/* Sleek bottom stats pill bar */}
+            <div className="inline-flex flex-wrap items-center justify-center gap-4 md:gap-8 bg-black/40 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl text-xs font-semibold text-white/90 shadow-lg">
+              <span className="flex items-center gap-2">
+                <UtensilsCrossed size={15} className="text-amber-400" /> 3
+                Signature Venues
               </span>
-              <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-white drop-shadow-md"
-                style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
-              >
-                A Cuisine of the Jungle &amp; Ocean
-              </h1>
-              <p
-                className="text-sm md:text-base text-white/85 leading-relaxed max-w-2xl mx-auto mb-8 font-medium"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                Three distinct culinary sanctuaries perched 15 metres above the forest floor. Where ancient Sri Lankan spice routes harmonize with contemporary gastronomy, organic harvests, and wild botanical mixology.
-              </p>
-
-              {/* Sleek bottom stats pill bar */}
-              <div className="inline-flex flex-wrap items-center justify-center gap-4 md:gap-8 bg-black/40 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl text-xs font-semibold text-white/90 shadow-lg">
-                <span className="flex items-center gap-2">
-                  <UtensilsCrossed size={15} className="text-amber-400" /> 3 Signature Venues
-                </span>
-                <span className="hidden sm:inline text-white/30">•</span>
-                <span className="flex items-center gap-2">
-                  <Wine size={15} className="text-amber-400" /> 400+ Cellar Natural Wines
-                </span>
-                <span className="hidden sm:inline text-white/30">•</span>
-                <span className="flex items-center gap-2">
-                  <Leaf size={14} className="text-emerald-400" /> 100% Organic Farm Harvests
-                </span>
-              </div>
-            </FadeSection>
-          </div>
-        </section>
-
-        {/* ── CULINARY PILLARS HIGHLIGHT ROW ── */}
-        <section className="container-resort max-w-6xl mx-auto mb-16">
-          <FadeSection delay={0.1}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {CULINARY_PILLARS.map((pillar, idx) => {
-                const IconComponent = pillar.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="p-6 bg-surface-container-lowest border-2 border-primary/20 rounded-xl shadow-xs hover:border-primary/50 transition-all hover:-translate-y-1 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary mb-4">
-                        <IconComponent size={22} strokeWidth={1.75} />
-                      </div>
-                      <h4
-                        className="text-lg font-bold text-deep-wood mb-2"
-                        style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
-                      >
-                        {pillar.title}
-                      </h4>
-                      <p className="text-xs text-deep-wood/70 leading-relaxed font-medium">
-                        {pillar.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              <span className="hidden sm:inline text-white/30">•</span>
+              <span className="flex items-center gap-2">
+                <Wine size={15} className="text-amber-400" /> 400+ Cellar
+                Natural Wines
+              </span>
+              <span className="hidden sm:inline text-white/30">•</span>
+              <span className="flex items-center gap-2">
+                <Leaf size={14} className="text-emerald-400" /> 100% Organic
+                Farm Harvests
+              </span>
             </div>
           </FadeSection>
-        </section>
+        </div>
+      </section>
 
-        {/* ── VENUE CATEGORY FILTER TABS ── */}
-        <section className="container-resort max-w-6xl mx-auto mb-12">
-          <FadeSection delay={0.15}>
-            <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-surface-container-high rounded-xl border-2 border-primary/30 max-w-2xl mx-auto">
-              {[
-                { id: 'all', label: 'All Venues' },
-                { id: 'restaurant', label: 'Fine Dining' },
-                { id: 'brasserie', label: 'Pool Brasserie' },
-                { id: 'bar', label: 'Bar & Lounge' },
-                { id: 'private', label: 'Featured Experiences' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveFilter(tab.id)}
-                  className={[
-                    "px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1.5",
-                    activeFilter === tab.id
-                      ? "bg-primary text-white shadow-xs"
-                      : "text-deep-wood/70 hover:text-deep-wood hover:bg-primary/10",
-                  ].join(" ")}
-                >
-                  {tab.id === 'restaurant' && <UtensilsCrossed size={14} />}
-                  {tab.id === 'brasserie' && <Leaf size={14} />}
-                  {tab.id === 'bar' && <Wine size={14} />}
-                  {tab.id === 'private' && <Sparkles size={14} />}
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </FadeSection>
-        </section>
-
-        {/* ── DINING VENUES LIST ── */}
-        <section className="container-resort max-w-6xl mx-auto mb-20">
-          <div className="space-y-12">
-            {filteredVenues.map((venue, index) => {
-              const isReverse = index % 2 !== 0;
-
-              return (
-                <FadeSection key={venue.id} delay={index * 0.1}>
-                  <article
-                    id={`venue-${venue.id}`}
-                    className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden hover:border-primary/60 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 items-stretch"
-                  >
-                    {/* Image Column */}
+      {/* ── BELOW-HERO SECTIONS WITH RESPONSIVE SKETCH BACKGROUND ── */}
+      <div className="relative w-full overflow-hidden bg-[#F4F1EA] pb-24">
+        <PageSketchBackground subtitle="Epicurean Experiences &amp; Fine Dining Folio" />
+        <div className="relative z-10 pt-16">
+          {/* ── CULINARY PILLARS HIGHLIGHT ROW ── */}
+          <section className="container-resort max-w-6xl mx-auto mb-16">
+            <FadeSection delay={0.1}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {CULINARY_PILLARS.map((pillar, idx) => {
+                  const IconComponent = pillar.icon;
+                  return (
                     <div
-                      className={[
-                        "relative overflow-hidden min-h-[380px] lg:min-h-[480px] lg:col-span-6 group",
-                        isReverse ? "lg:order-2" : "lg:order-1",
-                      ].join(" ")}
-                    >
-                      <img
-                        src={venue.image}
-                        alt={`${venue.name} — ${venue.cuisine}`}
-                        loading="lazy"
-                        className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/80 via-deep-wood/20 to-transparent" />
-
-                      {/* Top Badges */}
-                      <div className="absolute top-5 left-5 flex flex-wrap gap-2 z-10">
-                        <span className="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-deep-wood/90 text-resort-white backdrop-blur-md rounded-xs border border-primary/40 shadow-xs flex items-center gap-1.5">
-                          <UtensilsCrossed size={12} className="text-secondary" />
-                          {venue.type}
-                        </span>
-                        {venue.featured && (
-                          <span className="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-primary text-white rounded-xs shadow-xs flex items-center gap-1">
-                            <Sparkles size={12} /> Signature Venue
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Bottom Tagline Overlay */}
-                      <div className="absolute bottom-5 left-5 right-5 p-4 bg-white/80 backdrop-blur-md rounded-lg border border-white/60 shadow-xs z-10">
-                        <p
-                          className="text-xs md:text-sm font-semibold text-deep-wood italic"
-                          style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                          "{venue.tagline}"
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Content Column */}
-                    <div
-                      className={[
-                        "p-7 md:p-10 lg:col-span-6 flex flex-col justify-between bg-surface-container-lowest",
-                        isReverse ? "lg:order-1" : "lg:order-2",
-                      ].join(" ")}
+                      key={idx}
+                      className="p-6 bg-surface-container-low/50 border-2 border-primary/20 rounded-xl shadow-xs hover:border-primary/50 transition-all hover:-translate-y-1 flex flex-col justify-between"
                     >
                       <div>
-                        {/* Cuisine Header */}
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="w-2 h-2 rounded-full bg-secondary" />
-                          <span className="text-xs font-bold uppercase tracking-widest text-secondary">
-                            {venue.cuisine}
-                          </span>
+                        <div className="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary mb-4">
+                          <IconComponent size={22} strokeWidth={1.75} />
                         </div>
-
-                        {/* Title */}
-                        <h2
-                          className="text-2xl md:text-3xl font-bold text-deep-wood mb-4"
-                          style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
+                        <h4
+                          className="text-lg font-bold text-deep-wood mb-2"
+                          style={{
+                            fontFamily: "var(--font-heading)",
+                            fontStyle: "italic",
+                          }}
                         >
-                          {venue.name}
-                        </h2>
-
-                        {/* Description */}
-                        <p className="text-xs md:text-sm text-deep-wood/80 leading-relaxed mb-6 font-medium">
-                          {venue.description}
+                          {pillar.title}
+                        </h4>
+                        <p className="text-xs text-deep-wood/70 leading-relaxed font-medium">
+                          {pillar.desc}
                         </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </FadeSection>
+          </section>
 
-                        {/* Key Info Meta Pills */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 p-4 bg-surface-container-low border border-primary/20 rounded-xl text-xs font-semibold text-deep-wood">
-                          <div className="flex items-center gap-2">
-                            <Clock size={15} className="text-primary shrink-0" />
-                            <span>{venue.openHours}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Users size={15} className="text-primary shrink-0" />
-                            <span>{venue.capacity} Guest Covers</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Award size={15} className="text-primary shrink-0" />
-                            <span>{venue.dressCode}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <ShieldCheck size={15} className="text-primary shrink-0" />
-                            <span>
-                              {venue.reservationRequired ? "Reservation Recommended" : "Walk-in Welcome"}
+          {/* ── VENUE CATEGORY FILTER & SEARCH (SINGLE ROW) ── */}
+          <section className="container-resort max-w-6xl mx-auto mb-12">
+            <FadeSection delay={0.15}>
+              <div className="flex items-center justify-between gap-3 p-2 bg-surface-container-high rounded-2xl border-2 border-primary/30 shadow-md overflow-x-auto scrollbar-none">
+                {/* Category Filter Pills (In one single row) */}
+                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  {[
+                    { id: "all", label: "All Venues" },
+                    {
+                      id: "restaurant",
+                      label: "Fine Dining",
+                      icon: UtensilsCrossed,
+                    },
+                    { id: "brasserie", label: "Pool Brasserie", icon: Leaf },
+                    { id: "bar", label: "Bar & Lounge", icon: Wine },
+                    {
+                      id: "private",
+                      label: "Featured Experiences",
+                      icon: Sparkles,
+                    },
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = activeFilter === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setActiveFilter(tab.id)}
+                        className={[
+                          "px-4 sm:px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer select-none",
+                          isActive
+                            ? "bg-primary text-white shadow-xs"
+                            : "text-deep-wood/75 hover:text-deep-wood hover:bg-primary/10",
+                        ].join(" ")}
+                      >
+                        {Icon && <Icon size={14} />}
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Integrated Search Bar (In same single row) */}
+                <div className="relative flex items-center shrink-0 w-56 sm:w-64 md:w-72 lg:w-96">
+                  <Search
+                    size={15}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/60 pointer-events-none"
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search venues, cuisine..."
+                    className="w-full pl-9 pr-8 py-2 text-xs font-medium bg-surface-container-low/50 text-deep-wood placeholder:text-deep-wood/40 border border-primary/25 rounded-xl focus:outline-hidden focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all shadow-2xs"
+                    aria-label="Search dining venues"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-deep-wood/40 hover:text-deep-wood p-0.5 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"
+                      aria-label="Clear search"
+                    >
+                      <X size={13} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </FadeSection>
+          </section>
+
+          {/* ── DINING VENUES LIST ── */}
+          <section className="container-resort max-w-6xl mx-auto mb-20">
+            {filteredVenues.length === 0 ? (
+              <div className="py-16 text-center bg-surface-container-low/50 rounded-2xl border-2 border-primary/20 shadow-md p-8 max-w-md mx-auto">
+                <UtensilsCrossed
+                  size={36}
+                  className="mx-auto text-primary/40 mb-3"
+                />
+                <h3
+                  className="text-lg font-bold text-deep-wood mb-1.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  No culinary venues found
+                </h3>
+                <p className="text-xs text-deep-wood/65 mb-5 leading-relaxed">
+                  {searchQuery
+                    ? `No dining sanctuaries match "${searchQuery}" in the selected category.`
+                    : "No venues found in this category."}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveFilter("all");
+                    setSearchQuery("");
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-all cursor-pointer shadow-xs"
+                >
+                  Reset Filter &amp; Search
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-12">
+                {filteredVenues.map((venue, index) => {
+                  const isReverse = index % 2 !== 0;
+
+                  return (
+                    <FadeSection key={venue.id} delay={index * 0.1}>
+                      <article
+                        id={`venue-${venue.id}`}
+                        className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden hover:border-primary/60 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 items-stretch"
+                      >
+                        {/* Image Column */}
+                        <div
+                          className={[
+                            "relative overflow-hidden min-h-[380px] lg:min-h-[480px] lg:col-span-6 group",
+                            isReverse ? "lg:order-2" : "lg:order-1",
+                          ].join(" ")}
+                        >
+                          <img
+                            src={mediaUrl(venue.image)}
+                            alt={`${venue.name} — ${venue.cuisine}`}
+                            loading="lazy"
+                            className="img-cover absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-deep-wood/80 via-deep-wood/20 to-transparent" />
+
+                          {/* Top Badges */}
+                          <div className="absolute top-5 left-5 flex flex-wrap gap-2 z-10">
+                            <span className="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-deep-wood/90 text-resort-white backdrop-blur-md rounded-xs border border-primary/40 shadow-xs flex items-center gap-1.5">
+                              <UtensilsCrossed
+                                size={12}
+                                className="text-secondary"
+                              />
+                              {venue.type}
                             </span>
+                            {venue.featured && (
+                              <span className="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-primary text-white rounded-xs shadow-xs flex items-center gap-1">
+                                <Sparkles size={12} /> Signature Venue
+                              </span>
+                            )}
                           </div>
-                        </div>
 
-                        {/* Chef Profile Card */}
-                        <div className="mb-6 p-4 bg-white border-2 border-primary/30 rounded-xl flex items-start gap-3 shadow-xs">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/40 flex items-center justify-center text-primary shrink-0 mt-0.5">
-                            <ChefHat size={20} strokeWidth={1.5} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-bold text-deep-wood">
-                                Chef {venue.chefName}
-                              </span>
-                              <span className="text-[10px] bg-secondary/20 text-deep-wood px-2 py-0.5 rounded-full font-bold uppercase">
-                                Culinary Lead
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-deep-wood/75 mt-1 leading-relaxed font-medium">
-                              {venue.chefBio}
+                          {/* Bottom Tagline Overlay */}
+                          <div className="absolute bottom-5 left-5 right-5 p-4 bg-white/80 backdrop-blur-md rounded-lg border border-white/60 shadow-xs z-10">
+                            <p
+                              className="text-xs md:text-sm font-semibold text-deep-wood italic"
+                              style={{ fontFamily: "var(--font-heading)" }}
+                            >
+                              "{venue.tagline}"
                             </p>
                           </div>
                         </div>
 
-                        {/* Pantry & Signature Ingredients */}
-                        {venue.ingredients && venue.ingredients.length > 0 && (
-                          <div className="mb-6">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-deep-wood/60 block mb-2.5 flex items-center gap-1.5">
-                              <Sparkles size={13} className="text-secondary" /> Signature Pantry Highlights
-                            </span>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                              {venue.ingredients.map((ing, i) => (
-                                <div
-                                  key={i}
-                                  className="flex items-center gap-2 text-xs text-deep-wood font-medium bg-surface-container p-2 rounded-lg border border-primary/10"
-                                >
-                                  <CheckCircle2 size={14} className="text-primary shrink-0" />
-                                  <span className="truncate">{ing}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Action CTA Buttons */}
-                      <div className="pt-4 border-t-2 border-primary/20 flex flex-wrap items-center justify-between gap-4">
-                        <div className="flex flex-wrap items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => handleStartReservation(venue)}
-                            id={`dining-reserve-${venue.id}`}
-                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                          >
-                            <CalendarCheck size={16} /> Reserve a Table
-                          </button>
-
-                          {!venue.reservationRequired && (
-                            <span className="text-[11px] font-semibold text-deep-wood/65 flex items-center gap-1">
-                              <CheckCircle2 size={13} className="text-primary" /> Walk-ins also welcome
-                            </span>
-                          )}
-                        </div>
-
-                        <button
-                          onClick={() => {
-                            setSelectedMenuVenue(venue);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }}
-                          className="text-xs font-bold text-deep-wood hover:text-primary transition-colors flex items-center gap-1.5 underline decoration-primary/40 underline-offset-4 cursor-pointer"
+                        {/* Content Column */}
+                        <div
+                          className={[
+                            "p-7 md:p-10 lg:col-span-6 flex flex-col justify-between bg-surface-container-low/50",
+                            isReverse ? "lg:order-1" : "lg:order-2",
+                          ].join(" ")}
                         >
-                          <Info size={14} /> View Details &amp; Sample Menu
-                        </button>
-                      </div>
-                    </div>
-                  </article>
-                </FadeSection>
-              );
-            })}
-          </div>
-        </section>
+                          <div>
+                            {/* Cuisine Header */}
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="w-2 h-2 rounded-full bg-secondary" />
+                              <span className="text-xs font-bold uppercase tracking-widest text-secondary">
+                                {venue.cuisine}
+                              </span>
+                            </div>
 
-        {/* ── BESPOKE PRIVATE & IN-VILLA DINING SECTION ── */}
-        <section className="container-resort max-w-6xl mx-auto mb-20">
-          <FadeSection delay={0.2}>
-            <div className="relative overflow-hidden rounded-2xl bg-deep-wood text-resort-white p-8 md:p-14 border-2 border-primary/40 shadow-2xl">
-              {/* Decorative background image overlay */}
-              <div className="absolute inset-0 opacity-20 pointer-events-none">
-                <img
-                  src="/assets/images/dining/canopy-table-02.jpg"
-                  alt="Private Dining"
-                  className="w-full h-full object-cover"
-                />
+                            {/* Title */}
+                            <h2
+                              className="text-2xl md:text-3xl font-bold text-deep-wood mb-4"
+                              style={{
+                                fontFamily: "var(--font-heading)",
+                                fontStyle: "italic",
+                              }}
+                            >
+                              {venue.name}
+                            </h2>
+
+                            {/* Description */}
+                            <p className="text-xs md:text-sm text-deep-wood/80 leading-relaxed mb-6 font-medium">
+                              {venue.description}
+                            </p>
+
+                            {/* Key Info Meta Pills */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 p-4 bg-surface-container-low/50 border border-primary/20 rounded-xl text-xs font-semibold text-deep-wood">
+                              <div className="flex items-center gap-2">
+                                <Clock
+                                  size={15}
+                                  className="text-primary shrink-0"
+                                />
+                                <span>{venue.openHours}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Users
+                                  size={15}
+                                  className="text-primary shrink-0"
+                                />
+                                <span>{venue.capacity} Guest Covers</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Award
+                                  size={15}
+                                  className="text-primary shrink-0"
+                                />
+                                <span>{venue.dressCode}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <ShieldCheck
+                                  size={15}
+                                  className="text-primary shrink-0"
+                                />
+                                <span>
+                                  {venue.reservationRequired
+                                    ? "Reservation Recommended"
+                                    : "Walk-in Welcome"}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Chef Profile Card */}
+                            <div className="mb-6 p-4 bg-white border-2 border-primary/30 rounded-xl flex items-start gap-3 shadow-xs">
+                              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/40 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                                <ChefHat size={20} strokeWidth={1.5} />
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-bold text-deep-wood">
+                                    Chef {venue.chefName}
+                                  </span>
+                                  <span className="text-[10px] bg-secondary/20 text-deep-wood px-2 py-0.5 rounded-full font-bold uppercase">
+                                    Culinary Lead
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-deep-wood/75 mt-1 leading-relaxed font-medium">
+                                  {venue.chefBio}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Pantry & Signature Ingredients */}
+                            {venue.ingredients &&
+                              venue.ingredients.length > 0 && (
+                                <div className="mb-6">
+                                  <span className="text-[11px] font-bold uppercase tracking-wider text-deep-wood/60 block mb-2.5 flex items-center gap-1.5">
+                                    <Sparkles
+                                      size={13}
+                                      className="text-secondary"
+                                    />{" "}
+                                    Signature Pantry Highlights
+                                  </span>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    {venue.ingredients.map((ing, i) => (
+                                      <div
+                                        key={i}
+                                        className="flex items-center gap-2 text-xs text-deep-wood font-medium bg-surface-container p-2 rounded-lg border border-primary/10"
+                                      >
+                                        <CheckCircle2
+                                          size={14}
+                                          className="text-primary shrink-0"
+                                        />
+                                        <span className="truncate">{ing}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+
+                          {/* Action CTA Buttons */}
+                          <div className="pt-4 border-t-2 border-primary/20 w-full space-y-2.5">
+                            <button
+                              type="button"
+                              onClick={() => handleStartReservation(venue)}
+                              id={`dining-reserve-${venue.id}`}
+                              className="w-full py-3.5 bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-widest transition-all rounded-xl shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
+                            >
+                              <span>Reserve a Table</span>
+                              <Sparkles size={14} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedMenuVenue(venue);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="w-full py-2.5 bg-white border border-primary/30 hover:bg-primary/5 text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                            >
+                              <span>View Details &amp; Sample Menu</span>
+                              <ArrowRight size={13} className="text-primary" />
+                            </button>
+
+                            {/* {!venue.reservationRequired && (
+                              <span className="text-[11px] font-semibold text-deep-wood/65 flex items-center justify-center gap-1 pt-1">
+                                <CheckCircle2
+                                  size={13}
+                                  className="text-primary"
+                                />{" "}
+                                Walk-ins also welcome
+                              </span>
+                            )} */}
+                          </div>
+                        </div>
+                      </article>
+                    </FadeSection>
+                  );
+                })}
               </div>
+            )}
+          </section>
 
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div className="lg:col-span-8">
-                  <span className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest bg-secondary text-deep-wood rounded-xs inline-block mb-4">
-                    EXCLUSIVE CURATION
-                  </span>
-                  <h3
-                    className="text-3xl md:text-4xl font-bold mb-4 text-resort-white"
-                    style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
-                  >
-                    Bespoke Private &amp; In-Villa Dining
-                  </h3>
-                  <p className="text-xs md:text-sm text-resort-white/80 leading-relaxed max-w-2xl mb-6 font-medium">
-                    Transform your villa terrace or a secluded jungle clearing into your personal restaurant. Our private dining team coordinates custom multi-course menus, dedicated sommelier service, live acoustic musician serenades, and candlelit decor.
-                  </p>
-
-                  <div className="flex flex-wrap gap-4 text-xs font-semibold text-resort-white/90">
-                    <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
-                      <Sparkles size={14} className="text-secondary" /> Starlit Canopy Table
-                    </span>
-                    <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
-                      <UtensilsCrossed size={14} className="text-secondary" /> In-Villa Private Chef
-                    </span>
-                    <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
-                      <Flame size={14} className="text-secondary" /> Beachside Flame BBQ
-                    </span>
-                  </div>
+          {/* ── BESPOKE PRIVATE & IN-VILLA DINING SECTION ── */}
+          <section className="container-resort max-w-6xl mx-auto mb-20">
+            <FadeSection delay={0.2}>
+              <div className="relative overflow-hidden rounded-2xl bg-deep-wood text-resort-white p-8 md:p-14 border-2 border-primary/40 shadow-2xl">
+                {/* Decorative background image overlay */}
+                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                  <img
+                    src="/assets/images/dining/canopy-table-02.jpg"
+                    alt="Private Dining"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
-                <div className="lg:col-span-4 flex justify-start lg:justify-end">
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-8">
+                    <span className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest bg-secondary text-deep-wood rounded-xs inline-block mb-4">
+                      EXCLUSIVE CURATION
+                    </span>
+                    <h3
+                      className="text-3xl md:text-4xl font-bold mb-4 text-resort-white"
+                      style={{
+                        fontFamily: "var(--font-heading)",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Bespoke Private &amp; In-Villa Dining
+                    </h3>
+                    <p className="text-xs md:text-sm text-resort-white/80 leading-relaxed max-w-2xl mb-6 font-medium">
+                      Transform your villa terrace or a secluded jungle clearing
+                      into your personal restaurant. Our private dining team
+                      coordinates custom multi-course menus, dedicated sommelier
+                      service, live acoustic musician serenades, and candlelit
+                      decor.
+                    </p>
+
+                    <div className="flex flex-wrap gap-4 text-xs font-semibold text-resort-white/90">
+                      <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
+                        <Sparkles size={14} className="text-secondary" />{" "}
+                        Starlit Canopy Table
+                      </span>
+                      <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
+                        <UtensilsCrossed size={14} className="text-secondary" />{" "}
+                        In-Villa Private Chef
+                      </span>
+                      <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg border border-white/20">
+                        <Flame size={14} className="text-secondary" /> Beachside
+                        Flame BBQ
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-4 flex justify-start lg:justify-end">
+                    <Button
+                      href="/contact?subject=private-dining"
+                      variant="primary"
+                      size="lg"
+                      className="w-full sm:w-auto shadow-lg"
+                    >
+                      Request Private Chef{" "}
+                      <ArrowRight size={16} className="ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </FadeSection>
+          </section>
+
+          {/* ── CHEF'S PHILOSOPHY QUOTE BANNER ── */}
+          <section className="container-resort max-w-4xl mx-auto mb-20 text-center">
+            <FadeSection delay={0.25}>
+              <div className="p-8 md:p-12 bg-surface-container-low/50 border-2 border-primary/30 rounded-2xl shadow-md relative">
+                <div
+                  className="text-5xl font-heading text-primary select-none opacity-40 mb-2"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  “
+                </div>
+                <p
+                  className="text-lg md:text-2xl text-deep-wood leading-relaxed font-bold italic mb-6"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  "Every ingredient tells the story of the land and ocean it
+                  came from. Our cuisine does not attempt to alter nature, but
+                  to honor its wild perfection."
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-8 h-px bg-primary/40" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                    Chef Priya Nair — Executive Culinary Director
+                  </span>
+                  <div className="w-8 h-px bg-primary/40" />
+                </div>
+              </div>
+            </FadeSection>
+          </section>
+
+          {/* ── BOTTOM RESERVATION CTA BANNER ── */}
+          <section className="container-resort max-w-5xl mx-auto">
+            <FadeSection delay={0.3}>
+              <div className="p-8 md:p-12 bg-surface-container-low/50 border-2 border-primary rounded-2xl shadow-xl text-center">
+                <h3
+                  className="text-2xl md:text-3xl font-bold text-deep-wood mb-3"
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontStyle: "italic",
+                  }}
+                >
+                  Ready to Experience Aviora Dining?
+                </h3>
+                <p className="text-xs md:text-sm text-deep-wood/70 max-w-xl mx-auto mb-6 font-medium">
+                  Reserve your table in advance or contact our resort concierge
+                  to arrange dietary preferences, wine pairings, or special
+                  occasion celebrations.
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center gap-4">
                   <Button
-                    href="/contact?subject=private-dining"
+                    href="/contact?subject=dining"
                     variant="primary"
                     size="lg"
-                    className="w-full sm:w-auto shadow-lg"
                   >
-                    Request Private Chef <ArrowRight size={16} className="ml-2" />
+                    <CalendarCheck size={18} className="mr-2" /> Book Table
+                    Online
+                  </Button>
+                  <Button href="/booking" variant="secondary" size="lg">
+                    Explore Accommodations
                   </Button>
                 </div>
               </div>
-            </div>
-          </FadeSection>
-        </section>
-
-        {/* ── CHEF'S PHILOSOPHY QUOTE BANNER ── */}
-        <section className="container-resort max-w-4xl mx-auto mb-20 text-center">
-          <FadeSection delay={0.25}>
-            <div className="p-8 md:p-12 bg-surface-container-low border-2 border-primary/30 rounded-2xl shadow-md relative">
-              <div
-                className="text-5xl font-heading text-primary select-none opacity-40 mb-2"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                “
-              </div>
-              <p
-                className="text-lg md:text-2xl text-deep-wood leading-relaxed font-bold italic mb-6"
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
-                "Every ingredient tells the story of the land and ocean it came from. Our cuisine does not attempt to alter nature, but to honor its wild perfection."
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <div className="w-8 h-px bg-primary/40" />
-                <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                  Chef Priya Nair — Executive Culinary Director
-                </span>
-                <div className="w-8 h-px bg-primary/40" />
-              </div>
-            </div>
-          </FadeSection>
-        </section>
-
-        {/* ── BOTTOM RESERVATION CTA BANNER ── */}
-        <section className="container-resort max-w-5xl mx-auto">
-          <FadeSection delay={0.3}>
-            <div className="p-8 md:p-12 bg-surface-container-lowest border-2 border-primary rounded-2xl shadow-xl text-center">
-              <h3
-                className="text-2xl md:text-3xl font-bold text-deep-wood mb-3"
-                style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}
-              >
-                Ready to Experience Aviora Dining?
-              </h3>
-              <p className="text-xs md:text-sm text-deep-wood/70 max-w-xl mx-auto mb-6 font-medium">
-                Reserve your table in advance or contact our resort concierge to arrange dietary preferences, wine pairings, or special occasion celebrations.
-              </p>
-
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <Button href="/contact?subject=dining" variant="primary" size="lg">
-                  <CalendarCheck size={18} className="mr-2" /> Book Table Online
-                </Button>
-                <Button href="/booking" variant="secondary" size="lg">
-                  Explore Accommodations
-                </Button>
-              </div>
-            </div>
-          </FadeSection>
-        </section>
+            </FadeSection>
+          </section>
+        </div>
       </div>
     </div>
   );
 }
-

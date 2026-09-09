@@ -434,6 +434,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AvioraResort.Controllers.AdminMediaController",
+    "Method": "Delete",
+    "RelativePath": "api/admin/media",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "AvioraResort.Models.DTOs.DeleteMediaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AvioraResort.Controllers.AdminMediaController",
+    "Method": "Upload",
+    "RelativePath": "api/admin/media/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "folder",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AvioraResort.Controllers.AdminPricingController",
     "Method": "GetPromoCodes",
     "RelativePath": "api/admin/promocodes",

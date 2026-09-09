@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg",
+      "PackagePath": "staticwebassets\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Aviora Resort.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Aviora Resort.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Aviora Resort.props",
+      "PackagePath": "build\\Aviora Resort.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Aviora Resort.props",
+      "PackagePath": "buildMultiTargeting\\Aviora Resort.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Aviora Resort.props",
+      "PackagePath": "buildTransitive\\Aviora Resort.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

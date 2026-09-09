@@ -440,7 +440,7 @@
 //         {/* TAB 1: NEW RESERVATION PROCESS PAGE */}
 //         {/* ========================================================================= */}
 //         {activeTab === "new" && (
-//           <div className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary overflow-hidden">
+//           <div className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary overflow-hidden">
 //             {/* Stepper Bar Header */}
 //             <div className="px-6 py-4 bg-deep-wood text-resort-white border-b-2 border-primary/40">
 //               <div className="flex items-center justify-between max-w-3xl mx-auto">
@@ -486,7 +486,7 @@
 //                   {/* Left Column: Villa Selector & Parameters */}
 //                   <div className="lg:col-span-7 flex flex-col gap-6">
 //                     {/* Villa Showcase Card */}
-//                     <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+//                     <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
 //                       <div className="flex flex-col sm:flex-row gap-5 items-start">
 //                         <img
 //                           src={villa?.image}
@@ -548,7 +548,7 @@
 //                     </div>
 
 //                     {/* Stay Parameters Search Bar */}
-//                     <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+//                     <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
 //                       <h4 className="text-sm font-bold text-deep-wood uppercase tracking-wider mb-3 flex items-center gap-2">
 //                         <Calendar size={16} className="text-primary" /> Stay
 //                         Parameters
@@ -634,7 +634,7 @@
 //                                 "p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 relative",
 //                                 isSelected
 //                                   ? "bg-white border-primary shadow-md ring-2 ring-primary/40"
-//                                   : "bg-surface-container-low border-primary/30 hover:border-primary",
+//                                   : "bg-surface-container-low/50 border-primary/30 hover:border-primary",
 //                               ].join(" ")}
 //                             >
 //                               <div className="flex items-start justify-between">
@@ -696,7 +696,7 @@
 
 //                   {/* Right Column: Order Summary Card */}
 //                   <div className="lg:col-span-5 flex flex-col justify-between">
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-30">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-30">
 //                       <h4
 //                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
 //                         style={{ fontFamily: "var(--font-heading)" }}
@@ -795,7 +795,7 @@
 //                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 //                   <div className="lg:col-span-7 flex flex-col gap-6">
 //                     {/* Guest Form Card */}
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
 //                       {isAuthenticated && currentUser && (
 //                         <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
 //                           <div className="flex items-center gap-2.5">
@@ -990,7 +990,7 @@
 //                     </div>
 
 //                     {/* Extras & Addons Card */}
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
 //                       <h3
 //                         className="text-lg font-bold text-deep-wood italic mb-1"
 //                         style={{ fontFamily: "var(--font-heading)" }}
@@ -1047,7 +1047,7 @@
 
 //                   {/* Summary & Next Step */}
 //                   <div className="lg:col-span-5 flex flex-col justify-between">
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
 //                       <h4
 //                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
 //                         style={{ fontFamily: "var(--font-heading)" }}
@@ -1127,7 +1127,7 @@
 //               {step === 3 && (
 //                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 //                   <div className="lg:col-span-7 flex flex-col gap-6">
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
 //                       <h3
 //                         className="text-lg font-bold text-deep-wood italic mb-4"
 //                         style={{ fontFamily: "var(--font-heading)" }}
@@ -1267,7 +1267,7 @@
 //                     </div>
 
 //                     {/* Promo Code Box */}
-//                     <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+//                     <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
 //                       <h4 className="text-xs font-bold text-deep-wood uppercase tracking-wider mb-2">
 //                         Have a Promo Code?
 //                       </h4>
@@ -1297,7 +1297,7 @@
 
 //                   {/* Right Column: Checkout Breakdown */}
 //                   <div className="lg:col-span-5 flex flex-col justify-between">
-//                     <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
+//                     <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
 //                       <h4
 //                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
 //                         style={{ fontFamily: "var(--font-heading)" }}
@@ -1471,7 +1471,7 @@
 //                       </div>
 //                     )}
 
-//                     <div className="pt-5 border-t-2 border-primary/20 flex flex-wrap items-center justify-between bg-surface-container-low p-5 rounded-xl gap-4">
+//                     <div className="pt-5 border-t-2 border-primary/20 flex flex-wrap items-center justify-between bg-surface-container-low/50 p-5 rounded-xl gap-4">
 //                       <div>
 //                         <span className="text-[10px] text-deep-wood/70 block font-semibold">
 //                           Total Amount Charged / Guaranteed:
@@ -1513,7 +1513,7 @@
 //                         dispatch(resetBooking());
 //                         setActiveTab("my-bookings");
 //                       }}
-//                       className="px-6 py-3 bg-surface-container-low text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container transition-colors border-2 border-primary/30 flex items-center gap-2 cursor-pointer"
+//                       className="px-6 py-3 bg-surface-container-low/50 text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container transition-colors border-2 border-primary/30 flex items-center gap-2 cursor-pointer"
 //                     >
 //                       <CalendarCheck size={16} /> View All My Bookings
 //                     </button>
@@ -1528,7 +1528,7 @@
 //         {/* TAB 2: MY BOOKINGS SCREEN */}
 //         {/* ========================================================================= */}
 //         {activeTab === "my-bookings" && (
-//           <div className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
+//           <div className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
 //             <h3
 //               className="text-2xl font-bold text-deep-wood italic mb-6 border-b-2 border-primary/20 pb-4"
 //               style={{ fontFamily: "var(--font-heading)" }}
@@ -1561,7 +1561,7 @@
 //                 {myBookings.map((b) => (
 //                   <div
 //                     key={b.referenceId}
-//                     className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs flex flex-col md:flex-row gap-6 justify-between items-start"
+//                     className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs flex flex-col md:flex-row gap-6 justify-between items-start"
 //                   >
 //                     <div className="flex flex-col sm:flex-row gap-5 items-start">
 //                       <img
@@ -1656,7 +1656,6 @@
 //   );
 // }
 
-
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
@@ -1729,6 +1728,8 @@ import {
   selectIsAuthenticated,
 } from "../features/auth/authSlice";
 import { useToast } from "../components/common/Toast";
+import PageSketchBackground from "../components/common/PageSketchBackground";
+import { mediaUrl } from "../config/mediaUrl";
 
 export default function BookingPage() {
   const { showSuccess, showError } = useToast();
@@ -1800,7 +1801,8 @@ export default function BookingPage() {
   const { data: apiAddons = [] } = useGetAddonsQuery();
 
   const [getQuote, { isLoading: pricing }] = useGetBookingQuoteMutation();
-  const [createReservation, { isLoading: creating }] = useCreateBookingMutation();
+  const [createReservation, { isLoading: creating }] =
+    useCreateBookingMutation();
 
   const [quote, setQuote] = useState(null);
   const [quoteError, setQuoteError] = useState("");
@@ -1835,7 +1837,11 @@ export default function BookingPage() {
         dispatch(resetBooking());
       }
       dispatch(setSelectedVillaId(villaParam));
-    } else if (!stepParam && tabParam !== "my-bookings" && (step === 4 || activeBooking)) {
+    } else if (
+      !stepParam &&
+      tabParam !== "my-bookings" &&
+      (step === 4 || activeBooking)
+    ) {
       // Direct navigation to /booking without step=4 starts fresh
       dispatch(resetBooking());
     }
@@ -1861,22 +1867,47 @@ export default function BookingPage() {
   useEffect(() => {
     if (isAuthenticated && currentUser) {
       if (!guestInfo.firstName && currentUser.firstName) {
-        dispatch(setGuestInfoField({ field: "firstName", value: currentUser.firstName }));
+        dispatch(
+          setGuestInfoField({
+            field: "firstName",
+            value: currentUser.firstName,
+          }),
+        );
       }
       if (!guestInfo.lastName && currentUser.lastName) {
-        dispatch(setGuestInfoField({ field: "lastName", value: currentUser.lastName }));
+        dispatch(
+          setGuestInfoField({ field: "lastName", value: currentUser.lastName }),
+        );
       }
       if (!guestInfo.email && currentUser.email) {
-        dispatch(setGuestInfoField({ field: "email", value: currentUser.email }));
+        dispatch(
+          setGuestInfoField({ field: "email", value: currentUser.email }),
+        );
       }
       if (!guestInfo.phone && currentUser.phone) {
-        dispatch(setGuestInfoField({ field: "phone", value: currentUser.phone }));
+        dispatch(
+          setGuestInfoField({ field: "phone", value: currentUser.phone }),
+        );
       }
-      if (currentUser.country && (!guestInfo.country || guestInfo.country === "United States")) {
-        dispatch(setGuestInfoField({ field: "country", value: currentUser.country }));
+      if (
+        currentUser.country &&
+        (!guestInfo.country || guestInfo.country === "United States")
+      ) {
+        dispatch(
+          setGuestInfoField({ field: "country", value: currentUser.country }),
+        );
       }
     }
-  }, [isAuthenticated, currentUser, dispatch, guestInfo.firstName, guestInfo.lastName, guestInfo.email, guestInfo.phone, guestInfo.country]);
+  }, [
+    isAuthenticated,
+    currentUser,
+    dispatch,
+    guestInfo.firstName,
+    guestInfo.lastName,
+    guestInfo.email,
+    guestInfo.phone,
+    guestInfo.country,
+  ]);
 
   const villa =
     apiVillas.find((v) => v.id === selectedVillaId) || apiVillas[0] || null;
@@ -1913,7 +1944,9 @@ export default function BookingPage() {
       .catch((err) => {
         if (cancelled) return;
         setQuote(null);
-        setQuoteError(err?.data?.message || "Pricing is unavailable right now.");
+        setQuoteError(
+          err?.data?.message || "Pricing is unavailable right now.",
+        );
       });
 
     return () => {
@@ -1957,7 +1990,7 @@ export default function BookingPage() {
 
   const handleContinueToStep2 = () => {
     if (!isAuthenticated) {
-      navigate('/login?redirect=' + encodeURIComponent('/booking?step=2'));
+      navigate("/login?redirect=" + encodeURIComponent("/booking?step=2"));
       return;
     }
     dispatch(nextStep());
@@ -2050,24 +2083,11 @@ export default function BookingPage() {
 
   return (
     <div
-      className="pt-36 pb-24 min-h-screen relative"
-      style={{ backgroundColor: "var(--color-surface, #f9f9f8)" }}
+      className="pt-36 pb-24 min-h-screen relative overflow-hidden"
+      style={{ backgroundColor: "#F4F1EA" }}
     >
       {/* ── Decorative Background Sketch ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-          backgroundImage: "url('/assets/images/loading-sketch.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.2,
-        }}
-      />
+      <PageSketchBackground subtitle="Sanctuary Reservation Engine" />
       <div
         className="container-resort max-w-6xl mx-auto relative"
         style={{ zIndex: 1 }}
@@ -2141,7 +2161,7 @@ export default function BookingPage() {
         {/* TAB 1: NEW RESERVATION PROCESS PAGE */}
         {/* ========================================================================= */}
         {activeTab === "new" && (
-          <div className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary overflow-hidden">
+          <div className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary overflow-hidden">
             {/* Stepper Bar Header */}
             <div className="px-6 py-4 bg-deep-wood text-resort-white border-b-2 border-primary/40">
               <div className="flex items-center justify-between max-w-3xl mx-auto">
@@ -2187,10 +2207,10 @@ export default function BookingPage() {
                   {/* Left Column: Villa Selector & Parameters */}
                   <div className="lg:col-span-7 flex flex-col gap-6">
                     {/* Villa Showcase Card */}
-                    <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+                    <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
                       <div className="flex flex-col sm:flex-row gap-5 items-start">
                         <img
-                          src={villa?.image}
+                          src={mediaUrl(villa?.image)}
                           alt={villa?.name}
                           className="w-full sm:w-36 h-32 object-cover rounded-lg flex-shrink-0"
                         />
@@ -2249,7 +2269,7 @@ export default function BookingPage() {
                     </div>
 
                     {/* Stay Parameters Search Bar */}
-                    <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+                    <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
                       <h4 className="text-sm font-bold text-deep-wood uppercase tracking-wider mb-3 flex items-center gap-2">
                         <Calendar size={16} className="text-primary" /> Stay
                         Parameters
@@ -2335,7 +2355,7 @@ export default function BookingPage() {
                                 "p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 relative",
                                 isSelected
                                   ? "bg-white border-primary shadow-md ring-2 ring-primary/40"
-                                  : "bg-surface-container-low border-primary/30 hover:border-primary",
+                                  : "bg-surface-container-low/50 border-primary/30 hover:border-primary",
                               ].join(" ")}
                             >
                               <div className="flex items-start justify-between">
@@ -2397,7 +2417,7 @@ export default function BookingPage() {
 
                   {/* Right Column: Order Summary Card */}
                   <div className="lg:col-span-5 flex flex-col justify-between">
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-30">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-30">
                       <h4
                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
                         style={{ fontFamily: "var(--font-heading)" }}
@@ -2427,7 +2447,8 @@ export default function BookingPage() {
                         <div className="flex justify-between">
                           <span>Rate Package:</span>
                           <span className="font-bold text-secondary">
-                            {ratePlans.find((r) => r.id === selectedRatePlan)?.name ?? selectedRatePlan}
+                            {ratePlans.find((r) => r.id === selectedRatePlan)
+                              ?.name ?? selectedRatePlan}
                           </span>
                         </div>
 
@@ -2435,7 +2456,9 @@ export default function BookingPage() {
                           <span>
                             {nights} nights x {money(effectiveNightPrice)}
                           </span>
-                          <span className="font-bold">{money(roomSubtotal)}</span>
+                          <span className="font-bold">
+                            {money(roomSubtotal)}
+                          </span>
                         </div>
 
                         {/* The Sri Lankan folio: service charge 10%, TDL 1%,
@@ -2496,19 +2519,23 @@ export default function BookingPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                   <div className="lg:col-span-7 flex flex-col gap-6">
                     {/* Guest Form Card */}
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
                       {isAuthenticated && currentUser && (
                         <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2.5">
-                            <Sparkles size={16} className="text-secondary flex-shrink-0" />
+                            <Sparkles
+                              size={16}
+                              className="text-secondary flex-shrink-0"
+                            />
                             <div>
                               <span className="font-bold text-deep-wood">
                                 Booking as {currentUser.name}
                               </span>
                               <span className="text-deep-wood/70 block text-[11px]">
-                                {currentUser.role === 'admin'
-                                  ? '🛡️ Administration Staff Account'
-                                  : `✨ ${currentUser.membershipTier || 'Aviora Privilege Member'}`} • Details pre-filled
+                                {currentUser.role === "admin"
+                                  ? "🛡️ Administration Staff Account"
+                                  : `✨ ${currentUser.membershipTier || "Aviora Privilege Member"}`}{" "}
+                                • Details pre-filled
                               </span>
                             </div>
                           </div>
@@ -2691,7 +2718,7 @@ export default function BookingPage() {
                     </div>
 
                     {/* Extras & Addons Card */}
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
                       <h3
                         className="text-lg font-bold text-deep-wood italic mb-1"
                         style={{ fontFamily: "var(--font-heading)" }}
@@ -2748,7 +2775,7 @@ export default function BookingPage() {
 
                   {/* Summary & Next Step */}
                   <div className="lg:col-span-5 flex flex-col justify-between">
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
                       <h4
                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
                         style={{ fontFamily: "var(--font-heading)" }}
@@ -2828,7 +2855,7 @@ export default function BookingPage() {
               {step === 3 && (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                   <div className="lg:col-span-7 flex flex-col gap-6">
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs">
                       <h3
                         className="text-lg font-bold text-deep-wood italic mb-4"
                         style={{ fontFamily: "var(--font-heading)" }}
@@ -2968,7 +2995,7 @@ export default function BookingPage() {
                     </div>
 
                     {/* Promo Code Box */}
-                    <div className="p-5 bg-surface-container-low border-2 border-primary/30 rounded-xl">
+                    <div className="p-5 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl">
                       <h4 className="text-xs font-bold text-deep-wood uppercase tracking-wider mb-2">
                         Have a Promo Code?
                       </h4>
@@ -2998,7 +3025,7 @@ export default function BookingPage() {
 
                   {/* Right Column: Checkout Breakdown */}
                   <div className="lg:col-span-5 flex flex-col justify-between">
-                    <div className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
+                    <div className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-sm sticky top-36">
                       <h4
                         className="text-base font-bold text-deep-wood italic mb-4 border-b-2 border-primary/20 pb-3"
                         style={{ fontFamily: "var(--font-heading)" }}
@@ -3047,7 +3074,10 @@ export default function BookingPage() {
                       <div className="mt-6 space-y-3">
                         {submitError && (
                           <div className="p-3 rounded-xs bg-red-50 border border-red-200 text-red-800 text-xs font-bold flex items-start gap-2">
-                            <AlertCircle size={14} className="shrink-0 mt-0.5" />
+                            <AlertCircle
+                              size={14}
+                              className="shrink-0 mt-0.5"
+                            />
                             <span>{submitError}</span>
                           </div>
                         )}
@@ -3055,7 +3085,9 @@ export default function BookingPage() {
                         {/* Blocked when the stay cannot be priced, so a guest
                             cannot walk three steps into a sold-out villa. */}
                         <button
-                          disabled={isProcessing || creating || pricing || !canProceed}
+                          disabled={
+                            isProcessing || creating || pricing || !canProceed
+                          }
                           onClick={handleFinalSubmit}
                           className="w-full py-3.5 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-colors duration-300 rounded-xs flex items-center justify-center gap-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -3097,8 +3129,11 @@ export default function BookingPage() {
                       Reservation Confirmed!
                     </h3>
                     <p className="text-xs text-deep-wood/80 font-medium">
-                      Thank you, {activeBooking.guest?.firstName || activeBooking.guestInfo?.firstName || "Guest"}. Your
-                      luxury stay is officially confirmed.
+                      Thank you,{" "}
+                      {activeBooking.guest?.firstName ||
+                        activeBooking.guestInfo?.firstName ||
+                        "Guest"}
+                      . Your luxury stay is officially confirmed.
                     </p>
                   </div>
 
@@ -3154,25 +3189,33 @@ export default function BookingPage() {
                       </div>
                     </div>
 
-                    {((activeBooking.addons?.length > 0) || (activeBooking.selectedAddons?.length > 0)) && (
+                    {(activeBooking.addons?.length > 0 ||
+                      activeBooking.selectedAddons?.length > 0) && (
                       <div className="pt-4 border-t-2 border-primary/20 mb-6">
                         <span className="text-xs font-bold text-deep-wood block mb-2">
                           Included Luxury Enhancements:
                         </span>
                         <div className="flex flex-wrap gap-2">
-                          {(activeBooking.addons || activeBooking.selectedAddons || []).map((addon, idx) => (
+                          {(
+                            activeBooking.addons ||
+                            activeBooking.selectedAddons ||
+                            []
+                          ).map((addon, idx) => (
                             <span
                               key={addon.id || addon.code || idx}
                               className="px-3 py-1 bg-surface-container text-xs font-bold text-deep-wood rounded-xs"
                             >
-                              {addon.icon ? `${addon.icon} ` : ""}{addon.name || addon.addonName || (typeof addon === "string" ? addon : "Add-on")}
+                              {addon.icon ? `${addon.icon} ` : ""}
+                              {addon.name ||
+                                addon.addonName ||
+                                (typeof addon === "string" ? addon : "Add-on")}
                             </span>
                           ))}
                         </div>
                       </div>
                     )}
 
-                    <div className="pt-5 border-t-2 border-primary/20 flex flex-wrap items-center justify-between bg-surface-container-low p-5 rounded-xl gap-4">
+                    <div className="pt-5 border-t-2 border-primary/20 flex flex-wrap items-center justify-between bg-surface-container-low/50 p-5 rounded-xl gap-4">
                       <div>
                         <span className="text-[10px] text-deep-wood/70 block font-semibold">
                           Total Amount Charged / Guaranteed:
@@ -3186,7 +3229,10 @@ export default function BookingPage() {
                       </div>
                       <span className="text-xs text-deep-wood font-medium">
                         Confirmation email sent to{" "}
-                        <strong>{activeBooking.guest?.email || activeBooking.guestInfo?.email}</strong>
+                        <strong>
+                          {activeBooking.guest?.email ||
+                            activeBooking.guestInfo?.email}
+                        </strong>
                       </span>
                     </div>
                   </div>
@@ -3214,7 +3260,7 @@ export default function BookingPage() {
                         dispatch(resetBooking());
                         setActiveTab("my-bookings");
                       }}
-                      className="px-6 py-3 bg-surface-container-low text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container transition-colors border-2 border-primary/30 flex items-center gap-2 cursor-pointer"
+                      className="px-6 py-3 bg-surface-container-low/50 text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container transition-colors border-2 border-primary/30 flex items-center gap-2 cursor-pointer"
                     >
                       <CalendarCheck size={16} /> View All My Bookings
                     </button>
@@ -3229,7 +3275,7 @@ export default function BookingPage() {
         {/* TAB 2: MY BOOKINGS SCREEN */}
         {/* ========================================================================= */}
         {activeTab === "my-bookings" && (
-          <div className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
+          <div className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
             <h3
               className="text-2xl font-bold text-deep-wood italic mb-6 border-b-2 border-primary/20 pb-4"
               style={{ fontFamily: "var(--font-heading)" }}
@@ -3262,11 +3308,11 @@ export default function BookingPage() {
                 {myBookings.map((b) => (
                   <div
                     key={b.referenceId}
-                    className="p-6 bg-surface-container-low border-2 border-primary/30 rounded-xl shadow-xs flex flex-col md:flex-row gap-6 justify-between items-start"
+                    className="p-6 bg-surface-container-low/50 border-2 border-primary/30 rounded-xl shadow-xs flex flex-col md:flex-row gap-6 justify-between items-start"
                   >
                     <div className="flex flex-col sm:flex-row gap-5 items-start">
-                      <img
-                        src={b.villaImage}
+                     <img
+                        src={mediaUrl(b.villaImage)}
                         alt={b.villaName}
                         className="w-full sm:w-32 h-28 object-cover rounded-lg flex-shrink-0"
                       />
@@ -3290,8 +3336,8 @@ export default function BookingPage() {
                         </p>
                         <p className="text-[11px] text-deep-wood/70 font-semibold mt-1">
                           Guest: {b.guest?.firstName || b.guestInfo?.firstName}{" "}
-                          {b.guest?.lastName || b.guestInfo?.lastName} • {b.adults} Adults,{" "}
-                          {b.children} Children
+                          {b.guest?.lastName || b.guestInfo?.lastName} •{" "}
+                          {b.adults} Adults, {b.children} Children
                         </p>
                       </div>
                     </div>
@@ -3367,7 +3413,7 @@ export default function BookingPage() {
         {/* nothing called it, so a table could be booked and never seen again.       */}
         {/* ========================================================================= */}
         {activeTab === "my-dining" && (
-          <div className="bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
+          <div className="bg-surface-container-low/50 rounded-2xl shadow-xl border-2 border-primary p-6 md:p-8">
             <h3
               className="text-2xl font-bold text-deep-wood italic mb-6 border-b-2 border-primary/20 pb-4"
               style={{ fontFamily: "var(--font-heading)" }}
@@ -3377,10 +3423,16 @@ export default function BookingPage() {
 
             {myTables.length === 0 ? (
               <div className="text-center py-16">
-                <UtensilsCrossed size={56} className="mx-auto text-primary/40 mb-4" />
-                <h4 className="text-lg font-bold text-deep-wood">No Tables Booked</h4>
+                <UtensilsCrossed
+                  size={56}
+                  className="mx-auto text-primary/40 mb-4"
+                />
+                <h4 className="text-lg font-bold text-deep-wood">
+                  No Tables Booked
+                </h4>
                 <p className="text-xs text-deep-wood/70 font-medium mt-1 mb-6 max-w-sm mx-auto">
-                  Reserve a table at one of our restaurants and it will appear here.
+                  Reserve a table at one of our restaurants and it will appear
+                  here.
                 </p>
                 <button
                   onClick={() => navigate("/dining")}
@@ -3397,8 +3449,8 @@ export default function BookingPage() {
                     className={[
                       "p-6 border-2 rounded-xl shadow-xs flex flex-col md:flex-row gap-6 justify-between items-start",
                       t.status === "Cancelled"
-                        ? "bg-surface-container-low border-outline-variant/30 opacity-65"
-                        : "bg-surface-container-low border-primary/30",
+                        ? "bg-surface-container-low/50 border-outline-variant/30 opacity-65"
+                        : "bg-surface-container-low/50 border-primary/30",
                     ].join(" ")}
                   >
                     <div className="flex flex-col sm:flex-row gap-5 items-start">
@@ -3446,12 +3498,15 @@ export default function BookingPage() {
                         {t.canCancel && t.cancellationDeadline && (
                           <p className="text-[11px] text-deep-wood/55 font-medium mt-1">
                             Free cancellation until{" "}
-                            {new Date(t.cancellationDeadline).toLocaleString("en-GB", {
-                              day: "numeric",
-                              month: "short",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
+                            {new Date(t.cancellationDeadline).toLocaleString(
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )}
                           </p>
                         )}
 

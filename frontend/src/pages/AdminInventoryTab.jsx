@@ -39,7 +39,8 @@ const WINDOW_DAYS = 21;
 const DAY_MS = 86400000;
 
 const toIso = (d) => d.toISOString().split("T")[0];
-const addDays = (iso, n) => toIso(new Date(new Date(iso).getTime() + n * DAY_MS));
+const addDays = (iso, n) =>
+  toIso(new Date(new Date(iso).getTime() + n * DAY_MS));
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -71,8 +72,7 @@ function Field({ label, children, hint }) {
  * the desk is how many units are left to sell tonight.
  */
 function cellStyle(night) {
-  if (night.isBlocked)
-    return "bg-red-100 text-red-800 border-red-200";
+  if (night.isBlocked) return "bg-red-100 text-red-800 border-red-200";
   if (night.unitsAvailable <= 0)
     return "bg-amber-100 text-amber-900 border-amber-200";
   if (night.unitsAvailable <= 1)
@@ -96,7 +96,10 @@ export default function AdminInventoryTab() {
     isError,
     error,
     refetch,
-  } = useGetInventoryGridQuery({ from, to }, { refetchOnMountOrArgChange: true });
+  } = useGetInventoryGridQuery(
+    { from, to },
+    { refetchOnMountOrArgChange: true },
+  );
 
   const [setRange, { isLoading: isSaving }] = useSetInventoryRangeMutation();
   const [extendHorizon, { isLoading: isExtending }] =
@@ -261,7 +264,10 @@ export default function AdminInventoryTab() {
             className="px-3 py-2.5 rounded-xl bg-white border border-outline-variant/40 text-deep-wood hover:bg-surface-container-high cursor-pointer disabled:opacity-50 transition-all flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider"
             aria-label="Refresh Inventory Calendar"
           >
-            <RefreshCw size={13} className={isFetching ? "animate-spin text-primary" : ""} />
+            <RefreshCw
+              size={13}
+              className={isFetching ? "animate-spin text-primary" : ""}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </button>
 
@@ -348,7 +354,8 @@ export default function AdminInventoryTab() {
                       {villa.name}
                     </span>
                     <span className="text-[10px] text-deep-wood/55">
-                      {villa.totalUnits} unit{villa.totalUnits === 1 ? "" : "s"} · Rs.
+                      {villa.totalUnits} unit{villa.totalUnits === 1 ? "" : "s"}{" "}
+                      · Rs.
                       {Number(villa.pricePerNight).toLocaleString()}
                     </span>
                   </td>
@@ -482,7 +489,7 @@ export default function AdminInventoryTab() {
               </div>
 
               <div className="p-6 md:p-8 bg-surface space-y-5">
-                <div className="p-3.5 rounded-xl bg-surface-container-low border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
+                <div className="p-3.5 rounded-xl bg-surface-container-low/50 border border-primary/20 text-[11px] text-deep-wood/70 flex items-start gap-2.5">
                   <Info size={14} className="text-primary shrink-0 mt-0.5" />
                   <span className="leading-relaxed">
                     Leave a field blank to leave it unchanged. That is what lets
@@ -532,7 +539,10 @@ export default function AdminInventoryTab() {
                     />
                   </Field>
 
-                  <Field label="Minimum Stay (nights)" hint="Applies to arrivals on these dates.">
+                  <Field
+                    label="Minimum Stay (nights)"
+                    hint="Applies to arrivals on these dates."
+                  >
                     <input
                       type="number"
                       min={1}
@@ -560,7 +570,10 @@ export default function AdminInventoryTab() {
                     </select>
                   </Field>
 
-                  <Field label="Reason for Closing" hint="Shown to the reception desk, not to guests.">
+                  <Field
+                    label="Reason for Closing"
+                    hint="Shown to the reception desk, not to guests."
+                  >
                     <input
                       className={inputClass}
                       placeholder="Pool resurfacing"
@@ -585,75 +598,76 @@ export default function AdminInventoryTab() {
                       disabled={form.clearPriceOverride}
                       value={form.priceOverride}
                       onChange={(e) =>
-                        setForm((f) => ({ ...f, priceOverride: e.target.value }))
+                        setForm((f) => ({
+                          ...f,
+                          priceOverride: e.target.value,
+                        }))
                       }
                     />
                   </Field>
 
                   <div className="flex flex-col justify-end gap-2">
-  {/* Remove seasonal rate */}
-  <label className="flex items-center gap-2.5 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-[11px] font-bold cursor-pointer hover:bg-primary/5 transition-colors">
-    <span
-      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-        form.clearPriceOverride
-          ? "bg-primary border-primary"
-          : "bg-white border-primary/30"
-      }`}
-    >
-      {form.clearPriceOverride && (
-        <span className="text-white text-[11px] font-bold leading-none">
-          ✓
-        </span>
-      )}
-    </span>
+                    {/* Remove seasonal rate */}
+                    <label className="flex items-center gap-2.5 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-[11px] font-bold cursor-pointer hover:bg-primary/5 transition-colors">
+                      <span
+                        className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
+                          form.clearPriceOverride
+                            ? "bg-primary border-primary"
+                            : "bg-white border-primary/30"
+                        }`}
+                      >
+                        {form.clearPriceOverride && (
+                          <span className="text-white text-[11px] font-bold leading-none">
+                            ✓
+                          </span>
+                        )}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={form.clearPriceOverride}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            clearPriceOverride: e.target.checked,
+                            priceOverride: e.target.checked
+                              ? ""
+                              : f.priceOverride,
+                          }))
+                        }
+                        className="sr-only"
+                      />
+                      Remove the seasonal rate
+                    </label>
 
-    <input
-      type="checkbox"
-      checked={form.clearPriceOverride}
-      onChange={(e) =>
-        setForm((f) => ({
-          ...f,
-          clearPriceOverride: e.target.checked,
-          priceOverride: e.target.checked ? "" : f.priceOverride,
-        }))
-      }
-      className="sr-only"
-    />
-
-    Remove the seasonal rate
-  </label>
-
-  {/* Weekends only */}
-  <label className="flex items-center gap-2.5 p-3 bg-surface-container-low border border-primary/20 rounded-xl text-[11px] font-bold cursor-pointer hover:bg-primary/5 transition-colors">
-    <span
-      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-        form.weekendsOnly
-          ? "bg-primary border-primary"
-          : "bg-white border-primary/30"
-      }`}
-    >
-      {form.weekendsOnly && (
-        <span className="text-white text-[11px] font-bold leading-none">
-          ✓
-        </span>
-      )}
-    </span>
-
-    <input
-      type="checkbox"
-      checked={form.weekendsOnly}
-      onChange={(e) =>
-        setForm((f) => ({
-          ...f,
-          weekendsOnly: e.target.checked,
-        }))
-      }
-      className="sr-only"
-    />
-
-    Weekends only (Sat & Sun)
-  </label>
-</div>
+                    {/* Weekends only */}
+                    <label className="flex items-center gap-2.5 p-3 bg-surface-container-low/50 border border-primary/20 rounded-xl text-[11px] font-bold cursor-pointer hover:bg-primary/5 transition-colors">
+                      <span
+                        className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
+                          form.weekendsOnly
+                            ? "bg-primary border-primary"
+                            : "bg-white border-primary/30"
+                        }`}
+                      >
+                        {form.weekendsOnly && (
+                          <span className="text-white text-[11px] font-bold leading-none">
+                            ✓
+                          </span>
+                        )}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={form.weekendsOnly}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            weekendsOnly: e.target.checked,
+                          }))
+                        }
+                        className="sr-only"
+                      />
+                      Weekends only (Sat & Sun)
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -664,7 +678,7 @@ export default function AdminInventoryTab() {
                 </div>
               )}
 
-              <div className="px-6 sm:px-8 py-5 bg-surface-container-low border-t-2 border-primary/20 flex items-center justify-end gap-3">
+              <div className="px-6 sm:px-8 py-5 bg-surface-container-low/50 border-t-2 border-primary/20 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setSelection(null)}
