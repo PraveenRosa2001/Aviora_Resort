@@ -976,7 +976,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                 )}
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
+              {/* <div className="flex items-center gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => onReserve(venue)}
@@ -984,7 +984,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                 >
                   <CalendarCheck size={16} /> Reserve a Table
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -1134,7 +1134,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
               )}
 
               {/* Bottom Action Row */}
-              <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+              {/* <div className="p-5 bg-surface-container-low/50 border border-outline-variant/30 rounded-2xl flex flex-wrap items-center justify-between gap-4">
                 <button
                   type="button"
                   onClick={onClose}
@@ -1151,7 +1151,7 @@ function DiningDetailView({ venue, onClose, onReserve }) {
                 >
                   <CalendarCheck size={16} /> Reserve a Table Now
                 </button>
-              </div>
+              </div> */}
             </div>
 
             {/* Right Column (4 Cols, Sticky Sidebar): Operational Specs & Chef Profile */}

@@ -18,5 +18,113 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\gallery\7d2de338bab14a578861c2386d945593.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\18c33f87b77b4aed96f15bd38a4f743a.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>g224hlda4n</Fingerprint>
+      <Integrity>iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\18c33f87b77b4aed96f15bd38a4f743a.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\66312c30876e40469a4aa61858177be1.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/66312c30876e40469a4aa61858177be1.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>i63ert3tt6</Fingerprint>
+      <Integrity>Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\66312c30876e40469a4aa61858177be1.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\8b833f4f89964b08aab8dd217e7d5e5e.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>um79wahprd</Fingerprint>
+      <Integrity>GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\8b833f4f89964b08aab8dd217e7d5e5e.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\b32b67259dcb491c83f18efa70907c70.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>um79wahprd</Fingerprint>
+      <Integrity>GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\b32b67259dcb491c83f18efa70907c70.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\e53f9b56e4c44881b4fdd07e32508d6f.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>4wr69q58ga</Fingerprint>
+      <Integrity>tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\e53f9b56e4c44881b4fdd07e32508d6f.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Aviora Resort</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Aviora Resort</BasePath>
+      <RelativePath>uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>as8k8rri5q</Fingerprint>
+      <Integrity>eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg'))</OriginalItemSpec>
+    </StaticWebAsset>
   </ItemGroup>
 </Project>

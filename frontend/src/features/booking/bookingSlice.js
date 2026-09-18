@@ -35,7 +35,7 @@ const initialState = {
   adults: 2,
   children: 0,
 
-  selectedVillaId: 'canopy-villa-01',
+  selectedVillaId: null,
   selectedRatePlan: 'standard', // 'standard' | 'saver' | 'allinclusive'
   selectedAddons: [],           // add-on codes, e.g. ['transfer', 'spa']
 
@@ -161,13 +161,47 @@ const bookingSlice = createSlice({
         state.activeBooking = null;
       }
       state.step = 4;
+
+      // Instantly erase previously filled draft data when reaching confirmation
+      state.selectedVillaId = null;
+      state.selectedRatePlan = 'standard';
+      state.selectedAddons = [];
+      state.promoCode = '';
+      const now = new Date();
+      const tmrw = new Date(now);
+      tmrw.setDate(tmrw.getDate() + 1);
+      const in3Days = new Date(now);
+      in3Days.setDate(in3Days.getDate() + 4);
+      state.checkIn = formatDate(tmrw);
+      state.checkOut = formatDate(in3Days);
+      state.adults = 2;
+      state.children = 0;
+      state.paymentInfo = {
+        paymentMethod: 'card',
+        cardHolder: '',
+      };
+      if (state.guestInfo) {
+        state.guestInfo.specialRequests = '';
+        state.guestInfo.flightTime = '';
+      }
     },
 
     resetBooking: (state) => {
       state.step = 1;
+      state.selectedVillaId = null;
+      state.selectedRatePlan = 'standard';
       state.selectedAddons = [];
       state.promoCode = '';
       state.activeBooking = null;
+      const now = new Date();
+      const tmrw = new Date(now);
+      tmrw.setDate(tmrw.getDate() + 1);
+      const in3Days = new Date(now);
+      in3Days.setDate(in3Days.getDate() + 4);
+      state.checkIn = formatDate(tmrw);
+      state.checkOut = formatDate(in3Days);
+      state.adults = 2;
+      state.children = 0;
       state.paymentInfo = {
         paymentMethod: 'card',
         cardHolder: '',

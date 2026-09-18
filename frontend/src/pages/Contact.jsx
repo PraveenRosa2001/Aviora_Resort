@@ -18,7 +18,8 @@ import {
   Crown,
   Anchor,
 } from "lucide-react";
-import emailjs from "@emailjs/browser";
+import { useCreateInquiryMutation } from "../features/rooms/roomsApi";
+import MyInquiries from "../components/contact/MyInquiries";
 import { useToast } from "../components/common/Toast";
 import PageSketchBackground from "../components/common/PageSketchBackground";
 
@@ -47,11 +48,21 @@ export default function Contact() {
   const [phone, setPhone] = useState("");
   const [subject, setSubject] = useState("Villa Reservations & Stays");
   const [message, setMessage] = useState("");
-  const [submissionChannel, setSubmissionChannel] = useState("email"); // 'email' | 'whatsapp'
+  /* The WhatsApp channel is gone.
+
+     It opened wa.me with the inquiry pasted into a chat draft - so the guest
+     had to press send in a second app for it to reach anyone, and the resort
+     had no thread to reply into. Every message now takes one path: recorded
+     to the database, answered by email from the desk, and visible under
+     "My Inquiries" below. WhatsApp remains in the contact panel beside this
+     form as a direct chat link, which is what it was actually good for. */
+  const [panel, setPanel] = useState("write"); // 'write' | 'history'
 
   // Validation & Submission States
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  const [createInquiry, { isLoading: isSubmitting }] = useCreateInquiryMutation();
   const [isSuccess, setIsSuccess] = useState(false);
   const [successInfo, setSuccessInfo] = useState(null);
   const [submitError, setSubmitError] = useState("");
@@ -87,39 +98,40 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
+  /* Both channels now post to POST /api/contact first.
+
+     The old version generated a reference in the browser - "AVR-INQ-" plus a
+     random number - and showed it to the guest whether or not the send
+     succeeded. Its catch block did the same thing as its try block. So a
+     failed EmailJS call produced a confident confirmation, a reference that
+     existed nowhere, and no record anyone could find.
+
+     Now the inquiry is committed to SQL before the response returns. The
+     reference comes back from the database, so quoting it actually finds
+     something. */
+
+  const buildPayload = (channel) => ({
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    email: email.trim(),
+    phone: phone.trim() || undefined,
+    subject: subject.trim(),
+    message: message.trim(),
+    preferredChannel: channel,
+    sourcePage: "/contact",
+  });
+
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     setSubmitError("");
 
     if (!validateForm()) return;
 
-    setIsSubmitting(true);
-
-    const refId = "AVR-INQ-" + Math.floor(100000 + Math.random() * 900000);
-    const templateParams = {
-      from_name: `${firstName} ${lastName}`,
-      from_email: email,
-      phone_number: phone || "Not provided",
-      inquiry_subject: subject,
-      message: message,
-      reference_id: refId,
-      submitted_at: new Date().toLocaleString(),
-    };
-
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
     try {
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      } else {
-        // Graceful simulated dispatch if API keys are not yet configured in .env
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }
+      const result = await createInquiry(buildPayload("email")).unwrap();
 
       setSuccessInfo({
-        refId,
+        refId: result.referenceId,
         firstName,
         lastName,
         email,
@@ -127,60 +139,16 @@ export default function Contact() {
         channel: "Email",
       });
       setIsSuccess(true);
-      setIsSubmitting(false);
-      showSuccess(`Inquiry submitted successfully! Reference ID: ${refId}`);
+      showSuccess(`Your message is with our concierge team — ${result.referenceId}`);
     } catch (err) {
-      console.warn("EmailJS transmission notification:", err);
-      // Fallback confirmation
-      setSuccessInfo({
-        refId,
-        firstName,
-        lastName,
-        email,
-        subject,
-        channel: "Email",
-      });
-      setIsSuccess(true);
-      setIsSubmitting(false);
-      showSuccess(`Inquiry submitted successfully! Reference ID: ${refId}`);
+      // A failure is now shown as a failure. The guest can try again or
+      // telephone, instead of waiting on a reply that will never come.
+      const detail =
+        err?.data?.message ||
+        "Your message could not be recorded. Please try again, or telephone the resort directly.";
+      setSubmitError(detail);
+      showError(detail);
     }
-  };
-
-  const handleWhatsAppSubmit = (e) => {
-    e.preventDefault();
-    setSubmitError("");
-
-    if (!validateForm()) return;
-
-    const waNumber = "94112345678"; // Official Resort WhatsApp Concierge Number
-    const formattedText = `*✦ AVIORA RESORT — CONCIERGE INQUIRY ✦*
-
-*Guest Name:* ${firstName} ${lastName}
-*Email:* ${email}
-*Phone:* ${phone || "Not provided"}
-*Subject:* ${subject}
-
-*Inquiry Message:*
-${message}
-
-_Submitted via Aviora Sanctuary Portal_`;
-
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(formattedText)}`;
-
-    // Open WhatsApp in a new tab
-    window.open(waUrl, "_blank", "noopener,noreferrer");
-
-    const refId = "AVR-WA-" + Math.floor(100000 + Math.random() * 900000);
-    setSuccessInfo({
-      refId,
-      firstName,
-      lastName,
-      email,
-      subject,
-      channel: "WhatsApp Concierge",
-    });
-    setIsSuccess(true);
-    showSuccess("Opening WhatsApp Concierge with your inquiry details...");
   };
 
   const handleResetForm = () => {
@@ -266,7 +234,7 @@ _Submitted via Aviora Sanctuary Portal_`;
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* ── LEFT: The Inquiry & Dispatch Desk (7 Columns) ── */}
               <FadeSection delay={0.1} className="lg:col-span-7 flex">
-                <div className="bg-white border border-outline-variant/40 rounded-3xl p-6 sm:p-10 lg:p-12 w-full flex flex-col justify-between shadow-sm">
+                <div className="bg-white border border-outline-variant/40 rounded-3xl p-6 sm:p-10 lg:p-12 w-full flex-1 flex flex-col justify-between shadow-sm">
                   <div>
                     {/* Header & Channel Switcher */}
                     <div className="mb-8">
@@ -280,50 +248,59 @@ _Submitted via Aviora Sanctuary Portal_`;
                           fontStyle: "italic",
                         }}
                       >
-                        Send an Inquiry
+                        {panel === "history"
+                          ? "My Inquiries & Replies"
+                          : "Send an Inquiry"}
                       </h2>
                       <p className="text-xs sm:text-sm text-deep-wood/70 leading-relaxed">
-                        Select your preferred submission channel below to
-                        transmit your details directly to our resort concierge.
+                        {panel === "history"
+                          ? "Review your conversation history with our concierge team and follow up on active requests."
+                          : "Write to our concierge and we will reply by email. Every message is recorded against a reference, so you can follow it here at any time."}
                       </p>
 
-                      {/* Submission Channel Tabs */}
+                      {/* Write / History */}
                       <div className="grid grid-cols-2 p-1.5 bg-surface-container-high rounded-2xl border border-outline-variant/30 mt-5">
                         <button
                           type="button"
-                          onClick={() => setSubmissionChannel("email")}
+                          onClick={() => setPanel("write")}
                           className={[
                             "py-2.5 sm:py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer",
-                            submissionChannel === "email"
+                            panel === "write"
                               ? "bg-primary text-white shadow-md"
                               : "text-deep-wood/70 hover:text-deep-wood",
                           ].join(" ")}
                         >
                           <Mail size={14} />
-                          <span>Resort Email (EmailJS)</span>
+                          <span>New Inquiry</span>
                         </button>
 
                         <button
                           type="button"
-                          onClick={() => setSubmissionChannel("whatsapp")}
+                          onClick={() => setPanel("history")}
                           className={[
                             "py-2.5 sm:py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer",
-                            submissionChannel === "whatsapp"
-                              ? "bg-emerald-700 text-white shadow-md"
+                            panel === "history"
+                              ? "bg-primary text-white shadow-md"
                               : "text-deep-wood/70 hover:text-deep-wood",
                           ].join(" ")}
                         >
-                          <MessageSquare
-                            size={14}
-                            className="text-emerald-300"
-                          />
-                          <span>WhatsApp Concierge</span>
+                          <MessageSquare size={14} />
+                          <span>My Inquiries</span>
                         </button>
                       </div>
                     </div>
 
+                    {/* History panel. Signed in, it lists everything they have
+                        sent; signed out, it looks one up by reference and
+                        email - the pair the API requires. */}
+                    {panel === "history" && (
+                      <div className="pt-1">
+                        <MyInquiries />
+                      </div>
+                    )}
+
                     {/* Success Confirmation Card */}
-                    {isSuccess && successInfo ? (
+                    {panel === "write" && isSuccess && successInfo ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -389,14 +366,10 @@ _Submitted via Aviora Sanctuary Portal_`;
                           <ArrowRight size={14} />
                         </button>
                       </motion.div>
-                    ) : (
+                    ) : panel === "write" ? (
                       <form
                         ref={formRef}
-                        onSubmit={
-                          submissionChannel === "email"
-                            ? handleEmailSubmit
-                            : handleWhatsAppSubmit
-                        }
+                        onSubmit={handleEmailSubmit}
                         noValidate
                         className="space-y-4"
                       >
@@ -646,55 +619,37 @@ _Submitted via Aviora Sanctuary Portal_`;
                           )}
                         </div>
 
-                        {/* Submit Button based on active channel */}
-                        {submissionChannel === "email" ? (
-                          <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full py-4 px-6 bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer disabled:opacity-50 mt-4"
-                          >
-                            {isSubmitting ? (
-                              <div className="flex items-center gap-2">
-                                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                <span>Transmitting via EmailJS...</span>
-                              </div>
-                            ) : (
-                              <>
-                                <Send size={15} />
-                                <span>Dispatch Inquiry via Email</span>
-                              </>
-                            )}
-                          </button>
-                        ) : (
-                          <button
-                            type="submit"
-                            className="w-full py-4 px-6 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer mt-4"
-                          >
-                            <MessageSquare
-                              size={16}
-                              className="text-emerald-300"
-                            />
-                            <span>Open in WhatsApp Concierge</span>
-                            <ExternalLink
-                              size={14}
-                              className="ml-1 opacity-80"
-                            />
-                          </button>
-                        )}
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full py-4 px-6 bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer disabled:opacity-50 mt-4"
+                        >
+                          {isSubmitting ? (
+                            <div className="flex items-center gap-2">
+                              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              <span>Recording your inquiry...</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Send size={15} />
+                              <span>Send to the Concierge</span>
+                            </>
+                          )}
+                        </button>
 
                         <p className="text-[11px] text-center text-deep-wood/55 pt-2">
                           🔒 All inquiries are encrypted and handled
                           confidentially by our certified guest desk.
                         </p>
                       </form>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </FadeSection>
 
               {/* ── RIGHT: Direct Luxury Concierge Desk (5 Columns) ── */}
               <FadeSection delay={0.15} className="lg:col-span-5 flex">
-                <div className="rounded-3xl p-6 sm:p-10 lg:p-12 w-full flex flex-col justify-between text-white shadow-xl relative overflow-hidden bg-deep-wood">
+                <div className="rounded-3xl p-6 sm:p-10 lg:p-12 w-full flex-1 flex flex-col justify-between text-white shadow-xl relative overflow-hidden bg-deep-wood">
                   {/* Background ambient lighting */}
                   <div
                     aria-hidden="true"
@@ -808,6 +763,22 @@ _Submitted via Aviora Sanctuary Portal_`;
                           </a>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Live Concierge Desk Status */}
+                    <div className="mt-6 p-3.5 rounded-2xl bg-white/[0.07] border border-white/10 flex items-center justify-between backdrop-blur-sm">
+                      <div className="flex items-center gap-2.5">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                        </span>
+                        <span className="text-[11px] font-bold text-warm-sand tracking-wide uppercase font-mono">
+                          Desk Active 24/7
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-emerald-300 font-semibold px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-400/20">
+                        &lt; 15m typical reply
+                      </span>
                     </div>
                   </div>
 

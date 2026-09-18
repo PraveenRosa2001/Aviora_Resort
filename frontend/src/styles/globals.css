@@ -154,6 +154,26 @@ button {
   border-radius: var(--radius-full);
 }
 
+/* ── Custom luxury scrollbar ── */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 115, 85, 0.28) transparent;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 115, 85, 0.28);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 115, 85, 0.45);
+}
+
 /* ── Glassmorphism utility ── */
 .glass {
   background: rgba(249, 249, 248, 0.8);

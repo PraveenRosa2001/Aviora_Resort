@@ -83,6 +83,498 @@
           "Value": "uploads/gallery/7d2de338bab14a578861c2386d945593.jpg"
         }
       ]
+    },
+    {
+      "Route": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.g224hlda4n.png",
+      "AssetFile": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2521490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:13 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g224hlda4n"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png",
+      "AssetFile": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2521490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:13 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/66312c30876e40469a4aa61858177be1.i63ert3tt6.png",
+      "AssetFile": "uploads/villas/66312c30876e40469a4aa61858177be1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1526947"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "i63ert3tt6"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/66312c30876e40469a4aa61858177be1.png"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/66312c30876e40469a4aa61858177be1.png",
+      "AssetFile": "uploads/villas/66312c30876e40469a4aa61858177be1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1526947"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "AssetFile": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:39:20 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.um79wahprd.jpg",
+      "AssetFile": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:39:20 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "um79wahprd"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg",
+      "AssetFile": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:35:27 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/b32b67259dcb491c83f18efa70907c70.um79wahprd.jpg",
+      "AssetFile": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:35:27 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "um79wahprd"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.4wr69q58ga.jpg",
+      "AssetFile": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1011565"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:40:32 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4wr69q58ga"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "AssetFile": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1011565"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:40:32 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.as8k8rri5q.jpeg",
+      "AssetFile": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131295"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:36:57 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "as8k8rri5q"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "AssetFile": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131295"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:36:57 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8="
+        }
+      ]
     }
   ]
 }

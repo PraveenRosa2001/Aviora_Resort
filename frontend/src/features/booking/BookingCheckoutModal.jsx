@@ -57,12 +57,21 @@ import {
 } from "../rooms/roomsApi";
 import { useToast } from "../../components/common/Toast";
 import { mediaUrl } from "../../config/mediaUrl";
+import {
+  StayVoucher,
+  usePrintDocument,
+} from "../../components/documents/ReservationDocuments";
 
 const money = (value) => `Rs.${Number(value ?? 0).toLocaleString()}`;
 
 export default function BookingCheckoutModal() {
   const dispatch = useDispatch();
   const { showSuccess, showError } = useToast();
+  const {
+    print: printVoucher,
+    printing: isPrintingVoucher,
+    portal: voucherPortal,
+  } = usePrintDocument();
   const isOpen = useSelector(selectIsCheckoutOpen);
   const step = useSelector(selectBookingStep);
   const checkIn = useSelector(selectCheckIn);
@@ -1404,10 +1413,17 @@ export default function BookingCheckoutModal() {
 
                 <div className="mt-6 flex flex-wrap gap-3 justify-center">
                   <button
-                    onClick={() => window.print()}
-                    className="px-6 py-2.5 bg-surface-container-high text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container-highest transition-colors flex items-center gap-2 border-2 border-primary/30"
+                    type="button"
+                    onClick={() => printVoucher(<StayVoucher booking={activeBooking} />)}
+                    disabled={isPrintingVoucher}
+                    className="px-6 py-2.5 bg-surface-container-high text-deep-wood text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-surface-container-highest transition-colors flex items-center gap-2 border-2 border-primary/30 disabled:opacity-50 cursor-pointer"
                   >
-                    <FileText size={14} /> Print Voucher / Receipt
+                    {isPrintingVoucher ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <FileText size={14} />
+                    )}
+                    Print Voucher / Receipt
                   </button>
 
                   <button
@@ -1425,6 +1441,7 @@ export default function BookingCheckoutModal() {
           </div>
         </motion.div>
       </div>
+      {voucherPortal}
     </AnimatePresence>
   );
 }

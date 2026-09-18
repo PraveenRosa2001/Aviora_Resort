@@ -1,1 +1,7 @@
 wwwroot\uploads\gallery\7d2de338bab14a578861c2386d945593.jpg
+wwwroot\uploads\villas\18c33f87b77b4aed96f15bd38a4f743a.png
+wwwroot\uploads\villas\66312c30876e40469a4aa61858177be1.png
+wwwroot\uploads\villas\8b833f4f89964b08aab8dd217e7d5e5e.jpg
+wwwroot\uploads\villas\b32b67259dcb491c83f18efa70907c70.jpg
+wwwroot\uploads\villas\e53f9b56e4c44881b4fdd07e32508d6f.jpg
+wwwroot\uploads\villas\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg

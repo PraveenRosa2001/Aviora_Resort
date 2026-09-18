@@ -33,20 +33,27 @@ import {
   registerUser,
   clearAuthError,
   requestPasswordReset,
+  logout,
   selectCurrentUser,
   selectIsAuthenticated,
   selectAuthLoading,
   selectAuthError,
   selectAuthSuccessMessage,
 } from "../features/auth/authSlice";
+import { roomsApi } from "../features/rooms/roomsApi";
 import { useToast } from "../components/common/Toast";
+import ResetPasswordModal from "../components/auth/ResetPasswordModal";
+import GoogleSignInButton from "../components/auth/GoogleSignInButton";
 
-export default function AuthPage({ initialMode }) {
+export default function AuthPage({ initialMode, isResetPasswordRoute = false }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { showSuccess, showError } = useToast();
+
+  const isResetPassword =
+    isResetPasswordRoute || location.pathname === "/reset-password";
 
   const currentUser = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -54,12 +61,16 @@ export default function AuthPage({ initialMode }) {
   const authError = useSelector(selectAuthError);
   const successMessage = useSelector(selectAuthSuccessMessage);
 
-  // Tab mode: 'login' | 'register'
+  // Tab mode: 'login' | 'register'. Default to register (sign up page) for reset password route
   const isSignUpRoute =
-    location.pathname === "/signup" || initialMode === "register";
+    location.pathname === "/signup" ||
+    initialMode === "register" ||
+    isResetPassword;
   const [activeTab, setActiveTab] = useState(
     isSignUpRoute ? "register" : "login",
   );
+
+  const [isResetModalOpen, setIsResetModalOpen] = useState(isResetPassword);
 
   useEffect(() => {
     if (location.pathname === "/signup") {
@@ -68,6 +79,25 @@ export default function AuthPage({ initialMode }) {
       setActiveTab("login");
     }
   }, [location.pathname]);
+
+  // When visiting the reset password route: ensure the Choose a New Password modal is open,
+  // sign up page is in the background, and any existing login session is cleanly cleared.
+  useEffect(() => {
+    if (isResetPassword) {
+      setIsResetModalOpen(true);
+      setActiveTab("register");
+      if (isAuthenticated) {
+        dispatch(logout());
+        dispatch(roomsApi.util.resetApiState());
+      }
+    }
+  }, [isResetPassword, isAuthenticated, dispatch]);
+
+  const handleCloseResetModal = () => {
+    setIsResetModalOpen(false);
+    setActiveTab("login");
+    navigate("/login", { replace: true });
+  };
 
   // Form states
   const [loginEmail, setLoginEmail] = useState("");
@@ -94,9 +124,9 @@ export default function AuthPage({ initialMode }) {
   // Redirect target if specified e.g. /booking?step=2
   const redirectParam = searchParams.get("redirect");
 
-  // If already authenticated, redirect smoothly
+  // If already authenticated, redirect smoothly (unless on password recovery)
   useEffect(() => {
-    if (isAuthenticated && currentUser) {
+    if (isAuthenticated && currentUser && !isResetPassword) {
       showSuccess(`Welcome back, ${currentUser.firstName || "Guest"}!`, {
         title: "Authentication Success",
       });
@@ -107,7 +137,7 @@ export default function AuthPage({ initialMode }) {
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated, currentUser, navigate, redirectParam]);
+  }, [isAuthenticated, currentUser, navigate, redirectParam, isResetPassword]);
 
   // Show auth error toast
   useEffect(() => {
@@ -696,6 +726,39 @@ export default function AuthPage({ initialMode }) {
                     </>
                   )}
                 </button>
+
+                                {/* ── Google Sign-In ──
+
+                    A second door to the same account, not a replacement.
+                    Google's token is validated server-side and exchanged for
+                    OUR JWT, so the slice, ProtectedRoute and [Authorize] all
+                    behave identically whichever way the guest came in.
+
+                    Renders nothing when no client id is configured, so an
+                    install without Google shows the password form it always
+                    had. */}
+                <div className="flex items-center gap-3 pt-1">
+                  <span className="flex-1 h-px bg-outline-variant/40" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-deep-wood/40">
+                    or continue with
+                  </span>
+                  <span className="flex-1 h-px bg-outline-variant/40" />
+                </div>
+
+                <GoogleSignInButton
+                  disabled={loading}
+                  onError={(message) =>
+                    showError(message, { title: "Google Sign-In" })
+                  }
+                />
+
+                {/* Said before it is discovered. An administrator who tries
+                    Google gets a 403 — accurate, but finding that out by being
+                    refused is a worse experience than being told. */}
+                <p className="text-[10px] text-center text-deep-wood/45 leading-relaxed">
+                  Google sign-in is for guest accounts. Resort staff sign in with
+                  their email address and password above.
+                </p>
               </form>
             </motion.div>
           )}
@@ -1071,21 +1134,26 @@ export default function AuthPage({ initialMode }) {
                       Email Address{" "}
                       <span className="text-red-500 font-bold ml-0.5">*</span>
                     </label>
-                    <input
-                      type="email"
-                      value={resetEmail}
-                      onChange={(e) => {
-                        setResetEmail(e.target.value);
-                        if (resetError) setResetError("");
-                      }}
-                      placeholder="Enter your registered email"
-                      className={[
-                        "w-full px-4 py-3 rounded-2xl border text-xs sm:text-sm text-deep-wood font-medium focus:outline-none transition-all",
-                        resetError
-                          ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/10"
-                          : "border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary",
-                      ].join(" ")}
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-deep-wood/40">
+                        <Mail size={16} />
+                      </div>
+                      <input
+                        type="email"
+                        value={resetEmail}
+                        onChange={(e) => {
+                          setResetEmail(e.target.value);
+                          if (resetError) setResetError("");
+                        }}
+                        placeholder="Enter your registered email"
+                        className={[
+                          "w-full pl-10 pr-4 py-3 rounded-2xl bg-white border text-deep-wood text-xs sm:text-sm font-medium focus:outline-none transition-all placeholder:text-deep-wood/40 shadow-xs",
+                          resetError
+                            ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/10"
+                            : "border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20",
+                        ].join(" ")}
+                      />
+                    </div>
                     {resetError && (
                       <p className="text-[11px] text-red-600 font-medium mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} className="flex-shrink-0" />
@@ -1096,7 +1164,7 @@ export default function AuthPage({ initialMode }) {
 
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-2xl bg-primary text-white font-bold text-xs uppercase tracking-wider hover:bg-primary-container transition-colors cursor-pointer shadow-md"
+                    className="w-full py-3.5 rounded-2xl bg-primary text-white font-bold text-xs uppercase tracking-wider hover:bg-primary-container transition-all cursor-pointer shadow-md active:scale-[0.99]"
                   >
                     Send Recovery Link
                   </button>
@@ -1106,6 +1174,12 @@ export default function AuthPage({ initialMode }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* ── Choose a New Password Modal (Rendered with Sign Up page background) ── */}
+      <ResetPasswordModal
+        isOpen={isResetModalOpen}
+        onClose={handleCloseResetModal}
+      />
     </div>
   );
 }

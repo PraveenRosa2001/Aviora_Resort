@@ -44,6 +44,7 @@
 // import AdminVillasTab from '../pages/AdminVillasTab';
 // import AdminInventoryTab from '../pages/AdminInventoryTab';
 // import AdminDiningTab from '../pages/AdminDiningTab';
+import AdminConciergeTab from '../pages/AdminConciergeTab';
 // import ToastAlert from '../components/common/Toast';
 
 // // Initial baseline mock reservations for administration view
@@ -736,6 +737,7 @@ import {
   useGetAdminBookingsQuery,
   useSetBookingStatusMutation,
   useGetDashboardKpisQuery,
+  useGetInquiryCountsQuery,
 } from "../features/rooms/roomsApi";
 import AdminVillasTab from "../pages/AdminVillasTab";
 import AdminInventoryTab from "../pages/AdminInventoryTab";
@@ -776,6 +778,13 @@ export default function AdminDashboard() {
 
   const [setBookingStatus, { isLoading: statusSaving }] =
     useSetBookingStatusMutation();
+
+  /* The badge. This is the notification an email provider used to be - the
+     desk learns a message arrived by looking at the console, not by watching
+     an inbox. Polled so it stays fresh without a reload. */
+  const { data: inquiryCounts } = useGetInquiryCountsQuery(undefined, {
+    pollingInterval: 60000,
+  });
 
   const [activeTab, setActiveTab] = useState("reservations"); // 'reservations' | 'villas' | 'inventory' | 'concierge'
   const [selectedVoucher, setSelectedVoucher] = useState(null);
@@ -902,21 +911,21 @@ export default function AdminDashboard() {
 
             {/* Quick Action Buttons */}
             <div className="flex items-center gap-3">
-              <Link
+              {/* <Link
                 to="/booking"
                 className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all"
               >
                 <Bed size={15} />
                 <span>Guest Booking View</span>
-              </Link>
-              <button
+              </Link> */}
+              {/* <button
                 type="button"
                 onClick={handleLogout}
                 className="px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-200 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
               >
                 <LogOut size={15} />
                 <span>Sign Out</span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -1099,6 +1108,21 @@ export default function AdminDashboard() {
               >
                 <Plane size={14} />
                 <span>Concierge</span>
+
+                {inquiryCounts?.unread > 0 && (
+                  <span
+                    className={[
+                      "ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-extrabold",
+                      "flex items-center justify-center tabular-nums",
+                      activeTab === "concierge"
+                        ? "bg-white text-primary"
+                        : "bg-red-600 text-white",
+                    ].join(" ")}
+                    title={`${inquiryCounts.unread} inquiry(s) nobody has opened`}
+                  >
+                    {inquiryCounts.unread > 99 ? "99+" : inquiryCounts.unread}
+                  </span>
+                )}
               </button>
             </div>
 
@@ -1320,81 +1344,10 @@ export default function AdminDashboard() {
           {activeTab === "dining" && <AdminDiningTab />}
 
           {/* ── TAB 3: CONCIERGE & SPECIAL REQUESTS ── */}
-          {activeTab === "concierge" && (
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Special Dietary & Preferences */}
-                <div className="rounded-2xl border border-outline-variant/30 p-5 bg-surface">
-                  <h3 className="font-bold text-deep-wood text-sm flex items-center gap-2 mb-4">
-                    <Utensils size={17} className="text-primary" />
-                    <span>Special Guest Dietary & Culinary Requests</span>
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-xl bg-surface-container-high/60 border border-outline-variant/20 text-xs">
-                      <div className="flex items-center justify-between font-bold text-deep-wood mb-1">
-                        <span>Sophia Laurent (AVR-651902)</span>
-                        <span className="text-[10px] text-secondary font-mono">
-                          Lagoon Suite
-                        </span>
-                      </div>
-                      <p className="text-deep-wood/75">
-                        Strict gluten-free breakfast preparation and organic
-                        fruit assortment daily.
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-surface-container-high/60 border border-outline-variant/20 text-xs">
-                      <div className="flex items-center justify-between font-bold text-deep-wood mb-1">
-                        <span>Kenji Takahashi (AVR-419823)</span>
-                        <span className="text-[10px] text-secondary font-mono">
-                          Ocean Residence
-                        </span>
-                      </div>
-                      <p className="text-deep-wood/75">
-                        Private Chef in-villa omakase dinner for 4 guests on
-                        Friday evening.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Airport Transfers & Logistics */}
-                <div className="rounded-2xl border border-outline-variant/30 p-5 bg-surface">
-                  <h3 className="font-bold text-deep-wood text-sm flex items-center gap-2 mb-4">
-                    <Plane size={17} className="text-secondary" />
-                    <span>Scheduled Airport VIP Transfers</span>
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-xl bg-surface-container-high/60 border border-outline-variant/20 text-xs">
-                      <div className="flex items-center justify-between font-bold text-deep-wood mb-1">
-                        <span>Flight BA215 — Sir Richard Holloway</span>
-                        <span className="text-[10px] text-emerald-700 font-bold">
-                          Driver Assigned
-                        </span>
-                      </div>
-                      <p className="text-deep-wood/75">
-                        Arrival at 14:30. Chilled Range Rover transfer with
-                        welcome cold towels.
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-surface-container-high/60 border border-outline-variant/20 text-xs">
-                      <div className="flex items-center justify-between font-bold text-deep-wood mb-1">
-                        <span>Private Charter — Kenji Takahashi</span>
-                        <span className="text-[10px] text-amber-700 font-bold">
-                          Helipad Ready
-                        </span>
-                      </div>
-                      <p className="text-deep-wood/75">
-                        Landing at Estate Helipad Alpha at 16:00. General
-                        Manager greeting on tarmac.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* The concierge desk. Was a hard-coded panel of sample guest
+              requests; now it reads dbo.ContactInquiries, which is where the
+              contact form writes before anything else happens. */}
+          {activeTab === "concierge" && <AdminConciergeTab />}
         </div>
       </div>
 

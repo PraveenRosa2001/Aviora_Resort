@@ -5,6 +5,30 @@
       "PackagePath": "staticwebassets\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg"
     },
     {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png",
+      "PackagePath": "staticwebassets\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png"
+    },
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png",
+      "PackagePath": "staticwebassets\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png"
+    },
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg"
+    },
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg",
+      "PackagePath": "staticwebassets\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg"
+    },
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg"
+    },
+    {
+      "Id": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Aviora Resort.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },

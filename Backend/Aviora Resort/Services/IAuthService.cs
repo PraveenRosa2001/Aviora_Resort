@@ -12,6 +12,13 @@ public interface IAuthService
     Task<ServiceResult<AdminSessionDto>> GetAdminSessionAsync(int userId, DateTime tokenExpiresAtUtc);
     Task<ServiceResult<UserDto>> UpdateProfileAsync(int userId, UpdateProfileRequestDto request);
     Task<ServiceResult<string>> ChangePasswordAsync(int userId, ChangePasswordRequestDto request);
-    Task<ServiceResult<string>> ForgotPasswordAsync(ForgotPasswordRequestDto request);
-    Task<ServiceResult<string>> ResetPasswordAsync(ResetPasswordRequestDto request);
+    /// <summary>
+    /// Always succeeds, with the same message whether or not the address is
+    /// registered. LoginContext carries the requesting IP, which goes onto the
+    /// token row and into the email footer.
+    /// </summary>
+    Task<ServiceResult<string>> ForgotPasswordAsync(ForgotPasswordRequestDto request, LoginContext context);
+
+    Task<ServiceResult<PasswordResetResultDto>> ResetPasswordAsync(
+        ResetPasswordRequestDto request, LoginContext context);
 }

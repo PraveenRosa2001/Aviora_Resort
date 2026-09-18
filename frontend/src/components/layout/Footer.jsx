@@ -21,7 +21,7 @@ const mainNavigation = [
   { label: 'Villas & Suites', to: '/rooms-villas' },
   { label: 'Wellness & Spa', to: '/wellness' },
   { label: 'Dining & Wine', to: '/dining' },
-  // { label: 'Experiences', to: '/sustainability' },
+  { label: 'Island Experiences', to: '/destination' },
   { label: 'Contact & Concierge', to: '/contact' },
 ];
 
@@ -185,11 +185,11 @@ export default function Footer() {
         </div>
       </div> */}
 
-      {/* ── Main Footer Navigation Grid (4 Columns) ── */}
+      {/* ── Main Footer Navigation Grid (3 Balanced Columns) ── */}
       <div className="relative z-10 container-resort py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-          {/* 1. Brand & Heritage (4 Cols) */}
-          <div className="lg:col-span-4 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-10 lg:gap-10 items-start">
+          {/* 1. Brand & Heritage (Left Section - 4 Cols) */}
+          <div className="md:col-span-12 lg:col-span-4 space-y-4">
             <Link to="/" className="inline-flex items-center gap-3 group">
               <img
                 src="/assets/logo/Aviora Resort Logo - Without Background.png"
@@ -238,8 +238,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 2. Navigation Elements (Matched with Navbar) (3 Cols) */}
-          <div className="lg:col-span-3">
+          {/* 2. Navigation Elements (Middle Section - 4 Cols) */}
+          <div className="md:col-span-6 lg:col-span-4 lg:pl-10 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-amber-300 mb-4 font-mono">
               The Estate & Navigation
             </h4>
@@ -248,38 +248,25 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="hover:text-amber-300 transition-colors duration-200 inline-flex items-center gap-1.5 group"
+                    className="hover:text-amber-300 transition-colors duration-200 inline-flex items-center gap-2 group py-0.5"
                   >
-                    <span className="w-1 h-1 rounded-full bg-amber-400/60 group-hover:w-2 group-hover:bg-amber-400 transition-all" />
-                    <span>{link.label}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400/60 group-hover:w-3 group-hover:bg-amber-400 transition-all duration-300" />
+                    <span className="group-hover:translate-x-0.5 transition-transform duration-200">
+                      {link.label}
+                    </span>
                   </Link>
                 </li>
               ))}
             </ul>
+            <div className="pt-2">
+              <span className="text-[10px] uppercase tracking-widest text-amber-300/70 font-mono block">
+                Silhouette Island · Seychelles
+              </span>
+            </div>
           </div>
 
-          {/* 3. Guest & Sanctuary Services (2 Cols) */}
-          <div className="lg:col-span-2">
-            <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-amber-300 mb-4 font-mono">
-              Guest Services
-            </h4>
-            <ul className="space-y-2.5 text-xs text-white/75">
-              {guestServices.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    to={link.to}
-                    className="hover:text-amber-300 transition-colors duration-200 inline-flex items-center gap-1.5 group"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-amber-400/60 group-hover:w-2 group-hover:bg-amber-400 transition-all" />
-                    <span>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 4. Direct Sanctuary Desk & Reservation (3 Cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* 3. Direct Sanctuary Desk & Reservation (Right Section - 4 Cols) */}
+          <div className="md:col-span-6 lg:col-span-4 space-y-4 lg:pl-4">
             <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-amber-300 mb-4 font-mono">
               Direct Sanctuary Desk
             </h4>
@@ -323,7 +310,7 @@ export default function Footer() {
             <div className="pt-2">
               <Link
                 to="/booking"
-                className="w-full py-2.5 px-4 rounded-full bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-full bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg active:scale-98"
               >
                 <Calendar size={14} />
                 <span>Reserve Your Villa</span>

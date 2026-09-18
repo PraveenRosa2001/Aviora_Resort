@@ -13,6 +13,7 @@ import {
 import { useGetMyBookingsQuery } from "../../features/rooms/roomsApi";
 import {
   selectIsAuthenticated,
+  selectCurrentUser,
 } from "../../features/auth/authSlice";
 import UserDropdownMenu from "../auth/UserDropdownMenu";
 
@@ -29,12 +30,22 @@ export default function Navbar() {
   const isNavSolid = useSelector(selectIsNavSolid);
   const isDayMode = useSelector(selectIsDayMode);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const currentUser = useSelector(selectCurrentUser);
+  const currentUserId = currentUser?.id || currentUser?.userId || currentUser?.email || null;
 
   /* Active reservations for badge count. includeCancelled = false so a
      cancelled stay does not inflate active count. */
-  const { data: myBookings = [] } = useGetMyBookingsQuery(false, {
+  const { data: myBookings = [], refetch } = useGetMyBookingsQuery(false, {
     skip: !isAuthenticated,
+    refetchOnMountOrArgChange: true,
   });
+
+  // Whenever authenticated account switches, refetch fresh booking count immediately
+  useEffect(() => {
+    if (isAuthenticated && currentUserId) {
+      refetch();
+    }
+  }, [isAuthenticated, currentUserId, refetch]);
   const location = useLocation();
   const prevScrollY = useRef(0);
 

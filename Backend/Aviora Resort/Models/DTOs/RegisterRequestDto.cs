@@ -24,8 +24,21 @@ public class RegisterRequestDto
     [MaxLength(100)]
     public string Country { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Raised from MinLength(6) with no complexity rule, so that registration
+    /// and password reset demand the same thing.
+    ///
+    /// They have to match. Whichever is weaker is the one an attacker uses -
+    /// and reset was the easier door, because it needs no account, only a
+    /// link. Six characters with no complexity is inside the top few thousand
+    /// guesses for most people.
+    ///
+    /// Existing passwords are unaffected; this only governs new ones.
+    /// </summary>
     [Required(ErrorMessage = "Password is required")]
-    [MinLength(6, ErrorMessage = "Password must be at least 6 characters in length")]
-    [MaxLength(100)]
+    [MinLength(8, ErrorMessage = "Password must be at least 8 characters")]
+    [MaxLength(128, ErrorMessage = "Password must be under 128 characters")]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$",
+        ErrorMessage = "Password must contain an uppercase letter, a lowercase letter and a digit")]
     public string Password { get; set; } = string.Empty;
 }

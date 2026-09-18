@@ -12,5 +12,77 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"l0e2tcsh5r"},{"Name":"integrity","Value":"sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="},{"Name":"label","Value":"_content/Aviora Resort/uploads/gallery/7d2de338bab14a578861c2386d945593.jpg"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"17772"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Sep 2026 05:01:36 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.g224hlda4n.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\18c33f87b77b4aed96f15bd38a4f743a.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"g224hlda4n"},{"Name":"integrity","Value":"sha256-iKc3n\u002BebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2521490"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022iKc3n\u002BebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 07:07:13 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\18c33f87b77b4aed96f15bd38a4f743a.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-iKc3n\u002BebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"2521490"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022iKc3n\u002BebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 07:07:13 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/66312c30876e40469a4aa61858177be1.i63ert3tt6.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\66312c30876e40469a4aa61858177be1.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"i63ert3tt6"},{"Name":"integrity","Value":"sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/66312c30876e40469a4aa61858177be1.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1526947"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 07:07:18 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/66312c30876e40469a4aa61858177be1.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\66312c30876e40469a4aa61858177be1.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1526947"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 07:07:18 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\8b833f4f89964b08aab8dd217e7d5e5e.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"207412"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:39:20 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.um79wahprd.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\8b833f4f89964b08aab8dd217e7d5e5e.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"um79wahprd"},{"Name":"integrity","Value":"sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"207412"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:39:20 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\b32b67259dcb491c83f18efa70907c70.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"207412"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:35:27 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/b32b67259dcb491c83f18efa70907c70.um79wahprd.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\b32b67259dcb491c83f18efa70907c70.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"um79wahprd"},{"Name":"integrity","Value":"sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"207412"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:35:27 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.4wr69q58ga.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\e53f9b56e4c44881b4fdd07e32508d6f.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"4wr69q58ga"},{"Name":"integrity","Value":"sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1011565"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:40:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\e53f9b56e4c44881b4fdd07e32508d6f.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1011565"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:40:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.as8k8rri5q.jpeg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"as8k8rri5q"},{"Name":"integrity","Value":"sha256-eu1uvCPlEGFrG\u002BeVfELwis9SWmC3bUQ3\u002BUHoONTDzu8="},{"Name":"label","Value":"_content/Aviora Resort/uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"131295"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022eu1uvCPlEGFrG\u002BeVfELwis9SWmC3bUQ3\u002BUHoONTDzu8=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:36:57 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aviora Resort/uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\villas\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-eu1uvCPlEGFrG\u002BeVfELwis9SWmC3bUQ3\u002BUHoONTDzu8="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"131295"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022eu1uvCPlEGFrG\u002BeVfELwis9SWmC3bUQ3\u002BUHoONTDzu8=\u0022"},{"Name":"Last-Modified","Value":"Wed, 09 Sep 2026 05:36:57 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

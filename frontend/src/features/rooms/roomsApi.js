@@ -688,6 +688,94 @@ export const roomsApi = createApi({
         body: { url },
       }),
     }),
+    /* ================= concierge inquiries ================= */
+
+    /**
+     * POST /api/contact
+     *
+     * The inquiry is committed to SQL before this returns - the reference in
+     * the response is the acknowledgement an email used to be. A failure is a
+     * real failure now, so the caller must handle the rejection rather than
+     * showing a confirmation either way.
+     */
+    createInquiry: builder.mutation({
+      query: (payload) => ({ url: "/contact", method: "POST", body: payload }),
+      invalidatesTags: ["Inquiry"],
+    }),
+
+    /** GET /api/contact/{ref}?email= — reference AND email must match. */
+    lookupInquiry: builder.query({
+      query: ({ referenceId, email }) =>
+        `/contact/${referenceId}?email=${encodeURIComponent(email)}`,
+    }),
+
+    getMyInquiries: builder.query({
+      query: () => "/contact/my",
+      providesTags: ["Inquiry"],
+    }),
+
+    /* ---------- the desk ---------- */
+
+    getAdminInquiries: builder.query({
+      query: (filters = {}) => {
+        const params = new URLSearchParams();
+        const add = (k, v) => {
+          if (v === undefined || v === null || v === "" || v === "all") return;
+          params.append(k, v);
+        };
+        add("status", filters.status);
+        add("priority", filters.priority);
+        add("search", filters.search);
+        add("from", filters.from);
+        add("to", filters.to);
+        if (filters.unreadOnly) params.append("unreadOnly", "true");
+        const qs = params.toString();
+        return `/admin/inquiries${qs ? `?${qs}` : ""}`;
+      },
+      providesTags: ["Inquiry"],
+    }),
+
+    /** Drives the console badge. */
+    getInquiryCounts: builder.query({
+      query: () => "/admin/inquiries/counts",
+      providesTags: ["Inquiry"],
+    }),
+
+    getInquiryDetail: builder.query({
+      query: (referenceId) => `/admin/inquiries/${referenceId}`,
+      providesTags: (_r, _e, referenceId) => [
+        { type: "Inquiry", id: referenceId },
+      ],
+    }),
+
+    markInquiryRead: builder.mutation({
+      query: ({ referenceId, isRead = true }) => ({
+        url: `/admin/inquiries/${referenceId}/read`,
+        method: "PUT",
+        body: { isRead },
+      }),
+      // The badge count changes, so the whole tag goes.
+      invalidatesTags: ["Inquiry"],
+    }),
+
+    updateInquiry: builder.mutation({
+      query: ({ referenceId, ...patch }) => ({
+        url: `/admin/inquiries/${referenceId}`,
+        method: "PUT",
+        body: patch,
+      }),
+      invalidatesTags: ["Inquiry"],
+    }),
+
+    addInquiryReply: builder.mutation({
+      query: ({ referenceId, ...reply }) => ({
+        url: `/admin/inquiries/${referenceId}/replies`,
+        method: "POST",
+        body: reply,
+      }),
+      // The status moves to Answered and the counts change.
+      invalidatesTags: ["Inquiry"],
+    }),
   }),
 });
 
@@ -769,4 +857,17 @@ export const {
 
   useUploadMediaMutation,
   useDeleteMediaMutation,
+
+  useCreateInquiryMutation,
+  useLookupInquiryQuery,
+  useGetMyInquiriesQuery,
+
+  useGetAdminInquiriesQuery,
+  useGetInquiryCountsQuery,
+  useGetInquiryDetailQuery,
+  useMarkInquiryReadMutation,
+  useUpdateInquiryMutation,
+  useAddInquiryReplyMutation,
+
+  useLazyLookupInquiryQuery,
 } = roomsApi;

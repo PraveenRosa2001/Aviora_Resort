@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sqFPkTwT8IW04HPNQjKQkTzRkBmtepyxK4tQiQasO6I=",
+  "Hash": "xHG7nUaSv6mlWGA9owGgyp1feaOuEH7XJuML0sSATLg=",
   "Source": "Aviora Resort",
   "BasePath": "_content/Aviora Resort",
   "Mode": "Default",
@@ -36,6 +36,132 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\gallery\\7d2de338bab14a578861c2386d945593.jpg"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "g224hlda4n",
+      "Integrity": "iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/66312c30876e40469a4aa61858177be1#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "i63ert3tt6",
+      "Integrity": "Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "um79wahprd",
+      "Integrity": "GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/b32b67259dcb491c83f18efa70907c70#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "um79wahprd",
+      "Integrity": "GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4wr69q58ga",
+      "Integrity": "tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg"
+    },
+    {
+      "Identity": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "SourceId": "Aviora Resort",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\",
+      "BasePath": "_content/Aviora Resort",
+      "RelativePath": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "as8k8rri5q",
+      "Integrity": "eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg"
     }
   ],
   "Endpoints": [
@@ -118,6 +244,498 @@
         {
           "Name": "integrity",
           "Value": "sha256-daChztCYvE0M3nSXQLRov93CMDIw55a3wDhJRzDYmU8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.g224hlda4n.png",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2521490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g224hlda4n"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/18c33f87b77b4aed96f15bd38a4f743a.png",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\18c33f87b77b4aed96f15bd38a4f743a.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2521490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-iKc3n+ebG6zdaWBmrjb3DEQ7zDei4NW8PG7Bfbmql2k="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/66312c30876e40469a4aa61858177be1.i63ert3tt6.png",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1526947"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "i63ert3tt6"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/66312c30876e40469a4aa61858177be1.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/66312c30876e40469a4aa61858177be1.png",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\66312c30876e40469a4aa61858177be1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1526947"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 07:07:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Zvlde7X1cAaZZV3ryrdl3wYjBduD3ZmWStbroMD8KZA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:39:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.um79wahprd.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\8b833f4f89964b08aab8dd217e7d5e5e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:39:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "um79wahprd"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/8b833f4f89964b08aab8dd217e7d5e5e.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:35:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/b32b67259dcb491c83f18efa70907c70.um79wahprd.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\b32b67259dcb491c83f18efa70907c70.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207412"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:35:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "um79wahprd"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/b32b67259dcb491c83f18efa70907c70.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GplX3h9j2qubKtOteRiIRztFfl9DkzJFT37EMJd3PPg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.4wr69q58ga.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1011565"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:40:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4wr69q58ga"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\e53f9b56e4c44881b4fdd07e32508d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1011565"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:40:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-tHPVMvLTyvhSnUuzWLjnRsEBQ/f/3Towd5tujmcRTFA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.as8k8rri5q.jpeg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131295"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:36:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "as8k8rri5q"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/villas/f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "AssetFile": "D:\\Aviora Resort Project\\aviora-resort\\Backend\\Aviora Resort\\wwwroot\\uploads\\villas\\f8b6028c7a8f46d4aade26444ec3d4a0.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131295"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Sep 2026 05:36:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-eu1uvCPlEGFrG+eVfELwis9SWmC3bUQ3+UHoONTDzu8="
         }
       ]
     }

@@ -3,6 +3,7 @@ using AvioraResort.Models.Common;
 using AvioraResort.Models.DTOs;
 using AvioraResort.Models.Entities;
 using AvioraResort.Repositories;
+using Microsoft.Extensions.Options;
 using AvioraResort.Security;
 
 namespace AvioraResort.Services;
@@ -17,13 +18,28 @@ public class AuthService : IAuthService
     private readonly IJwtTokenService _jwt;
     private readonly IConfiguration _config;
 
+    // Password reset sends mail, so the sender and the two settings objects
+    // join the existing four - they do not replace them.
+    private readonly IEmailSender _email;
+    private readonly SecuritySettings _security;
+    private readonly ResortSettings _resort;
+    private readonly ILogger<AuthService> _logger;
+
     public AuthService(IUserRepository users, IPasswordHasher hasher,
-                       IJwtTokenService jwt, IConfiguration config)
+                       IJwtTokenService jwt, IConfiguration config,
+                       IEmailSender email,
+                       IOptions<SecuritySettings> security,
+                       IOptions<ResortSettings> resort,
+                       ILogger<AuthService> logger)
     {
         _users = users;
         _hasher = hasher;
         _jwt = jwt;
         _config = config;
+        _email = email;
+        _security = security.Value;
+        _resort = resort.Value;
+        _logger = logger;
     }
 
     /* Lockout policy is tighter for administrators: fewer attempts, longer
@@ -230,38 +246,137 @@ public class AuthService : IAuthService
         return ServiceResult<string>.Ok("Password updated successfully.");
     }
 
-    public async Task<ServiceResult<string>> ForgotPasswordAsync(ForgotPasswordRequestDto request)
+    public async Task<ServiceResult<string>> ForgotPasswordAsync(
+        ForgotPasswordRequestDto request, LoginContext context)
     {
+        // ONE answer, whatever happens below. Anything that varies by whether
+        // the address is registered turns this endpoint into a way to
+        // enumerate the guest list.
+        const string SameAnswer =
+            "If an account exists for this address, recovery instructions have been sent.";
+
         var email = request.Email.Trim().ToLowerInvariant();
+
+        // 256 bits from a CSPRNG. Only the SHA-256 digest is stored, so a
+        // stolen database yields nothing usable - the raw token exists in the
+        // guest's inbox and nowhere else.
         var rawToken = _jwt.GenerateResetToken();
         var tokenHash = _jwt.HashResetToken(rawToken);
+        var expiresAt = DateTime.UtcNow.AddMinutes(_security.ResetTokenMinutes);
 
-        var created = await _users.CreateResetTokenAsync(email, tokenHash, DateTime.UtcNow.AddHours(1));
+        var row = await _users.CreateResetTokenAsync(
+            email, tokenHash, expiresAt, context.IpAddress);
 
-        // TODO: replace with a real e-mail once the mail service is added.
-        //       Link format: https://aviora-resort.com/reset-password?token={rawToken}
-        if (created)
-            Console.WriteLine($"[DEV] Password reset token for {email}: {rawToken}");
+        if (row.Status != 1 || row.Email is null)
+        {
+            // No such account. Logged, not answered differently.
+            _logger.LogInformation(
+                "Password reset requested for unknown address {Email} from {Ip}",
+                email, context.IpAddress);
 
-        return ServiceResult<string>.Ok(
-            "If an account exists for this address, recovery instructions have been sent.");
+            return ServiceResult<string>.Ok(SameAnswer);
+        }
+
+        var resetUrl = $"{_security.ResetUrlBase}?token={Uri.EscapeDataString(rawToken)}";
+        var requestedFrom = context.IpAddress ?? "an unknown address";
+
+        var sent = await _email.SendAsync(
+            toAddress: row.Email,
+            toName: $"{row.FirstName} {row.LastName}".Trim(),
+            subject: PasswordResetEmailTemplate.Subject,
+            htmlBody: PasswordResetEmailTemplate.BuildHtml(
+                row.FirstName ?? "Guest", resetUrl, _security.ResetTokenMinutes,
+                requestedFrom, _resort.ContactEmail, _resort.ContactPhone),
+            plainTextBody: PasswordResetEmailTemplate.BuildPlainText(
+                row.FirstName ?? "Guest", resetUrl, _security.ResetTokenMinutes,
+                requestedFrom, _resort.ContactEmail, _resort.ContactPhone));
+
+        if (!sent.Sent)
+        {
+            // The guest still gets the same answer - a different one would
+            // leak that the address exists. But this must be loud in the log:
+            // the account now has a live token nobody can reach.
+            _logger.LogError(
+                "Password reset email FAILED for {Email}: {Error}. " +
+                "A valid token exists but was not delivered.",
+                row.Email, sent.Error);
+        }
+
+        await _users.WriteLoginAuditAsync(
+            null, row.Email, null, true, "Password reset requested",
+            context.IpAddress, context.UserAgent);
+
+        return ServiceResult<string>.Ok(SameAnswer);
     }
 
-    public async Task<ServiceResult<string>> ResetPasswordAsync(ResetPasswordRequestDto request)
+    public async Task<ServiceResult<PasswordResetResultDto>> ResetPasswordAsync(
+        ResetPasswordRequestDto request, LoginContext context)
     {
-        var tokenHash = _jwt.HashResetToken(request.Token);
-        var userId = await _users.ConsumeResetTokenAsync(tokenHash);
+        if (string.IsNullOrWhiteSpace(request.Token))
+            return ServiceResult<PasswordResetResultDto>.Fail(
+                "This reset link is invalid or has expired.", 400);
 
-        if (userId is null)
-            return ServiceResult<string>.Fail("This reset link is invalid or has expired.", 400);
+        // Hash BEFORE the transaction. BCrypt at work factor 12 takes a few
+        // hundred milliseconds, and holding the token row locked for that long
+        // would serialise concurrent resets for no reason.
+        var newHash = _hasher.Hash(request.NewPassword);
 
-        await _users.UpdatePasswordAsync(userId.Value, _hasher.Hash(request.NewPassword));
-        return ServiceResult<string>.Ok("Password has been reset. You may now sign in.");
+        // One call. The procedure claims the token and sets the password in a
+        // single transaction - see IUserRepository for why the old two-call
+        // shape could not be made atomic.
+        var row = await _users.ConsumeResetTokenAsync(
+            _jwt.HashResetToken(request.Token), newHash, context.IpAddress);
+
+        if (row.Status == -2)
+            return ServiceResult<PasswordResetResultDto>.Fail(
+                "This account is no longer active. Please contact the resort.", 403);
+
+        if (row.Status != 1)
+        {
+            // Unknown, already used, superseded and expired all return this.
+            // Telling them apart would confirm that a token existed.
+            await _users.WriteLoginAuditAsync(
+                null, "unknown", null, false, "Password reset rejected",
+                context.IpAddress, context.UserAgent);
+
+            return ServiceResult<PasswordResetResultDto>.Fail(
+                "This reset link is invalid, has expired, or has already been used. " +
+                "Please request a new one.", 400);
+        }
+
+        await _users.WriteLoginAuditAsync(
+            null, row.Email!, row.RoleName, true, "Password reset completed",
+            context.IpAddress, context.UserAgent);
+
+        // Warning, not Information. A reset is the one event where an account
+        // changes hands, and it should stand out in the log.
+        _logger.LogWarning(
+            "Password reset COMPLETED for {Email} ({Role}) from {Ip}",
+            row.Email, row.RoleName, context.IpAddress);
+
+        return ServiceResult<PasswordResetResultDto>.Ok(new PasswordResetResultDto
+        {
+            Success = true,
+            Message = "Your password has been changed. You may now sign in.",
+
+            // The procedure clears FailedLoginAttempts and LockoutEndsAt on
+            // every successful reset. Being locked out is the likeliest reason
+            // somebody started this, and silence would leave them expecting
+            // another refusal.
+            LockoutCleared = true
+        });
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  HELPERS                                                            */
-    /* ------------------------------------------------------------------ */
+    /* ---------- helpers ----------
+
+       These sat AFTER ResetPasswordAsync in the original file, and my
+       replacement of the two reset methods ran to the last closing brace of
+       the class - taking all three with it. The call sites survived, which is
+       why the errors were CS0103 at lines 83, 99, 173, 188 and 230 rather
+       than anything pointing here.
+
+       Restored verbatim from your file. */
+
     private AuthResponseDto BuildAuthResponse(User user)
     {
         var (token, expiresAt) = _jwt.CreateToken(user);

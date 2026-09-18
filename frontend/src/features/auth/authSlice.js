@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import apiClient, { SESSION_KEY } from '../../services/apiClient';
+import { roomsApi } from '../rooms/roomsApi';
 
 /* ------------------------------------------------------------------ */
 /*  Session persistence helpers                                        */
@@ -155,6 +156,8 @@ export const performLogin = (credentials) => async (dispatch) => {
       email: (credentials.email || '').trim(),
       password: credentials.password || '',
     });
+    // Invalidate and wipe any cached RTK Query state from prior accounts
+    dispatch(roomsApi.util.resetApiState());
     dispatch(
       loginSuccess({
         user: data.user,
@@ -166,6 +169,40 @@ export const performLogin = (credentials) => async (dispatch) => {
     // 423 Locked and 429 Too Many Requests already carry a clear message
     // from the API. Pass it through unchanged.
     dispatch(loginFailure(err.message));
+  }
+};
+
+// POST /api/auth/google
+//
+// The ID token is passed through untouched - this never decodes it, and must
+// not: anything read client-side would be unverified. The server validates it
+// WITH GOOGLE (signature, expiry, issuer, audience) and everything about who
+// the user is comes from that validated payload.
+//
+// The response is the SAME shape as /auth/login: our own JWT and our own user
+// object. Nothing downstream can tell the two apart, which is the point -
+// ProtectedRoute, selectIsAdmin and every [Authorize] attribute keep working
+// untouched.
+export const signInWithGoogle = (idToken) => async (dispatch) => {
+  dispatch(loginStart());
+  try {
+    const data = await apiClient.post('/auth/google', { idToken });
+ 
+    dispatch(
+      loginSuccess({
+        user: data.user,
+        token: data.token,
+        message: `Welcome, ${data.user.name}!`,
+      })
+    );
+ 
+    return data;
+  } catch (err) {
+    // 401 unverifiable token, 403 unverified email or inactive account,
+    // 409 already linked elsewhere, 503 Google unreachable. Each carries a
+    // message written for the guest; passed through unchanged.
+    dispatch(loginFailure(err.message));
+    throw err;
   }
 };
 
@@ -182,6 +219,8 @@ export const registerUser = (form) => async (dispatch) => {
       country: (form.country || '').trim(),
       password: form.password || '',
     });
+    // Invalidate and wipe any cached RTK Query state from prior accounts
+    dispatch(roomsApi.util.resetApiState());
     dispatch(
       loginSuccess({
         user: data.user,
@@ -204,6 +243,8 @@ export const logout = () => async (dispatch) => {
     // The JWT is stateless, so a failed call does not block signing out.
   }
   dispatch(logoutSuccess());
+  // Completely reset RTK Query cache so the next user sees only their own data
+  dispatch(roomsApi.util.resetApiState());
 };
 
 // GET /api/auth/me - runs once on app start to check the stored token
@@ -219,6 +260,7 @@ export const restoreSession = () => async (dispatch, getState) => {
     // means the backend is not running, which should not clear the session.
     if (err.status === 401 || err.status === 403) {
       dispatch(logoutSuccess());
+      dispatch(roomsApi.util.resetApiState());
     }
   }
 };

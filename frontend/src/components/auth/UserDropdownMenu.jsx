@@ -21,11 +21,19 @@ export default function UserDropdownMenu({ isNavSolid = false }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
+  const userId = user?.id || user?.userId || user?.email || null;
   /* Reservations are rows in dbo.Bookings now, not a localStorage array.
      Skipped when signed out, because GET /api/bookings/my needs a token. */
-  const { data: myBookings = [] } = useGetMyBookingsQuery(false, {
+  const { data: myBookings = [], refetch } = useGetMyBookingsQuery(false, {
     skip: !user,
+    refetchOnMountOrArgChange: true,
   });
+
+  useEffect(() => {
+    if (userId) {
+      refetch();
+    }
+  }, [userId, refetch]);
 
   // Close dropdown on click outside
   useEffect(() => {

@@ -744,7 +744,7 @@ function InvoiceFooterBlocks({
    Document 1: StayVoucher / Guest Villa Booking Invoice
    -------------------------------------------------------------------------- */
 
-function StayVoucher({ booking }) {
+export function StayVoucher({ booking }) {
   const currentUser = useSelector(selectCurrentUser);
   const guest = resolveGuestDetails(booking, currentUser);
   const nights = Number(booking.nights) || 1;
@@ -1631,7 +1631,7 @@ function TableDocket({ table }) {
    The print pipeline with requestAnimationFrame.
    -------------------------------------------------------------------------- */
 
-function usePrintDocument() {
+export function usePrintDocument() {
   const [printing, setPrinting] = useState(false);
   const [document_, setDocument] = useState(null);
 
