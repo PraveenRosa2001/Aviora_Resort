@@ -49,10 +49,16 @@ export default function Navbar() {
   const location = useLocation();
   const prevScrollY = useRef(0);
 
-  const isHome = location.pathname === "/";
+  const isTransparentNavPage = [
+    "/",
+    "/rooms-villas",
+    "/wellness",
+    "/dining",
+    "/sustainability",
+  ].includes(location.pathname);
 
   useEffect(() => {
-    if (!isHome) {
+    if (!isTransparentNavPage) {
       dispatch(setNavSolid(true));
       return;
     }
@@ -64,16 +70,16 @@ export default function Navbar() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [dispatch, isHome]);
+  }, [dispatch, isTransparentNavPage]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isHome) {
+    if (!isTransparentNavPage) {
       dispatch(setNavSolid(true));
     } else {
       dispatch(setNavSolid(false));
     }
-  }, [location.pathname, dispatch, isHome]);
+  }, [location.pathname, dispatch, isTransparentNavPage]);
 
   return (
     <motion.header
